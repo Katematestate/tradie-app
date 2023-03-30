@@ -1,16 +1,23 @@
 const mongoose = require('mongoose');
+
+// import jobSchema from ""
+// import alertSchema from ""
+
 const UserSchema = new mongoose.Schema({
-    username: {
+    email: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        lowercase: true,
     },
-    fname: {
+    password: {
         type: String,
-        required: true
+        required: true,
     },
-    lname: {
-        type: String,
-        required: true
+    jobs: [jobSchema],
+    alerts: [alertSchema],
+    lastJobRequest: {
+
     },
 });
 // = new mongoose.Schema({fname:String,lname:String})
