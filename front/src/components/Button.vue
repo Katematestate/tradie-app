@@ -1,5 +1,9 @@
+<script setup>
+import Button from 'primevue/button';
+</script>
+
 <template>
-  <div class="button">PLACEHOLDER</div>
+  <Button label="Primary" raised />
   
 </template>
 

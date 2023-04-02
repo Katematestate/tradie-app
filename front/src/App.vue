@@ -1,5 +1,5 @@
 <script setup>
-import CTAbutton from './components/CTAbutton.vue';
+import Buttons from './components/Button.vue';
 </script>
 
 <template>
