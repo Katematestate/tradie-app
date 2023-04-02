@@ -1,5 +1,10 @@
+<script setup>
+import CTAbutton from './components/CTAbutton.vue';
+</script>
+
 <template>
   <router-view></router-view>
+  <CTAbutton/>
 </template>
   
 <style scoped>
