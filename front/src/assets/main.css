@@ -1,8 +1,51 @@
-body{
+:root {
+  --darkblue: #222030;
+  --lightgray: #eeeeee;
+  --tradieorange: #e88232;
+  --mainwhite: #ffffff;
+  --darkgray: #adadad;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@font-face {
+  font-family: "Ombudsman";
+  src: url(./fonts/OmbudsmanStencil.ttf);
+}
+
+body {
   margin: 0;
 }
 
 /* the symbol * doesn't perform well */
-* { 
+* {
   box-sizing: border-box;
+}
+
+h1 {
+  font-family: "Ombudsman";
+  font-size: 70px;
+}
+
+h2 {
+  font-family: "Ombudsman";
+  font-size: 55px;
+}
+
+h3 {
+  font-family: "Inter", sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+h4{
+  font-family: "Inter", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+p{
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
 }
