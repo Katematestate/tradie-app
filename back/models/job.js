@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const User = require('./user');
-const Business = require('./business');
-
 const JobSchema = new mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
@@ -42,6 +39,7 @@ const JobSchema = new mongoose.Schema({
     },
     jobImage: {
         type: String,
+        required: true,
     },
     jobLocation: {
         type: String,
@@ -50,7 +48,7 @@ const JobSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true,
-        enum: ['pending', 'in progress', 'completed', 'declined'],
+        enum: ['pre quoted', 'pending', 'in progress', 'completed', 'declined'],
     },
     clientReview: {
         type: String,

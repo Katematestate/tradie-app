@@ -4,9 +4,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const User = require('./user');
-const Business = require('./business');
-
 const passwordSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,

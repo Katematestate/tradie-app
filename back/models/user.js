@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const Job = require('./job');
-const Alert = require('./alert');
-const Password = require('./password');
-
 const UserSchema = new mongoose.Schema({
     password: {
         type: Schema.Types.ObjectId,
-        required: true,
         ref: 'Password'
     },
     name: {
@@ -37,15 +32,12 @@ const UserSchema = new mongoose.Schema({
         client: {
             name: {
                 type: String,
-                required: true,
             },
             email: {
                 type: String,
-                required: true,
             },
             phoneNumber: {
                 type: Number,
-                required: true,
             }
         }
     },

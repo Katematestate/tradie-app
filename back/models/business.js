@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const Job = require('./job');
-const Alert = require('./alert');
-const Password = require('./password');
-
 const BusinessSchema = new mongoose.Schema({
     password: {
         type: Schema.Types.ObjectId,
-        required: true,
         ref: 'Password'
     },
     email: {
