@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const isAuthenticated = require('../middlewares/isAuthenticated');
 const { listBusinesses, createBusiness, getBusiness, deleteBusiness, updateBusiness } = require('../controllers/business');
 
 // GET (all) Businesses route
@@ -24,7 +24,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // UPDATE a Business by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', isAuthenticated('business'), async (req, res) => {
     updateBusiness(req, res)
 });
 

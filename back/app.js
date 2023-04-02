@@ -5,14 +5,19 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
+const session = require('express-session');
+const corsMiddleware = require("./middlewares/cors");
+
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false },
+}));
 
 // Middleware to enable CORS
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
-    res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(corsMiddleware);
 
 const DB = process.env.MONGO_URL;
 const PORT = 4000;
@@ -49,6 +54,11 @@ app.use('/jobs', JobsRoute);
 
 const PasswordsRoute = require('./routes/passwords');
 app.use('/passwords', PasswordsRoute);
+
+
+
+const authRoutes = require("./routes/auth");
+app.use("/auth", authRoutes);
 
 // Start the HTTP server
 app.listen(PORT, () => {
