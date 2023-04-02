@@ -1,5 +1,8 @@
-/* i always add this global styles to remove annoying built in margins and padding in stuff like H1 */
-* {
+body{
   margin: 0;
+}
+
+/* the symbol * doesn't perform well */
+* { 
   box-sizing: border-box;
 }
