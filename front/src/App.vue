@@ -4,7 +4,8 @@ import Buttons from './components/Button.vue';
 
 <template>
   <router-view></router-view>
-  <CTAbutton/>
+  <Buttons label="asdf" type="cta"/>
+  <Buttons label="ghjkl" type="secondary"/>
 </template>
   
 <style scoped>
