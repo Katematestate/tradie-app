@@ -1,11 +1,11 @@
 <script setup>
-import TradieAccountPage from './views/TradieAccountPage.vue';
+import TradieAccountPage from "./views/TradieAccountPage.vue";
 </script>
 <template>
   <router-view></router-view>
-  <TradieAccountPage/>
+  <TradieAccountPage />
 </template>
-  
+
 <style scoped>
 .links-div {
   display: flex;
