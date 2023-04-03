@@ -3,7 +3,7 @@
 const createBusiness = async (password, businessName, email, companyLogo, companyImage, businessPhoneNumber, businessWebsite,
     businessLocation, businessDescription, skills, pastWorks) => {
     try {
-        const response = await fetch("http://localhost:4000/auth/signup/business", {
+        const response = await fetch("http://localhost:4000/businesses/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

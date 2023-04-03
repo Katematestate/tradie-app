@@ -1,6 +1,7 @@
 const User = require("../../models/user");
-const createPassword = require('../password/createPassword');;
+const createPassword = require('../password/createPassword');
 const { hashPassword } = require("../../utils/passwordHashing");
+const generateAuthToken = require("../../utils/generateAuthToken");
 
 const createUser = async (req, res) => {
     try {
@@ -47,7 +48,17 @@ const createUser = async (req, res) => {
         newUser.password = newPassword._id;
         await newUser.save();
 
-        res.json(newUser);
+        // Generate an authentication token
+        const token = generateAuthToken();
+
+        // Store the authentication token in the session
+        req.session.loggedIn = true;
+        req.session.userType = "user";
+        req.session.userId = newUser._id;
+
+        // Include the token in the response
+        res.json({ ...newUser.toJSON(), token });
+        
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: "Error creating user" });

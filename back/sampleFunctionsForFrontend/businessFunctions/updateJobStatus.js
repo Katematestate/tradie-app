@@ -12,7 +12,7 @@ const updateJobStatus = async (jobId, newStatus) => {
       },
       body: JSON.stringify({
         status: newStatus,
-      }),
+      }), 
     });
 
     if (!response.ok) {
