@@ -1,23 +1,23 @@
-require('dotenv').config(); // import dotenv to get the mongodb url so we dont have the url on our public github page to our database
+require('dotenv').config();
 
-//code content of APP.JS
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-//MIDDLEWARE (CORS)
+
+// Middleware to enable CORS
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", '*');
     res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
     res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-//DATABASE
-// **** change this below DB link to your mongoDB cluster ****
 
-const DB = process.env.MONGO_URL; //mongo url in your .env file in your back folder - don't change this line
+const DB = process.env.MONGO_URL;
 const PORT = 4000;
+
+// Connect to MongoDB
 mongoose.connect(
     DB,
     {
@@ -28,14 +28,29 @@ mongoose.connect(
         console.log("connected to Database");
     })
     .catch(err => console.log(err))
-//ROUTES  
+
+// Middleware for parsing JSON
 app.use(bodyParser.json());
-app.get("/", (res, req) => {
+
+// Example route
+app.get("/", (req, res) => {
     res.send("reached homepage");
 });
-// this below 'UserRoute' is a variable for this project (not syntax)
-const UsersRoute = require('./routes/users');
+
+// User routes
+const UsersRoute = require('./routes/users.js');
 app.use('/users', UsersRoute);
+
+const BusinessesRoute = require('./routes/businesses');
+app.use('/businesses', BusinessesRoute);
+
+const JobsRoute = require('./routes/jobs');
+app.use('/jobs', JobsRoute);
+
+const PasswordsRoute = require('./routes/passwords');
+app.use('/passwords', PasswordsRoute);
+
+// Start the HTTP server
 app.listen(PORT, () => {
-    console.log("listening on port 4000");
+    console.log(`Server running on port ${PORT}`);
 });
