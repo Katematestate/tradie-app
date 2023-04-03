@@ -102,6 +102,7 @@
    border: none;
     padding: 5%;
     background-color: #EEEEEE;
+    width: 40px;
 }
 
 
