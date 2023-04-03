@@ -7,6 +7,7 @@
   --color-brand: #e88232;
   --color-brand-text: #fff;
   --color-primary: #222030;
+  --color-primary-text: #fff;
   --color-page: #ffffff;
   --color-shade: #eeeeee;
   --color-text-shade: #adadad;
@@ -15,6 +16,7 @@
   --spacing-small: 8px;
   --spacing-standard: 16px;
   --spacing-large: 32px;
+  --border-radius-standard: 5px;
 }
 
 
@@ -25,6 +27,7 @@
 
 body {
   margin: 0;
+  color: var(--color-primary);
 }
 
 /* the symbol * doesn't perform well */
@@ -34,6 +37,7 @@ body {
 
 h1,h2 {
   font-weight: normal;
+  margin: .2em;
 }
 h1 {
   font-family: var(--font-main);
@@ -61,5 +65,9 @@ p{
   font-family: var(--font-secondary);
   font-size: 16px;
   font-weight: 400;
+}
+
+.text-center{
+  text-align: center;
 }
 
