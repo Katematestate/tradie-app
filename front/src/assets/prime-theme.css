@@ -1,0 +1,36 @@
+/* arrow buttons */
+.p-carousel-prev, .p-carousel-next {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    margin: 0 var(--spacing-standard);
+    transition: background-color 250ms ease, color 250ms ease;
+}
+.p-carousel-prev:hover, .p-carousel-next:hover {
+    background-color: var(--color-brand);
+    color: var(--color-brand-text);
+}
+
+/* --------------- */
+.p-carousel-indicators {
+  gap: var(--spacing-small);
+  padding: var(--spacing-standard);
+}
+
+.p-carousel-indicator {
+  height: 6px;
+  width: 20px;
+  background-color: var(--color-shade);
+  border-radius: 2px;
+}
+
+.p-carousel-indicator.p-highlight {
+  background-color: var(--color-brand);
+  outline: 2px solid var(--color-brand);
+  outline-offset: 1px;
+}
+
+.p-carousel-indicator button {
+  height: 100%;
+  width: 100%;
+}
