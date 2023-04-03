@@ -37,6 +37,8 @@
                 <h4>Company Image</h4>
                 <h5>import image here</h5>
                 <h5>import image button</h5>
+                <h5>Comfirm Password</h5>
+                <input class="input-class" v-model="message" placeholder="Comfirm Password" />
            </div>
 
     </div>
@@ -85,7 +87,7 @@
 }
 .info-section {
     background-color:  white;
-    padding: 8%;
+    padding: 2%;
 }
 .business-header h1 {
     text-align: center;
@@ -102,7 +104,7 @@
    border: none;
     padding: 5%;
     background-color: #EEEEEE;
-    width: 40px;
+    width: 200%;
 }
 
 
