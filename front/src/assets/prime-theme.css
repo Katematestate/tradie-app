@@ -2,7 +2,7 @@
 .p-carousel-prev, .p-carousel-next {
     height: 40px;
     width: 40px;
-    border-radius: 5px;
+    border-radius: var(--border-radius-standard);
     margin: 0 var(--spacing-standard);
     transition: background-color 250ms ease, color 250ms ease;
 }
@@ -33,4 +33,16 @@
 .p-carousel-indicator button {
   height: 100%;
   width: 100%;
+}
+
+/* ---------------- */
+.p-chip{
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border-radius: var(--border-radius-standard);
+  padding: 0 var(--spacing-small);
+  line-height: 1;
+  font-family: var(--font-secondary);
+  font-size: .8rem;
+  text-transform: capitalize;
 }
