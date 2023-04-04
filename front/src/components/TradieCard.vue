@@ -29,8 +29,8 @@ function truncateCompanyBlurb(blurb) {
             <Chip :label="keyword" v-for="keyword in keywords" />
         </div>
         <div class="card-footer">
-            <Button>Quote</Button>
-            <Button>View more</Button>
+            <Button size="small" raised>Quote</Button>
+            <Button severity="secondary" size="small" outlined>View more</Button>
         </div>
     </div>
 </template>
