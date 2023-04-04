@@ -1,6 +1,7 @@
 const Business = require("../../models/business");
 const createPassword = require('../password/createPassword');
 const { hashPassword } = require("../../utils/passwordHashing");
+const generateAuthToken = require("../../utils/generateAuthToken");
 
 const createBusiness = async (req, res) => {
     try {
@@ -17,7 +18,7 @@ const createBusiness = async (req, res) => {
             skills,
             pastWorks,
         } = req.body;
-
+        console.log(req.body)
         // First, create the Business document with a temporary password field
         const newBusiness = new Business({
             password: null,
@@ -60,7 +61,17 @@ const createBusiness = async (req, res) => {
         newBusiness.password = newPassword._id;
         await newBusiness.save();
 
-        res.json(newBusiness);
+        // Generate an authentication token
+        const token = generateAuthToken();
+
+        // Store the authentication token in the session
+        req.session.loggedIn = true;
+        req.session.userType = "business";
+        req.session.userId = newBusiness._id;
+
+        // Include the token in the response
+        res.json({ ...newBusiness.toJSON(), token });
+
     } catch (error) {
         console.log(error);
         res.status(400).json({ message: error.message });

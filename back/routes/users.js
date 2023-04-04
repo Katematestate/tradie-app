@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const isAuthenticated = require('../middlewares/isAuthenticated');
 const { listUsers, createUser, getUser, deleteUser, updateUser } = require('../controllers/user');
 
 // GET (all) Users route
@@ -19,12 +19,12 @@ router.get('/:id', async (req, res) => {
 });
 
 // DELETE a User by ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isAuthenticated('user'), async (req, res) => {
     deleteUser(req, res);
 });
 
 // UPDATE a User by ID
-router.put('/:id', async (req, res) => {
+router.put('/:id', isAuthenticated('user'), async (req, res) => {
     updateUser(req, res);
 });
 

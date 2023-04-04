@@ -3,14 +3,14 @@ import Button from "primevue/button";
 import Chip from "primevue/chip";
 import { Icon } from '@iconify/vue';
 
-defineProps({ keywords: Array, activeQuote: Boolean, companyTitle: String, companyBlurb: String, companyImage: String, companyLogo: String });
+defineProps({ skills: Array, activeQuote: Boolean, businessName: String, businessDescription: String, companyImage: String, companyLogo: String });
 
-function truncateCompanyBlurb(blurb) {
+function truncateCompanyBlurb(businessDescription) {
     const charLimit = 320;
-    if (blurb.length >= charLimit) {
-        return blurb.slice(0, charLimit) + '...';
+    if (businessDescription.length >= charLimit) {
+        return businessDescription.slice(0, charLimit) + '...';
     }
-    return blurb;
+    return businessDescription;
 }
 </script>
 
@@ -19,18 +19,18 @@ function truncateCompanyBlurb(blurb) {
         <div class="quote-icon" v-if="activeQuote">
             <Icon icon="ri:chat-quote-fill" />
         </div>
-        <img class="company-image" :src="companyImage" alt="company image">
-        <div class="card-header">
-            <img class="company-logo" :src="companyLogo" alt="company logo">
-            <span class="company-title">{{ companyTitle }}</span>
-        </div>
-        <p class="company-blurb">{{ truncateCompanyBlurb(companyBlurb) }}</p>
-        <div class="tradie-keywords">
-            <Chip :label="keyword" v-for="keyword in keywords" />
+                                    <img class="company-image" :src="companyImage" alt="company image">
+                                    <div class="card-header">
+                                        <img class="company-logo" :src="companyLogo" alt="company logo">
+                                        <span class="company-title">{{ businessName }}</span>
+                                    </div>
+                                    <p class="company-blurb">{{ truncateCompanyBlurb(businessDescription) }}</p>
+                                    <div class="tradie-keywords">
+                                        <Chip :label="keyword" v-for="keyword in skills" />
         </div>
         <div class="card-footer">
-            <Button>Quote</Button>
-            <Button>View more</Button>
+            <Button size="small" raised>Quote</Button>
+            <Button severity="secondary" size="small" outlined>View more</Button>
         </div>
     </div>
 </template>

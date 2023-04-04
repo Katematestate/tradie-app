@@ -1,83 +1,190 @@
 <script setup>
-import TradieCard from '../components/TradieCard.vue';
-import DevImg from '../assets/images/dev.jpg';
+import TradieCard from "../components/TradieCard.vue";
+import DevImg from "../assets/images/dev.jpg";
 
+import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
+import Paginator from "primevue/paginator";
+import { ref } from "vue";
+
+// const tradies = ref([
+//   {
+//     companyImage: DevImg,
+//     companyLogo: DevImg,
+//     keywords: ["painter", "joiner"],
+//     activeQuote: false,
+//     companyTitle: "Electro Lights",
+//     companyBlurb:
+//       "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!",
+//   },
+//   ...new Array(18).fill(0).map((v, i) => ({
+//     companyImage: DevImg,
+//     companyLogo: DevImg,
+//     keywords: ["painter", "joiner"],
+//     activeQuote: false,
+//     companyTitle: "Test Company " + i,
+//     companyBlurb:
+//       "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!",
+//   })),
+// ]);
+
+/**
+ * We need a slice of the tradies array based on which 'page' we are on.
+ * 
+ * The paginator component gives us the starting index whenever the page changes, we store this in `tradiesOffset`
+ * e.g. 0 -> 6 -> 12 -> 18 (assuming that tradiesPerPage is 6)
+ * 
+ * We can use the starting offset to calculate the start and end of the array slice that we want.
+ * 
+ * Using the computed() function so that whenever the 'page' changes this slice of tradies also changes.
+ */
+
 </script>
 
 <template>
-    <section class="looking-for-tradie">
-        <h1>Looking for a Tradie</h1>
-        <form class="tradie-search">
-            <div class="config">
-                <InputText placeholder="Company" />
-                <Dropdown placeholder="Region" />
-            </div>
-            <div class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <InputText placeholder="Search" />
-            </div>
-            <button>Find a Tradie</button>
-        </form>
-    </section>
+  <section class="looking-for-tradie">
+    <h1>Looking for a Tradie</h1>
+    <form class="tradie-search">
+      <div class="config">
+        <InputText placeholder="Company" />
+        <Dropdown v-model="region" :options="regions" placeholder="Region" />
+      </div>
+              <span class="search-instruct">Keywords that identify with what you're looking for</span>
+              <div class="search-keywords">
+                <div class="p-input-icon-left">
+                  <i class="pi pi-search" />
+                  <InputText placeholder="Search" />
+                </div>
+                <Button>Find a Tradie</Button>
+              </div>
+            </form>
+          </section>
 
-    <section class="qualified-tradies">
-        <h1 class="text-center">All Quailified Tradies</h1>
-        <div class="tradie-list">
-            <TradieCard :company-image="DevImg" :company-logo="DevImg" :keywords="['painter', 'joiner']"
-                company-title="Builder Crack"
-                company-blurb="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!" />
-            <TradieCard :company-image="DevImg" :company-logo="DevImg" :keywords="['painter', 'joiner']"
-                :active-quote="true" company-title="Electro Lights"
-                company-blurb="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!" />
-            <TradieCard :company-image="DevImg" :company-logo="DevImg" :keywords="['painter', 'joiner']"
-                company-title="Figgins Fences"
-                company-blurb="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quos inventore, placeat quis reprehenderit tenetur. Quis, necessitatibus ut. Minima repellendus ut, aliquam in laboriosam atque. Porro nihil perferendis sapiente temporibus!" />
-        </div>
-    </section>
-    <button class="load-more">Load More</button>
+          <section class="qualified-tradies">
+            <h1 class="text-center">All Qualified Tradies</h1>
+            <div class="tradie-list">
+              <TradieCard v-for="tradie in pagedTradiesSlice" v-bind="tradie" />
+            </div>
+          </section>
+          <Paginator v-model:first="tradiesOffset" :rows="tradiesPerPage" :totalRecords="this.businesses_list.length"></Paginator>
 
-    <section class="become-member">
-        <h1>Become a Member</h1>
-        <div class="sign-up">
-            <button>Client Signup</button>
-            <button>Tradie Signup</button>
-        </div>
-    </section>
+          <section class="become-member">
+            <h1>Become a Member</h1>
+            <div class="sign-up">
+              <button>Client Signup</button>
+              <button>Tradie Signup</button>
+            </div>
+          </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      businesses_list: [],
+      region: ref(""),
+      regions: ref(new Array(20).fill("test region").map((r, i) => `${r} ${i}`)),
+
+      tradiesPerPage: 6,
+      tradiesOffset: 0
+    }
+  },
+  computed: {
+    pagedTradiesSlice() {
+      return this.businesses_list.slice(
+        this.tradiesOffset,
+        this.tradiesOffset + this.tradiesPerPage
+      );
+    },
+  },
+  methods: {
+    async getAllBusinesses() {
+      try {
+        const response = await fetch("http://localhost:4000/businesses/");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const received_data = await response.json();
+        return received_data;
+      } catch (error) {
+        console.error("Error fetching businesses:", error);
+      }
+    },
+  },
+  async created() {
+    this.businesses_list = await this.getAllBusinesses();
+    console.log(this.businesses_list)
+  }
+}
+</script>
 
 <style scoped lang="scss">
 .looking-for-tradie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  padding: var(--spacing-large);
+
+  .config,
+  .search-keywords {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-small);
+
+    .p-inputtext,
+    .p-input-icon-left,
+    .p-dropdown {
+      flex: 1;
+    }
+  }
+
+  .p-input-icon-left {
+    .p-inputtext {
+      width: 100%;
+    }
+  }
+
+  .tradie-search {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: var(--color-primary);
-    color: var(--color-primary-text);
-    padding: var(--spacing-large);
+    align-items: stretch;
+    width: 600px;
+    gap: var(--spacing-small);
+  }
+
+  .search-instruct {
+    font-family: var(--font-secondary);
+  }
 }
 
 .tradie-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-standard);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-standard);
+  margin: 0 200px;
 }
 
 .load-more {
-    display: block;
-    margin: var(--spacing-standard) auto;
+  display: block;
+  margin: var(--spacing-standard) auto;
 }
 
 .become-member {
-    color: #fff;
-    padding: var(--spacing-large);
-    background-image: url("../assets/images/dev.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
+  color: #fff;
+  padding: var(--spacing-large);
+  background-image: url("http://cdn.shopify.com/s/files/1/0438/5642/9219/articles/types-of-tools_1024x1024.jpg?v=1676629248");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
-    .sign-up {
-        display: flex;
-        gap: var(--spacing-standard);
-    }
+  .sign-up {
+    display: flex;
+    gap: var(--spacing-standard);
+  }
 }
 </style>
