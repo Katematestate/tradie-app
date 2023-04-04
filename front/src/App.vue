@@ -1,5 +1,5 @@
 <script setup>
-import TradieAccountPage from "./views/LandingPage.vue";
+import TradieAccountPage from "./views/TradieAccountPage.vue";
 </script>
 <template>
   <router-view></router-view>
