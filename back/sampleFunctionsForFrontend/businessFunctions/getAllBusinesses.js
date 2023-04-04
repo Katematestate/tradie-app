@@ -1,4 +1,6 @@
-getAllBusinesses = async () => {
+// can copy paste this method to your methods section in your page/component
+
+const getAllBusinesses = async () => {
     try {
         const response = await fetch("http://localhost:4000/businesses/");
 

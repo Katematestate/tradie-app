@@ -58,7 +58,12 @@ const BusinessSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
+        testimonial: {
+            type: String,
+            required: true,
+        }
     }],
+
 });
 
 const Business = mongoose.model('Business', BusinessSchema);
