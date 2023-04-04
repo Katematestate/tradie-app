@@ -56,66 +56,48 @@
         />
       </div>
     </div>
+  </div>
 
-    <div class="description">
-      <h4>Write a short description of your company</h4>
+  <div class="description">
+    <h4>Write a short description of your company</h4>
+    <input
+      class="input-class-box"
+      v-model="message"
+      placeholder="Max 1000 words"
+    />
+    <div class="button-flex">
+      <h5>edit button here</h5>
+      <h5>save button here</h5>
+    </div>
+  </div>
+
+  <div class="add-past-work">
+    <h2>ADD PAST WORK</h2>
+    <h4>
+      Here is where you display your before and after photos for your client to
+      see
+    </h4>
+    <div class="upload-section">
+      <div class="upload-before">
+        <h4>Before Photo</h4>
+        <img src="../assets/images/dev.jpg" />
+        <h5>upload button</h5>
+      </div>
+
+      <div class="upload-after">
+        <h4>After Photo</h4>
+        <img src="../assets/images/dev.jpg" />
+        <h5>upload button</h5>
+      </div>
+    </div>
+    <div class="testimonial">
+      <h4>Testimonial</h4>
       <input
         class="input-class-box"
         v-model="message"
         placeholder="Max 1000 words"
       />
-      <div class="button-flex">
-        <h5>edit button here</h5>
-        <h5>save button here</h5>
-      </div>
-
-      <div class="add-past-work">
-        <h2>ADD PAST WORK</h2>
-        <router-view></router-view>
-
-        <Carousel :value="carouselItems" :num-visible="2" :num-scroll="1">
-          <template #item="slotProps">
-            <div class="job-review">
-              <div>{{ slotProps.data.job }}</div>
-
-              <div class="review-photos">
-                <div class="review-photo">
-                  <span
-                    >Before Photo
-                    <img src="../assets/images/dev.jpg" />
-                  </span>
-
-                  <div>{{ slotProps.data.beforeImage }}</div>
-                </div>
-
-                <div class="review-photo">
-                  <span
-                    >After Photo
-                    <img src="../assets/images/dev.jpg" />
-                  </span>
-
-                  <div>{{ slotProps.data.afterImage }}</div>
-                </div>
-              </div>
-
-              <div class="review-info">
-                <div>
-                  Job Rated:
-                  <i
-                    v-for="_ in slotProps.data.rating"
-                    class="pi pi-star-fill"
-                  ></i>
-                </div>
-
-                <div>By: {{ slotProps.data.author }}</div>
-              </div>
-            </div>
-          </template>
-        </Carousel>
-        <div>
-          <!-- <CarouselAccountPage/> -->
-        </div>
-      </div>
+      <h5>import button</h5>
     </div>
   </div>
 </template>
@@ -205,41 +187,20 @@
   height: 20em;
   border-radius: 5%;
 }
+.upload-section img {
+  height: 20em;
+  width: 30em;
+  border-radius: 5%;
+}
+.upload-section {
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
+  background-color: #eeeeee;
+  justify-content: center;
+}
+.add-past-work {
+  padding: 3%;
+}
 </style>
-<script setup>
-import Carousel from "primevue/carousel";
-
-const carouselItems = [
-  {
-    job: "Wall Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Broken Door",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 2,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Broken Fence",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Kitchen Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-];
-</script>
+<script setup></script>
