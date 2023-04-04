@@ -2,5 +2,8 @@
   "dependencies": {
     "primeicons": "^6.0.1",
     "primevue": "^3.26.1"
+  },
+  "devDependencies": {
+    "scss": "^0.2.4"
   }
 }

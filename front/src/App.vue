@@ -3,7 +3,7 @@ import TradieAccountPage from './views/TradieAccountPage.vue';
 </script>
 <template>
   <router-view></router-view>
-  <TradieAccountPage/>
+  <!-- <TradieAccountPage/> -->
 </template>
   
 <style scoped>
