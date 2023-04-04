@@ -6,36 +6,28 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import Paginator from "primevue/paginator";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
-const region = ref("");
-const regions = ref(
-  new Array(20).fill("test region").map((r, i) => `${r} ${i}`)
-);
-
-const tradiesPerPage = 6;
-const tradiesOffset = ref(0);
-
-const tradies = ref([
-  {
-    companyImage: DevImg,
-    companyLogo: DevImg,
-    keywords: ["painter", "joiner"],
-    activeQuote: false,
-    companyTitle: "Electro Lights",
-    companyBlurb:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!",
-  },
-  ...new Array(18).fill(0).map((v, i) => ({
-    companyImage: DevImg,
-    companyLogo: DevImg,
-    keywords: ["painter", "joiner"],
-    activeQuote: false,
-    companyTitle: "Test Company " + i,
-    companyBlurb:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!",
-  })),
-]);
+// const tradies = ref([
+//   {
+//     companyImage: DevImg,
+//     companyLogo: DevImg,
+//     keywords: ["painter", "joiner"],
+//     activeQuote: false,
+//     companyTitle: "Electro Lights",
+//     companyBlurb:
+//       "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!",
+//   },
+//   ...new Array(18).fill(0).map((v, i) => ({
+//     companyImage: DevImg,
+//     companyLogo: DevImg,
+//     keywords: ["painter", "joiner"],
+//     activeQuote: false,
+//     companyTitle: "Test Company " + i,
+//     companyBlurb:
+//       "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero, ex!",
+//   })),
+// ]);
 
 /**
  * We need a slice of the tradies array based on which 'page' we are on.
@@ -47,12 +39,7 @@ const tradies = ref([
  * 
  * Using the computed() function so that whenever the 'page' changes this slice of tradies also changes.
  */
-const pagedTradiesSlice = computed(() => {
-  return tradies.value.slice(
-    tradiesOffset.value,
-    tradiesOffset.value + tradiesPerPage
-  );
-});
+
 </script>
 
 <template>
@@ -63,39 +50,76 @@ const pagedTradiesSlice = computed(() => {
         <InputText placeholder="Company" />
         <Dropdown v-model="region" :options="regions" placeholder="Region" />
       </div>
-      <span class="search-instruct"
-        >Keywords that identify with what you're looking for</span
-      >
-      <div class="search-keywords">
-        <div class="p-input-icon-left">
-          <i class="pi pi-search" />
-          <InputText placeholder="Search" />
-        </div>
-        <Button>Find a Tradie</Button>
-      </div>
-    </form>
-  </section>
+              <span class="search-instruct">Keywords that identify with what you're looking for</span>
+              <div class="search-keywords">
+                <div class="p-input-icon-left">
+                  <i class="pi pi-search" />
+                  <InputText placeholder="Search" />
+                </div>
+                <Button>Find a Tradie</Button>
+              </div>
+            </form>
+          </section>
 
-  <section class="qualified-tradies">
-    <h1 class="text-center">All Qualified Tradies</h1>
-    <div class="tradie-list">
-      <TradieCard v-for="tradie in pagedTradiesSlice" v-bind="tradie" />
-    </div>
-  </section>
-  <Paginator
-    v-model:first="tradiesOffset"
-    :rows="tradiesPerPage"
-    :totalRecords="tradies.length"
-  ></Paginator>
+          <section class="qualified-tradies">
+            <h1 class="text-center">All Qualified Tradies</h1>
+            <div class="tradie-list">
+              <TradieCard v-for="tradie in pagedTradiesSlice" v-bind="tradie" />
+            </div>
+          </section>
+          <Paginator v-model:first="tradiesOffset" :rows="tradiesPerPage" :totalRecords="this.businesses_list.length"></Paginator>
 
-  <section class="become-member">
-    <h1>Become a Member</h1>
-    <div class="sign-up">
-      <button>Client Signup</button>
-      <button>Tradie Signup</button>
-    </div>
-  </section>
+          <section class="become-member">
+            <h1>Become a Member</h1>
+            <div class="sign-up">
+              <button>Client Signup</button>
+              <button>Tradie Signup</button>
+            </div>
+          </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      businesses_list: [],
+      region: ref(""),
+      regions: ref(new Array(20).fill("test region").map((r, i) => `${r} ${i}`)),
+
+      tradiesPerPage: 6,
+      tradiesOffset: 0
+    }
+  },
+  computed: {
+    pagedTradiesSlice() {
+      return this.businesses_list.slice(
+        this.tradiesOffset,
+        this.tradiesOffset + this.tradiesPerPage
+      );
+    },
+  },
+  methods: {
+    async getAllBusinesses() {
+      try {
+        const response = await fetch("http://localhost:4000/businesses/");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const received_data = await response.json();
+        return received_data;
+      } catch (error) {
+        console.error("Error fetching businesses:", error);
+      }
+    },
+  },
+  async created() {
+    this.businesses_list = await this.getAllBusinesses();
+    console.log(this.businesses_list)
+  }
+}
+</script>
 
 <style scoped lang="scss">
 .looking-for-tradie {
@@ -132,6 +156,7 @@ const pagedTradiesSlice = computed(() => {
     width: 600px;
     gap: var(--spacing-small);
   }
+
   .search-instruct {
     font-family: var(--font-secondary);
   }

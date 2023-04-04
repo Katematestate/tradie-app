@@ -24,7 +24,8 @@ router.delete('/:id', async (req, res) => {
 });
 
 // UPDATE a Business by ID
-router.put('/:id', isAuthenticated('business'), async (req, res) => {
+// , isAuthenticated('business')
+router.put('/:id', async (req, res) => {
     updateBusiness(req, res)
 });
 
