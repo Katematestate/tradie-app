@@ -1,0 +1,54 @@
+/* ---------------- */
+.p-inputtext {
+  font-family: var(--font-secondary);
+}
+
+.p-dropdown-panel {
+  font-family: var(--font-secondary);
+}
+
+.p-dropdown:not(.p-disabled).p-focus,
+.p-inputtext:enabled:focus,
+.p-button:focus {
+  box-shadow: 0 0 0 0.2rem var(--color-brand-hover);
+  border-color: transparent;
+}
+
+.p-chip {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  border-radius: var(--border-radius-standard);
+  padding: 0 var(--spacing-small);
+  line-height: 1;
+  font-family: var(--font-secondary);
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.p-button {
+  background-color: var(--color-brand);
+  color: var(--color-brand-text);
+  border-color: var(--color-brand);
+  font-family: var(--font-secondary);
+  font-weight: 600;
+
+  &:enabled:hover {
+    background-color: var(--color-brand-hover);
+    border-color: var(--color-brand-hover);
+    color: var(--color-brand-hover-text);
+  }
+
+  &.p-button-secondary {
+    &.p-button-outlined {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      border-width: 2px;
+      &:enabled:hover {
+        border-width: 2px;
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-primary-text);
+      }
+    }
+  }
+}
