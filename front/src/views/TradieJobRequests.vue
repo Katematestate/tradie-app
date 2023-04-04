@@ -31,28 +31,5 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { ProductService } from '@/service/ProductService';
 import DataView from 'primevue/dataview';
-
-onMounted(() => {
-    ProductService.getProductsSmall().then((data) => (products.value = data));
-});
-
-const products = ref();
-const getSeverity = (product) => {
-    switch (product.inventoryStatus) {
-        case 'INSTOCK':
-            return 'success';
-
-        case 'LOWSTOCK':
-            return 'warning';
-
-        case 'OUTOFSTOCK':
-            return 'danger';
-
-        default:
-            return null;
-    }
-};
 </script>
