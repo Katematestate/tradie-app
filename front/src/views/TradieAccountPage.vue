@@ -195,6 +195,7 @@
   display: flex;
   flex-flow: nowrap column;
   align-items: stretch;
+  background-color: #eeeeee;
 }
 .review-photos {
   display: flex;
