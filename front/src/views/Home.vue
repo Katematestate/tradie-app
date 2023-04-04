@@ -1,9 +1,13 @@
+<script setup>
+import TradieJobRequests from './TradieJobRequests.vue';
+</script>
 <template>
     <h1>HOME</h1>
     <div class="links-div">
         <router-link to='/ClientSignup'>Go to Client Signup</router-link>
     </div>
     <h1>HOME FOOTER AREA</h1>
+    <TradieJobRequests/>
 </template>
     
 <style scoped>
