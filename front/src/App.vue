@@ -4,7 +4,7 @@ import TradieAccountPage from "./views/TradieAccountView.vue";
 
 <template>
   <router-view></router-view>
-  <TradieAccountPage />
+  <!-- <TradieAccountPage /> -->
 </template>
 
 <style scoped>

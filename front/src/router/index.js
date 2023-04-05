@@ -7,6 +7,7 @@ import Home from "../views/Home.vue";
 import ClientSignup from "../views/ClientSignup.vue";
 import TradieList from "../views/TradieList.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
+import ClientHubPage from "../views/ClientHubPage.vue";
 const routes = [
   {
     path: "/",
@@ -17,6 +18,11 @@ const routes = [
     path: "/ClientSignup",
     name: "ClientSignup",
     component: ClientSignup,
+  },
+  {
+    path: "/ClientHub",
+    name: "ClientHub",
+    component: ClientHubPage,
   },
   {
     path: "/TradieList",
