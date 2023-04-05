@@ -52,3 +52,20 @@
     }
   }
 }
+.p-badge-dot {
+  width: 0.5rem;
+  min-width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.gap-1 {
+  gap: var(--spacing-small);
+}
+.gap-2 {
+  gap: var(--spacing-standard);
+}
+.gap-3 {
+  gap: var(--spacing-large);
+}
