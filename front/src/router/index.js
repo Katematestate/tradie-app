@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from '../views/Home.vue'
 import ClientSignup from '../views/ClientSignup.vue';
 import TradieList from "../views/TradieListPage.vue";
+import TradieAccountPage from "../views/TradieAccountPage.vue";
 
 const routes = [
   {
