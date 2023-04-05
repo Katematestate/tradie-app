@@ -1,16 +1,13 @@
-
 <template>
     <TradieJobProcess/>
-    <div class="card">
-        <DataView :value="products" paginator :rows="5">
-            <template #list="slotProps">
-                div.
-            </template>
-        </DataView>
-    </div>
+    <PendingRequests/>
 </template>
 
 <script setup>
-import DataView from 'primevue/dataview';
-import TradieJobProcess from '../components/TradieJobProcess.vue';
+ import TradieJobProcess from '../components/TradieJobProcess.vue';
+ import PendingRequests from '../components/PendingRequests.vue';
 </script>
+
+<style>
+
+</style>
