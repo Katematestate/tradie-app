@@ -116,16 +116,18 @@
       </div>
     </div>
 
-    <h5 class="view-button">import button here</h5>
-  </div>
-
-  <div class="member">
-    <h2>Become a member</h2>
-    <div class="member-button">
-      <Button label="Client Signup" type="cta" />
-      <h5>Tradie sign up</h5>
+    <div class="view-button">
+      <Button label="View button" type="button.cta" />
     </div>
   </div>
+
+  <!-- <div class="member">
+    <h2>Become a member</h2>
+    <div class="member-button">
+      <Button label="Client Signup" type="button.cta" />
+      <Button label="Tradie  Signup" type="button.cta" />
+    </div>
+  </div> -->
 </template>
 
 <style scoped lang="scss">
@@ -222,18 +224,20 @@
 .works-info p {
   text-align: left;
 }
-.member-button {
-  display: flex;
-  flex-direction: row;
-}
-.member {
-  padding: 5%;
-  background-image: url(../assets/images/member-background.png);
-  color: var(--color-brand-text);
-  height: 15em;
-}
+// .member-button {
+//   display: flex;
+//   flex-direction: row;
+//   gap: 5%;
+// }
+// .member {
+//   padding: 5%;
+//   background-image: url(../assets/images/member-background.png);
+//   color: var(--color-brand-text);
+//   height: 15em;
+// }
 </style>
 
 <script setup>
 import { Icon } from "@iconify/vue";
+import Button from "../components/Button.vue";
 </script>

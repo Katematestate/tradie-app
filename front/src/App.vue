@@ -4,6 +4,7 @@ import TradieAccountPage from "./views/LandingPage.vue";
 
 <template>
   <NavBar />
+  <TradieAccountPage />
   <router-view></router-view>
 </template>
 
