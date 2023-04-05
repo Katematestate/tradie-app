@@ -5,6 +5,7 @@ import Button from "primevue/button";
 import { ref, computed } from "vue";
 
 import ReviewCard from "../components/ReviewCard.vue";
+import BackToLink from "../components/BackToLink.vue";
 
 // Reviews probably need a job id to link them to the job they are reviewing
 const reviews = ref([
@@ -38,9 +39,7 @@ function editReview(id) {
 </script>
 
 <template>
-  <router-link to="/tradielist" class="back-link">
-    <i class="pi pi-chevron-left"></i> Back to Tradie List</router-link
-  >
+  <BackToLink to="/tradielist" label="Back to Tradie List" class="back-link" />
   <header class="flex justify-content-center">
     <h1>
       <Icon style="vertical-align: text-bottom" icon="ri:chat-quote-fill" />
@@ -132,7 +131,7 @@ section {
 }
 
 .back-link {
-  display: block;
+  display: inline-block;
   margin: var(--spacing-standard) 0 0 var(--spacing-standard);
 }
 </style>
