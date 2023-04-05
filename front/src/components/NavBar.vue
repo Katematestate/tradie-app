@@ -4,19 +4,16 @@ import Badge from "primevue/badge";
 import Menu from "primevue/menu";
 import { ref } from "vue";
 
-// These two pieces of application state need to be managed at the app level, possibly with a store or injectable
-const userType = "client"; // tradie | client | not-logged-in
-const hasNotification = true;
-
 const settingsMenu = ref();
 function toggleSettingsMenu(event) {
   settingsMenu.value.toggle(event);
 }
 
 function logout() {
-  //TODO STUB (Merlin?)
-  settingsMenu.value.toggle();
-  window.alert("TODO User logged out!");
+  sessionStorage.removeItem("jwt");
+  sessionStorage.removeItem("userType");
+  sessionStorage.removeItem("userId");
+  this.$router.push("/");
 }
 </script>
 
@@ -27,10 +24,13 @@ function logout() {
     </div>
 
     <div class="actions flex align-self-center gap-1 icon-size-4">
-      <div v-if="!userType || userType === 'not-logged-in'" class="log-in icon">
+      <div
+        v-if="!this.userType || this.userType === 'not-logged-in'"
+        class="log-in icon"
+      >
         <Icon icon="mdi:account" />
       </div>
-      <div v-if="userType === 'tradie'" class="job-tray icon relative">
+      <div v-if="this.userType === 'tradie'" class="job-tray icon relative">
         <Badge
           v-if="hasNotification"
           severity="danger"
@@ -38,7 +38,7 @@ function logout() {
         />
         <Icon icon="ion:file-tray-full-sharp" />
       </div>
-      <div v-if="userType === 'client'" class="quote-tray icon relative">
+      <div v-if="this.userType === 'client'" class="quote-tray icon relative">
         <Badge
           v-if="hasNotification"
           severity="danger"
@@ -47,7 +47,7 @@ function logout() {
         <Icon icon="ri:chat-quote-fill" />
       </div>
       <div
-        v-if="userType === 'tradie' || userType === 'client'"
+        v-if="this.userType === 'tradie' || this.userType === 'client'"
         class="settings icon"
         aria-haspopup="true"
         aria-controls="settings-menu"
@@ -69,6 +69,49 @@ function logout() {
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      userTypeStored: sessionStorage.getItem("userType"),
+      userId: sessionStorage.getItem("userId"),
+      jwt: sessionStorage.getItem("jwt"),
+    };
+  },
+  computed: {
+    userType() {
+      if (this.jwt && this.userTypeStored) return this.userTypeStored;
+      return "not-logged-in";
+    },
+  },
+  methods: {
+    async fetchUserOrBusinessAlerts(userOrBusinessId) {
+      try {
+        if (this.userType === "not-logged-in") {
+          console.log("not logged in, can't fetch alerts");
+          return;
+        }
+        const endpoint = this.userType === "client" ? "user" : "business";
+        const response = await fetch(`/alerts/${endpoint}/${userOrBusinessId}`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const alerts = await response.json();
+        // Use the fetched alerts, e.g., assign them to a data property
+        this.userAlerts = alerts;
+      } catch (error) {
+        console.log("Error fetching alerts for user:", error);
+      }
+    },
+  },
+  async created() {
+    await this.fetchUserOrBusinessAlerts();
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .nav-bar {
