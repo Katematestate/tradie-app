@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import ClientSignup from '../views/ClientSignup.vue';
 import TradieList from '../views/TradieList.vue';
+import TradieJobRequests from '../views/TradieJobRequests.vue'
 const routes = [
     {
         path: '/',
@@ -21,6 +22,11 @@ const routes = [
         path: '/TradieList',
         name: 'TradieList',
         component: TradieList
+    },
+    {
+        path: '/TradieJobRequests',
+        name: 'TradieJobRequest',
+        component: TradieJobRequests
     },
 
     // add more routes here

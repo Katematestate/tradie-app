@@ -8,6 +8,6 @@
  import PendingRequests from '../components/PendingRequests.vue';
 </script>
 
-<style>
+<style scoped>
 
 </style>
