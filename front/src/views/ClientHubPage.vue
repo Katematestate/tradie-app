@@ -131,7 +131,6 @@ section {
 }
 
 .back-link {
-  display: inline-block;
   margin: var(--spacing-standard) 0 0 var(--spacing-standard);
 }
 </style>
