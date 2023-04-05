@@ -40,6 +40,7 @@
 
   &.p-button-secondary {
     &.p-button-outlined {
+      background-color: var(--color-page);
       border-color: var(--color-primary);
       color: var(--color-primary);
       border-width: 2px;
@@ -68,4 +69,28 @@
 }
 .gap-3 {
   gap: var(--spacing-large);
+}
+=======
+
+.p-carousel {
+  .p-carousel-indicators {
+    .p-carousel-indicator {
+       button {
+        background-color: var(--color-text-shade);
+       }
+       &.p-highlight{
+        button{
+          background-color: var(--color-brand);
+        }
+       }
+    }
+  }
+}
+
+.p-carousel .p-carousel-content .p-carousel-prev:focus, .p-carousel .p-carousel-content .p-carousel-next:focus {
+  box-shadow: 0 0 0 0.2rem var(--color-brand-hover);
+}
+
+.p-link:focus{
+  box-shadow: 0 0 0 0.2rem var(--color-brand-hover);
 }

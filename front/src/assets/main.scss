@@ -66,7 +66,13 @@ h4 {
   font-weight: 600;
 }
 
-p {
+h5{
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+p{
   font-family: var(--font-secondary);
   font-size: 16px;
   font-weight: 400;
@@ -91,3 +97,28 @@ p {
 .icon-size-5 {
   font-size: 3rem;
 }
+=======
+.text-brand{
+  color: var(--color-brand);
+}
+
+.shade{
+  background-color: var(--color-shade);
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+.panel{
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius-standard);
+  padding: var(--spacing-small);
+  background-color: var(--color-page);
+}
+
+a{
+  font-family: var(--font-secondary);
+  text-decoration: none;
+}
+
