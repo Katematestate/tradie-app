@@ -8,7 +8,7 @@
 :root {
   --color-brand: #e88232;
   --color-brand-text: #fff;
-  --color-brand-hover: #DD670A;
+  --color-brand-hover: #dd670a;
   --color-brand-hover-text: #fff;
   --color-primary: #222030;
   --color-primary-text: #fff;
@@ -16,8 +16,8 @@
   --color-page-text: #222030;
   --color-shade: #eeeeee;
   --color-text-shade: #adadad;
-  --font-main: 'Ombudsman Stencil';
-  --font-secondary: 'Inter', sans-serif;
+  --font-main: "Ombudsman Stencil";
+  --font-secondary: "Inter", sans-serif;
   --spacing-small: 8px;
   --spacing-standard: 16px;
   --spacing-large: 32px;
@@ -26,7 +26,7 @@
 
 @font-face {
   font-family: "Ombudsman Stencil";
-  src: url(./fonts/OmbudsmanStencil.ttf) format('ttf');
+  src: url(./fonts/OmbudsmanStencil.ttf) format("ttf");
 }
 
 body {
@@ -39,9 +39,10 @@ body {
   box-sizing: border-box;
 }
 
-h1,h2 {
+h1,
+h2 {
   font-weight: normal;
-  margin: .2em;
+  margin: 0.2em;
 }
 h1 {
   font-family: var(--font-main);
@@ -59,7 +60,7 @@ h3 {
   font-weight: 600;
 }
 
-h4{
+h4 {
   font-family: var(--font-secondary);
   font-size: 22px;
   font-weight: 600;
@@ -77,10 +78,26 @@ p{
   font-weight: 400;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
+.icon-size-1 {
+  font-size: 1rem;
+}
+.icon-size-2 {
+  font-size: 1.5rem;
+}
+.icon-size-3 {
+  font-size: 2rem;
+}
+.icon-size-4 {
+  font-size: 2.5rem;
+}
+.icon-size-5 {
+  font-size: 3rem;
+}
+=======
 .text-brand{
   color: var(--color-brand);
 }
@@ -104,3 +121,4 @@ a{
   font-family: var(--font-secondary);
   text-decoration: none;
 }
+

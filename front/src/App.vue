@@ -1,15 +1,12 @@
 <script setup>
-import TradieAccountPage from "./views/TradieAccountView.vue";
+import NavBar from './components/NavBar.vue';
+
 </script>
 
 <template>
+  <NavBar />
   <router-view></router-view>
-  <!-- <TradieAccountPage /> -->
 </template>
 
 <style scoped>
-.links-div {
-  display: flex;
-  gap: 20px;
-}
 </style>
