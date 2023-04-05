@@ -1,5 +1,5 @@
 <script setup>
-import TradieAccountPage from "./views/LandingPage.vue";
+import NavBar from "./components/NavBar.vue";
 </script>
 
 <template>
