@@ -1,3 +1,5 @@
+// can copy paste this method to your methods section in your page/component
+
 const createBusiness = async (password, businessName, email, companyLogo, companyImage, businessPhoneNumber, businessWebsite,
     businessLocation, businessDescription, skills, pastWorks) => {
     try {
