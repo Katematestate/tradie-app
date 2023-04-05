@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // components related to those links needs to be defined below both for import and routes[] array
 import Home from '../views/Home.vue'
 import ClientSignup from '../views/ClientSignup.vue';
-import TradieList from '../views/TradieList.vue';
+import TradieList from "../views/TradieListPage.vue";
 const routes = [
     {
         path: '/',
