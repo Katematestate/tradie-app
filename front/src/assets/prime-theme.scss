@@ -70,27 +70,27 @@
 .gap-3 {
   gap: var(--spacing-large);
 }
-=======
 
 .p-carousel {
   .p-carousel-indicators {
     .p-carousel-indicator {
-       button {
+      button {
         background-color: var(--color-text-shade);
-       }
-       &.p-highlight{
-        button{
+      }
+      &.p-highlight {
+        button {
           background-color: var(--color-brand);
         }
-       }
+      }
     }
   }
 }
 
-.p-carousel .p-carousel-content .p-carousel-prev:focus, .p-carousel .p-carousel-content .p-carousel-next:focus {
+.p-carousel .p-carousel-content .p-carousel-prev:focus,
+.p-carousel .p-carousel-content .p-carousel-next:focus {
   box-shadow: 0 0 0 0.2rem var(--color-brand-hover);
 }
 
-.p-link:focus{
+.p-link:focus {
   box-shadow: 0 0 0 0.2rem var(--color-brand-hover);
 }
