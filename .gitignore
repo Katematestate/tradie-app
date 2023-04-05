@@ -1,5 +1,5 @@
 ./package.json
-./package-lockjson
+./package-lock.json
 
 # Logs
 logs
