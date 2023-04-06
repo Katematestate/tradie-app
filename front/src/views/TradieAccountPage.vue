@@ -50,7 +50,10 @@
       </div>
       <div class="info-section">
         <h4>Company Image</h4>
-        <img class="info-section-company" src="../assets/images/dev.jpg" />
+        <img
+          class="info-section-company"
+          src="../assets/images/Victoria-Mitchell-11 1.png"
+        />
         <h5>import image button</h5>
         <h5>Comfirm Password</h5>
         <input
