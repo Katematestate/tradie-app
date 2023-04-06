@@ -1,15 +1,12 @@
 <script setup>
-import TradieAccountPage from "./views/TradieAccountView.vue";
+import DynamicDialog from 'primevue/dynamicdialog';
 </script>
 
 <template>
   <router-view></router-view>
-  <!-- <TradieAccountPage /> -->
+  
+  <DynamicDialog />
 </template>
 
 <style scoped>
-.links-div {
-  display: flex;
-  gap: 20px;
-}
 </style>
