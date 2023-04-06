@@ -1,207 +1,138 @@
 <template>
-  <div class="business-profile">
-    <div class="business-header">
-      <h1>Business Profile</h1>
-    </div>
+  <div class="info-section">
+    <h1>Business Profile</h1>
 
-    <div class="business-info">
-      <div class="info-section">
-        <img class="info-section-logo" src="../assets/images/dev.jpg" />
-        <h5>Import button here</h5>
-        <h5>Company name</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Company Name"
-        />
-        <h5>Rating *****</h5>
-        <h5>Current Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Current Password"
-        />
+    <div class="info-flex">
+      <div class="info-image-flex">
+        <img src="../assets/images/dev.jpg" />
+        <h4>Canterbury Builders</h4>
+        <p>Overal Rating</p>
       </div>
-      <div class="info-section">
-        <h5>First Name</h5>
-        <input class="input-class" v-model="message" placeholder="First Name" />
-        <h5>Last Name</h5>
-        <input class="input-class" v-model="message" placeholder="Last Name" />
-        <h5>Mobile Number</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Mobile Number"
-        />
-        <h5>Location</h5>
-        <input class="input-class" v-model="message" placeholder="Location" />
-        <h5>Website</h5>
-        <input class="input-class" v-model="message" placeholder="Website" />
-        <h5>New Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="New Password"
-        />
-      </div>
-      <div class="info-section">
-        <h4>Company Image</h4>
-        <img class="info-section-company" src="../assets/images/dev.jpg" />
-        <h5>import image button</h5>
-        <h5>Comfirm Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Comfirm Password"
-        />
+
+      <div class="info-text">
+        <img src="../assets/images/dev.jpg" />
+        <h4>John Campbell</h4>
+        <h4>Phone:021 675 873</h4>
+        <h4>Location: Christchurch</h4>
+        <h4>Website: www.johncampbells.com</h4>
+        <p>
+          Brent Lucas Builders Ltd is a locally owned and operated building and
+          joinery company located in Dunedin. We are a trusted company that has
+          been delivering the highest standard of workmanship in Otago for over
+          20 years.
+        </p>
       </div>
     </div>
   </div>
 
-  <div class="description">
-    <h4>Write a short description of your company</h4>
-    <input
-      class="input-class-box"
-      v-model="message"
-      placeholder="Max 1000 words"
-    />
-    <div class="button-flex">
-      <h5>edit button here</h5>
-      <h5>save button here</h5>
-    </div>
-  </div>
+  <div class="review-section">
+    <h2>Reviews</h2>
+    <router-view></router-view>
 
-  <div class="add-past-work">
-    <h2>ADD PAST WORK</h2>
-    <h4>
-      Here is where you display your before and after photos for your client to
-      see
-    </h4>
-    <div class="upload-section">
-      <div class="upload-before">
-        <h4>Before Photo</h4>
-        <img src="../assets/images/dev.jpg" />
-        <h5>upload button</h5>
-      </div>
+    <Carousel :value="carouselItems" :num-visible="2" :num-scroll="1">
+      <template #item="slotProps">
+        <div class="job-review">
+          <div>{{ slotProps.data.job }}</div>
 
-      <div class="upload-after">
-        <h4>After Photo</h4>
-        <img src="../assets/images/dev.jpg" />
-        <h5>upload button</h5>
-      </div>
-    </div>
-    <div class="testimonial">
-      <h4>Testimonial</h4>
-      <input
-        class="input-class-box"
-        v-model="message"
-        placeholder="Max 1000 words"
-      />
-      <h5>import button</h5>
-    </div>
+          <div class="review-photos">
+            <div class="review-photo">
+              <span>Before Photo</span>
+              <img src="../assets/images/dev.jpg" />
+              <div>{{ slotProps.data.beforeImage }}</div>
+            </div>
+
+            <div class="review-photo">
+              <span>After Photo</span>
+              <img src="../assets/images/dev.jpg" />
+              <div>{{ slotProps.data.afterImage }}</div>
+            </div>
+          </div>
+
+          <div class="review-info">
+            <div>
+              Job Rated:
+              <i v-for="_ in slotProps.data.rating" class="pi pi-star-fill"></i>
+            </div>
+
+            <div>By: {{ slotProps.data.author }}</div>
+          </div>
+        </div>
+      </template>
+    </Carousel>
   </div>
 </template>
+
 <style scoped lang="scss">
-.business-profile {
-  display: flex;
-  flex-direction: column;
-  padding: 5%;
-}
-.button-flex {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-.business-info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-standard);
-}
-.business-info h5 {
-  margin: 0%;
-}
-.info-section {
-  background-color: white;
-  padding: 10%;
-}
-.business-header h1 {
-  text-align: center;
-}
-.picture-flex {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 20px;
-  background-color: antiquewhite;
-}
-.input-class {
-  border-radius: 5px;
-  border: none;
-  padding: 5%;
-  background-color: #eeeeee;
-  width: 100%;
-}
-.input-class-box {
-  border-radius: 5px;
-  border: none;
-  padding-top: 3%;
-  padding-left: 3%;
-  padding-right: 5%;
-  padding-bottom: 10%;
-  background-color: #eeeeee;
-  width: 100%;
-}
-.business-profile h4 {
-  margin: 0%;
-  padding: 1%;
+.info-image-flex img {
+  height: 20em;
+  width: 30em;
+  border-radius: 5%;
 }
 
-.info-section-logo {
-  height: 15em;
-  width: 100%;
+.info-text img {
+  height: 5em;
+  width: 15em;
   border-radius: 5%;
 }
-.info-section-company {
-  width: 100%;
-  height: 20em;
-  border-radius: 5%;
+
+.info-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
+  padding: 3%;
 }
-.info-section h5 {
-  padding-top: 5%;
-}
-.description {
-  margin-right: 3%;
-  margin-left: 3%;
+.info-text h4 {
+  margin: 0%;
+  padding: 1%;
 }
 .job-review {
   display: flex;
   flex-flow: nowrap column;
   align-items: stretch;
-  background-color: #eeeeee;
+}
+.review-photo img {
+  width: 15em;
+  height: 20em;
 }
 .review-photos {
   display: flex;
   flex-direction: row;
 }
-.review-photo img {
-  width: 30%;
-  height: 20em;
-  border-radius: 5%;
-}
-.upload-section img {
-  height: 20em;
-  width: 30em;
-  border-radius: 5%;
-}
-.upload-section {
-  display: flex;
-  flex-direction: row;
-  gap: 5%;
-  background-color: #eeeeee;
-  justify-content: center;
-}
-.add-past-work {
-  padding: 3%;
-}
 </style>
-<script setup></script>
+
+<script setup>
+import Carousel from "primevue/carousel";
+
+const carouselItems = [
+  {
+    job: "Wall Renovation",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 4,
+    author: "Guy Gregs",
+  },
+  {
+    job: "Broken Door",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 2,
+    author: "Guy Gregs",
+  },
+
+  {
+    job: "Broken Fence",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 4,
+    author: "Guy Gregs",
+  },
+
+  {
+    job: "Kitchen Renovation",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 4,
+    author: "Guy Gregs",
+  },
+];
+</script>
