@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar.vue";
 
 <template>
   <NavBar />
+  <TradieAccountPage />
   <router-view></router-view>
 </template>
 
