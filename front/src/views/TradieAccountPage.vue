@@ -7,7 +7,11 @@
     <div class="business-info">
       <div class="info-section">
         <img class="info-section-logo" src="../assets/images/dev.jpg" />
-        <h5>Import button here</h5>
+
+        <div class="view-button">
+          <Button label="Update Logo" type="button.cta" />
+        </div>
+
         <h5>Company name</h5>
         <input
           class="input-class"
