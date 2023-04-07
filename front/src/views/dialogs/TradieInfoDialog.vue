@@ -6,6 +6,15 @@ import BeforeAfterSlider from "../../components/BeforeAfterSlider.vue";
 import Tradie1Img from "../../assets/images/test-img-1.jpg";
 import Tradie2Img from "../../assets/images/test-img-2.jpg";
 
+const emit = defineEmits(["quote", "viewSite"]);
+
+function getQuote(id) {
+  emit("quote", id);
+}
+function viewSite(id) {
+  emit("viewSite", id);
+}
+
 // This data would be fetched from the server via some sort of company id
 const details = {
   companyId: 123,
@@ -59,8 +68,8 @@ const examples = [
         </Carousel>
       </div>
       <div class="button-footer flex gap-3 justify-content-center">
-        <Button label="View Site" type="secondary" />
-        <Button label="Get Quote" />
+        <Button label="View Site" type="secondary" @click="viewSite()" />
+        <Button label="Get Quote" @click="getQuote()" />
       </div>
     </section>
   </div>

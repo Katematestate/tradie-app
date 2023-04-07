@@ -1,6 +1,7 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
 import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
+import ClientQuoteRequestDialog from "./dialogs/ClientQuoteRequestDialog.vue";
 
 import Button from "../components/Button.vue";
 import InputText from "primevue/inputtext";
@@ -25,6 +26,7 @@ export default {
       tradiesPerPage: 6,
       tradiesOffset: 0,
       dialog: useDialog(),
+      openDialog: null,
     };
   },
   computed: {
@@ -51,6 +53,7 @@ export default {
         console.error("Error fetching businesses:", error);
         return [
           {
+            id: 123,
             skills: ["plumber"],
             activeQuote: true,
             businessName: "dingus",
@@ -59,6 +62,7 @@ export default {
             companyLogo: DevImg,
           },
           {
+            id: 123,
             skills: ["plumber"],
             activeQuote: false,
             businessName: "dingus",
@@ -67,6 +71,7 @@ export default {
             companyLogo: DevImg,
           },
           {
+            id: 123,
             skills: ["plumber"],
             activeQuote: false,
             businessName: "dingus",
@@ -75,6 +80,7 @@ export default {
             companyLogo: DevImg,
           },
           {
+            id: 123,
             skills: ["plumber"],
             activeQuote: false,
             businessName: "dingus",
@@ -83,6 +89,7 @@ export default {
             companyLogo: DevImg,
           },
           {
+            id: 123,
             skills: ["plumber"],
             activeQuote: false,
             businessName: "dingus",
@@ -91,6 +98,7 @@ export default {
             companyLogo: DevImg,
           },
           {
+            id: 123,
             skills: ["plumber"],
             activeQuote: true,
             businessName: "dingus",
@@ -103,12 +111,23 @@ export default {
     },
 
     quote(id) {
-      window.alert("quoted");
+      this.dialog.open(ClientQuoteRequestDialog, {
+        props: { header: "Job Request Form", modal: true },
+      });
     },
 
     viewMore(id) {
-      this.dialog.open(TradieInfoDialog, {
+      this.openDialog = this.dialog.open(TradieInfoDialog, {
         props: { header: "Electro Lights LTD", modal: true },
+        emits: {
+          onQuote: (e) => {
+            this.openDialog.close();
+            this.quote(e);
+          },
+          onViewSite: () => {
+            this.openDialog.close();
+          },
+        },
       });
     },
   },
@@ -124,7 +143,7 @@ export default {
     <h1>Looking for a Tradie</h1>
     <form class="tradie-search">
       <div class="config">
-        <InputText placeholder="Company" />
+        <InputText label="Company" />
         <Dropdown v-model="region" :options="regions" placeholder="Region" />
       </div>
       <span class="search-instruct"
@@ -133,7 +152,7 @@ export default {
       <div class="search-keywords">
         <div class="p-input-icon-left">
           <i class="pi pi-search" />
-          <InputText placeholder="Search" />
+          <InputText label="Search" />
         </div>
         <Button label="Find a Tradie" />
       </div>
@@ -146,8 +165,8 @@ export default {
       <TradieCard
         v-for="tradie in pagedTradiesSlice"
         v-bind="tradie"
-        @quote="quote()"
-        @viewMore="viewMore()"
+        @quote="quote(tradie.id)"
+        @viewMore="viewMore(tradie.id)"
       />
     </div>
   </section>

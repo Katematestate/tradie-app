@@ -11,40 +11,24 @@
         </div>
 
         <h5>Company name</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Company Name"
-        />
+        <input class="input-class" v-model="message" label="Company Name" />
         <h5>Rating *****</h5>
         <h5>Current Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Current Password"
-        />
+        <input class="input-class" v-model="message" label="Current Password" />
       </div>
       <div class="info-section">
         <h5>First Name</h5>
-        <input class="input-class" v-model="message" placeholder="First Name" />
+        <input class="input-class" v-model="message" label="First Name" />
         <h5>Last Name</h5>
-        <input class="input-class" v-model="message" placeholder="Last Name" />
+        <input class="input-class" v-model="message" label="Last Name" />
         <h5>Mobile Number</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Mobile Number"
-        />
+        <input class="input-class" v-model="message" label="Mobile Number" />
         <h5>Location</h5>
-        <input class="input-class" v-model="message" placeholder="Location" />
+        <input class="input-class" v-model="message" label="Location" />
         <h5>Website</h5>
-        <input class="input-class" v-model="message" placeholder="Website" />
+        <input class="input-class" v-model="message" label="Website" />
         <h5>New Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="New Password"
-        />
+        <input class="input-class" v-model="message" label="New Password" />
       </div>
       <div class="info-section">
         <h4>Company Image</h4>
@@ -54,11 +38,7 @@
         />
         <h5>import image button</h5>
         <h5>Comfirm Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Comfirm Password"
-        />
+        <input class="input-class" v-model="message" label="Comfirm Password" />
       </div>
     </div>
   </div>
