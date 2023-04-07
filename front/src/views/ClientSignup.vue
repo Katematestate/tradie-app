@@ -1,10 +1,7 @@
 <script setup>
 
 import InputText from 'primevue/inputtext';
-
-import { ref } from 'vue';
-
-const value = ref(null);
+import Checkbox from 'primevue/checkbox';
 
 </script>
 
@@ -12,46 +9,173 @@ const value = ref(null);
 
 <template>
 
-<div class="flex-row">
+<h1>THIS IS HEADER </h1>
+
+<div class="client-signup">
     <div class="margin1 flex">
-        <h1> Here is Margin 1</h1>
+        <div class="links-div">
+            <router-link to='/' class="spacing-large link">Go to Home</router-link>
+        </div>
     </div>
 
 
     <div class="flex">
-        <div class="card flex justify-content-center">
-            <span class="p-float-label">
-                <InputText id="username" v-model="value" />
-                <label for="username">Username</label>
-            </span>
-        </div>
-    </div>
+        <div class="flex-col">
 
-    <div class="margin2 flex">
-        <h1> Here is Margin 2</h1>
+            <div class="heading-container">
+                <div class="spacing-large align-items-center">
+                    <h1>Sign Up</h1>
+                </div>
+            </div>
+
+            <div class="text-box-container">
+                <div class="spacing-standard">
+                    <p>First Name</p>
+                    <InputText v-model="Fname" class="input-class-box" placeholder ="First Name"/>
+                </div>
+
+
+                <div class="spacing-standard">
+                    <p>Last Name</p>
+                    <InputText v-model="Lname" class="input-class-box" placeholder ="Last Name"/>
+                </div>
+
+
+                <div class="spacing-standard">
+                    <p>Location</p>
+                    <InputText v-model="location" class="input-class-box align-items-center" placeholder ="Location"/>
+                </div>
+
+
+                <div class="spacing-standard">
+                    <p>Email</p>
+                    <InputText v-model="email" class="input-class-box" placeholder ="Email"/>
+                </div>
+
+
+                <div class="spacing-standard">
+                    <p>Password</p>
+                    <InputText v-model="password" class="input-class-box" placeholder ="Password"/>
+                </div>
+
+
+                <div class="spacing-standard">
+                    <p>Confirm Password</p>
+                    <InputText class="input-class-box" placeholder ="Confirm Password"/>
+                </div>
+            </div>
+
+
+            <div class="checkbox-container">
+                <div class="spacing-standard flex-row">
+                    <Checkbox class="" v-model="tos_concent"/>
+                    <p>Do You Consent To The Terms Of Service</p>
+                </div>
+            </div>
+            
+
+            <div class="checkbox-container">
+                <div class="spacing-standard flex-row">
+                    <Checkbox class="" v-model="email_concent"  />
+                    <p>Do You Concent To Recieving Emails From Find A Tradie</p>
+                </div>
+            </div>
+
+            
+            <div class="checkbox-container">
+                <div class="spacing-standard">
+                    <p>Insert Kelsie's Button Here</p>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 
 </div>
 
-
-                
-    
-    <div class="links-div">
-        <router-link to='/'>Go to Home</router-link>
-    </div>
     <h1>CLIENT SIGN UP FOOTER AREA</h1>
 </template>
-
     
-<style scoped>
+
+
+<script>
+export default {
+  data(){ // data itself starts
+    return{ // data variables starts
+    
+    } // data variables end
+  }, // data itself ends
+  methods: {
+          
+    },
+
+}
+</script>
+
+
+<style scoped lang="scss">
+p{
+    margin: 0;
+    font-family: var(--font-secondary);
+}
+h1{
+    font-family: var(--font-main);
+}
+.heading-container{
+max-width: 800px;
+margin: 0 auto;
+}
+.text-box-container{
+max-width: 500px;
+width: 100%;
+margin: 0 auto;
+}
+.checkbox-container{
+max-width: 500px;
+margin: 0 auto;
+}
+// .align-items-center{
+//     align-items: center;
+// }
+.link{
+    color: black;
+}
+
+.input-class-box{
+    border-radius: 5px;
+    border: none;
+    // padding-top: 3%;
+    // padding-left: 3% ;
+    // padding-right: 5%;
+    // padding-bottom: 10%;
+    background-color: #eeeeee;
+    width: 100%;
+
+}
 .flex-row{
     display: flex;
     flex-direction: row;
     flex: 1;
 }
+.flex-col{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+}
 .flex{
     display: flex;
     flex: 1;
-    border: 1px solid magenta;
+    border: 3px solid cyan;
+}
+.spacing-small{
+padding-bottom: var(--spacing-small);
+}
+.spacing-standard{
+padding-bottom: var(--spacing-standard);
+}
+.spacing-large{
+margin: var(--spacing-large);
 }
 </style>

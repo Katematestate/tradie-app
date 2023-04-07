@@ -6,6 +6,10 @@ import { ref, computed } from "vue";
 
 import ReviewCard from "../components/ReviewCard.vue";
 import BackToLink from "../components/BackToLink.vue";
+import ClientReview from '../views/dialogs/ClientReviewDialog.vue';
+
+import { useDialog } from 'primevue/usedialog';
+const dialog = useDialog();
 
 // Reviews probably need a job id to link them to the job they are reviewing
 const reviews = ref([
@@ -34,7 +38,7 @@ const inProgressJobs = computed(() => {
 });
 
 function editReview(id) {
-  window.alert(id);
+  dialog.open(ClientReview, {props: {modal: true, header:'Leave a review'}});
 }
 </script>
 
@@ -73,7 +77,7 @@ function editReview(id) {
             <span class="job-type">{{ job.type }}</span>
           </div>
           <Button size="small" label="Complete" />
-          <Button outlined severity="secondary" size="small" label="Review" />
+          <Button @click="editReview() " outlined severity="secondary" size="small" label="Review" />
         </div>
       </div>
     </section>

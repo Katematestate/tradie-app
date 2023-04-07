@@ -8,6 +8,7 @@ import ClientSignup from "../views/ClientSignup.vue";
 import TradieList from "../views/TradieListPage.vue";
 import TradieAccountEdit from "../views/TradieAccountEdit.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
+import TradieSignup from "../views/TradieSignup.vue";
 
 import ClientHubPage from "../views/ClientHubPage.vue";
 
@@ -42,6 +43,11 @@ const routes = [
     path: "/TradieAccountEdit",
     name: "TradieAccountEdit",
     component: TradieAccountEdit,
+  },
+  {
+    path: "/TradieSignup",
+    name: "TradieSignup",
+    component: TradieSignup,
   },
 
   // add more routes here
