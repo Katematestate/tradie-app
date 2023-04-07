@@ -17,7 +17,7 @@ defineProps({ body: String, companyName: String, rating: Number });
 
 <style scoped>
 .review-card {
-  max-width: 38ch;
+  max-width: 50ch;
   margin: auto;
   height: 100%;
 }
