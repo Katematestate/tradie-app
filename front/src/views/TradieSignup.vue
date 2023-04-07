@@ -24,21 +24,23 @@ import Button_Main from "../components/Button.vue";
     <!-- Image Drop -->
 
     <div class="image-drop grid-work">
-      <div class="flex-col align-items-center">
+      <div class="flex-col align-items-center spacing-large">
         <h1>Image Drop 1</h1>
         <Button_Main label="Upload Logo" />
       </div>
-      <div class="flex-col align-items-center">
+
+      <div class="flex-col align-items-center spacing-large">
         <h1>Image Drop 2</h1>
-        <Button_Main label="Upload Logo" />
+        <Button_Main label="Upload " />
       </div>
     </div>
 
     <!-- Input Fields -->
 
+    <!-- Start of Input Field 1 -->
+
     <div class="input grid-work">
       <div class="input-field-1">
-        <h1>Input Field 1</h1>
         <div class="text-box-container">
           <div class="spacing-standard">
             <p>First Name</p>
@@ -82,9 +84,12 @@ import Button_Main from "../components/Button.vue";
           </div>
         </div>
       </div>
-      <div class="input-field-2">
-        <h1>Input Field 2</h1>
 
+      <!-- End of Input Field 1 -->
+
+      <!-- Start Of Input Field 2 -->
+
+      <div class="input-field-2">
         <div class="text-box-container">
           <div class="spacing-standard">
             <p>Business Name</p>
@@ -125,20 +130,23 @@ import Button_Main from "../components/Button.vue";
       </div>
     </div>
 
-    <!-- Traide Key Words -->
+    <!-- End of Input Field 2 -->
 
-    <div class="tradie-key-words flex-row">
-      <div>
+    <!-- Traide Key Words -->
+    <div class="flex-col align-items-center">
+      <h1>What Trades Does Your Business Offer</h1>
+    </div>
+    <div class="tradie-key-words grid-work">
+      <div class="flex-col text-box-container">
         <p>Certification Number</p>
-        <InputText class="input-class-box" />
+        <InputText class="input-class-box" placeholder="1234 XXXX XXXX 5678" />
       </div>
-      <div>
+      <div class="flex-col text-box-container">
         <p>Trade Title</p>
-        <InputText class="input-class-box" />
-      </div>
-      <div>
-        <p></p>
-        <Button_Main label="Add" class="disabled" />
+        <div class="flex-row text-box-container">
+          <InputText class="input-class-box" placeholder="Example: Carpenter" />
+          <Button_Main label="Add" class="button-container disabled" />
+        </div>
       </div>
     </div>
   </section>
@@ -156,11 +164,16 @@ export default {
       // data variables starts
     }; // data variables end
   }, // data itself ends
-  methods: {},
+  methods: {
+    // methods starts
+  },
 };
 </script>
 
 <style scoped lang="scss">
+.button-container {
+  margin: 0 auto;
+}
 .orange-text {
   color: var(--color-brand);
   margin: auto 0;
@@ -169,7 +182,11 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-standard);
-  border: 3px solid magenta;
+}
+.grid-work-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-standard);
 }
 .sign-up-heading {
   display: flex;
@@ -183,7 +200,16 @@ p {
 h1 {
   font-family: var(--font-main);
 }
-
+.disabled {
+  color: lightgrey;
+  background-color: grey;
+  border-color: grey;
+}
+.disabled:hover {
+  background-color: grey;
+  border-color: grey;
+  color: lightgray;
+}
 .text-box-container {
   max-width: 500px;
   width: 100%;
@@ -217,6 +243,6 @@ h1 {
   padding-bottom: var(--spacing-standard);
 }
 .spacing-large {
-  margin: var(--spacing-large);
+  padding-bottom: var(--spacing-large);
 }
 </style>
