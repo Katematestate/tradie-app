@@ -1,12 +1,122 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
-import DevImg from "../assets/images/dev.jpg";
+import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
 
-import Button from "primevue/button";
+import Button from "../components/Button.vue";
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import Paginator from "primevue/paginator";
+import DevImg from "../assets/images/dev.jpg";
 import { ref } from "vue";
+
+import { useDialog } from "primevue/usedialog";
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      businesses_list: [],
+      region: ref(""),
+      regions: ref(
+        new Array(20).fill("test region").map((r, i) => `${r} ${i}`)
+      ),
+
+      tradiesPerPage: 6,
+      tradiesOffset: 0,
+      dialog: useDialog(),
+    };
+  },
+  computed: {
+    pagedTradiesSlice() {
+      return this.businesses_list.slice(
+        this.tradiesOffset,
+        this.tradiesOffset + this.tradiesPerPage
+      );
+    },
+  },
+  methods: {
+    async getAllBusinesses() {
+      try {
+        throw ""; // Test throw to avoid waiting for fetch to resolve
+        const response = await fetch("http://localhost:4000/businesses/");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const received_data = await response.json();
+        return received_data;
+      } catch (error) {
+        console.error("Error fetching businesses:", error);
+        return [
+          {
+            skills: ["plumber"],
+            activeQuote: true,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            skills: ["plumber"],
+            activeQuote: true,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+        ];
+      }
+    },
+
+    quote(id) {
+      window.alert("quoted");
+    },
+
+    viewMore(id) {
+      this.dialog.open(TradieInfoDialog, {
+        props: { header: "Electro Lights LTD", modal: true },
+      });
+    },
+  },
+  async created() {
+    this.businesses_list = (await this.getAllBusinesses()) || [];
+    console.log(this.businesses_list);
+  },
+};
 </script>
 
 <template>
@@ -25,7 +135,7 @@ import { ref } from "vue";
           <i class="pi pi-search" />
           <InputText placeholder="Search" />
         </div>
-        <Button>Find a Tradie</Button>
+        <Button label="Find a Tradie" />
       </div>
     </form>
   </section>
@@ -33,7 +143,12 @@ import { ref } from "vue";
   <section class="qualified-tradies">
     <h1 class="text-center">All Qualified Tradies</h1>
     <div class="tradie-list">
-      <TradieCard v-for="tradie in pagedTradiesSlice" v-bind="tradie" />
+      <TradieCard
+        v-for="tradie in pagedTradiesSlice"
+        v-bind="tradie"
+        @quote="quote()"
+        @viewMore="viewMore()"
+      />
     </div>
   </section>
   <Paginator
@@ -45,56 +160,11 @@ import { ref } from "vue";
   <section class="become-member">
     <h1>Become a Member</h1>
     <div class="sign-up">
-      <button>Client Signup</button>
-      <button>Tradie Signup</button>
+      <Button label="Client Signup" />
+      <Button label="Tradie Signup" />
     </div>
   </section>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      businesses_list: [],
-      region: ref(""),
-      regions: ref(
-        new Array(20).fill("test region").map((r, i) => `${r} ${i}`)
-      ),
-
-      tradiesPerPage: 6,
-      tradiesOffset: 0,
-    };
-  },
-  computed: {
-    pagedTradiesSlice() {
-      return this.businesses_list.slice(
-        this.tradiesOffset,
-        this.tradiesOffset + this.tradiesPerPage
-      );
-    },
-  },
-  methods: {
-    async getAllBusinesses() {
-      try {
-        const response = await fetch("http://localhost:4000/businesses/");
-
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-
-        const received_data = await response.json();
-        return received_data;
-      } catch (error) {
-        console.error("Error fetching businesses:", error);
-      }
-    },
-  },
-  async created() {
-    this.businesses_list = await this.getAllBusinesses();
-    console.log(this.businesses_list);
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .looking-for-tradie {
@@ -128,8 +198,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 600px;
+    max-width: 600px;
     gap: var(--spacing-small);
+
+    .config {
+      @media (max-width: 480px) {
+        flex-direction: column;
+      }
+    }
   }
 
   .search-instruct {
@@ -137,11 +213,23 @@ export default {
   }
 }
 
+.qualified-tradies {
+  padding: 0 var(--spacing-standard);
+}
+
 .tradie-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-standard);
-  margin: 0 200px;
+  gap: var(--spacing-large) var(--spacing-standard);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .load-more {
