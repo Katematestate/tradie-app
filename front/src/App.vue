@@ -1,14 +1,14 @@
 <script setup>
-import TradieAccountPage from "./views/TradieAccountPage.vue";
+import DynamicDialog from 'primevue/dynamicdialog';
+import NavBar from "./components/NavBar.vue";
 </script>
+
 <template>
+  <NavBar />
   <router-view></router-view>
-  <TradieAccountPage />
+  
+  <DynamicDialog />
 </template>
 
-<style scoped>
-.links-div {
-  display: flex;
-  gap: 20px;
-}
-</style>
+<style scoped></style>
+
