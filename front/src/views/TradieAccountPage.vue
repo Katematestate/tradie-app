@@ -2,25 +2,63 @@
   <div class="info-section">
     <h1>Business Profile</h1>
 
-    <div class="info-flex">
-      <div class="info-image-flex">
-        <img src="../assets/images/dev.jpg" />
-        <h4>Canterbury Builders</h4>
-        <p>Overal Rating</p>
-      </div>
+    <div class="business-info">
+      <div class="info-section">
+        <img class="info-section-logo" src="../assets/images/dev.jpg" />
 
-      <div class="info-text">
-        <img src="../assets/images/dev.jpg" />
-        <h4>John Campbell</h4>
-        <h4>Phone:021 675 873</h4>
-        <h4>Location: Christchurch</h4>
-        <h4>Website: www.johncampbells.com</h4>
-        <p>
-          Brent Lucas Builders Ltd is a locally owned and operated building and
-          joinery company located in Dunedin. We are a trusted company that has
-          been delivering the highest standard of workmanship in Otago for over
-          20 years.
-        </p>
+        <div class="view-button">
+          <Button label="Update Logo" type="button.cta" />
+        </div>
+
+        <h5>Company name</h5>
+        <input
+          class="input-class"
+          v-model="message"
+          placeholder="Company Name"
+        />
+        <h5>Rating *****</h5>
+        <h5>Current Password</h5>
+        <input
+          class="input-class"
+          v-model="message"
+          placeholder="Current Password"
+        />
+      </div>
+      <div class="info-section">
+        <h5>First Name</h5>
+        <input class="input-class" v-model="message" placeholder="First Name" />
+        <h5>Last Name</h5>
+        <input class="input-class" v-model="message" placeholder="Last Name" />
+        <h5>Mobile Number</h5>
+        <input
+          class="input-class"
+          v-model="message"
+          placeholder="Mobile Number"
+        />
+        <h5>Location</h5>
+        <input class="input-class" v-model="message" placeholder="Location" />
+        <h5>Website</h5>
+        <input class="input-class" v-model="message" placeholder="Website" />
+        <h5>New Password</h5>
+        <input
+          class="input-class"
+          v-model="message"
+          placeholder="New Password"
+        />
+      </div>
+      <div class="info-section">
+        <h4>Company Image</h4>
+        <img
+          class="info-section-company"
+          src="../assets/images/Victoria-Mitchell-11 1.png"
+        />
+        <h5>import image button</h5>
+        <h5>Comfirm Password</h5>
+        <input
+          class="input-class"
+          v-model="message"
+          placeholder="Comfirm Password"
+        />
       </div>
     </div>
   </div>
