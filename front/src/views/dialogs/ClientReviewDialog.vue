@@ -14,7 +14,7 @@ const valueRating = ref(0);
   <section class="experience flex flex-column">
     <h4>Experience</h4>
     <span>Write a short description of how the job went.</span>
-    <Textarea v-model="value" rows="5" cols="30" placeholder="Max 1000 words" />
+    <Textarea v-model="value" rows="5" cols="30" label="Max 1000 words" />
   </section>
 
   <section class="star-rating flex flex-column gap-2">

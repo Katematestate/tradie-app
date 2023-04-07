@@ -1,6 +1,9 @@
 .p-inputtext {
   font-family: var(--font-secondary);
 }
+.p-inputtext::placeholder {
+  font-size: 0.75em;
+}
 
 .p-dropdown-panel {
   font-family: var(--font-secondary);
@@ -142,5 +145,30 @@
   }
   .p-dialog-header-icon:focus {
     box-shadow: none;
+  }
+}
+
+.p-fileupload {
+  display: flex;
+  flex-flow: nowrap column;
+  border: 1px solid var(--color-text-shade);
+  border-radius: var(--border-radius-standard);
+
+  .p-fileupload-content {
+    border: none;
+    border-radius: 0;
+    border-top-right-radius: var(--border-radius-standard);
+    border-top-left-radius: var(--border-radius-standard);
+  }
+
+  .p-fileupload-buttonbar {
+    justify-content: flex-end;
+    padding: var(--spacing-small);
+    order: 1;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom-left-radius: var(--border-radius-standard);
+    border-bottom-right-radius: var(--border-radius-standard);
   }
 }
