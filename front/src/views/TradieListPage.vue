@@ -12,9 +12,9 @@ import { ref } from "vue";
 <template>
   <section class="looking-for-tradie">
     <h1>Looking for a Tradie</h1>
-    <form class="tradie-search">
+    <form class="tradie-search" @submit.prevent="getAllBusinesses">
       <div class="config">
-        <InputText placeholder="Company" />
+        <InputText placeholder="Company" v-model="company" />
         <Dropdown v-model="region" :options="regions" placeholder="Region" />
       </div>
       <span class="search-instruct"
@@ -23,9 +23,9 @@ import { ref } from "vue";
       <div class="search-keywords">
         <div class="p-input-icon-left">
           <i class="pi pi-search" />
-          <InputText placeholder="Search" />
+          <InputText placeholder="Search" v-model="search" />
         </div>
-        <Button>Find a Tradie</Button>
+        <Button type="submit">Find a Tradie</Button>
       </div>
     </form>
   </section>
@@ -56,13 +56,16 @@ export default {
   data() {
     return {
       businesses_list: [],
-      region: ref(""),
+      company: "",
+      region: "",
       regions: ref(
         new Array(20).fill("test region").map((r, i) => `${r} ${i}`)
       ),
 
       tradiesPerPage: 6,
       tradiesOffset: 0,
+
+      search: "",
     };
   },
   computed: {
@@ -76,21 +79,24 @@ export default {
   methods: {
     async getAllBusinesses() {
       try {
-        const response = await fetch("http://localhost:4000/businesses/");
+        const response = await fetch(
+          `http://localhost:4000/businesses?businessName=${this.company}&businessLocation=${this.region}&skills=${this.search}`
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
 
-        const received_data = await response.json();
-        return received_data;
+        this.businesses_list = await response.json();
+
+        console.log(this.businesses_list);
       } catch (error) {
         console.error("Error fetching businesses:", error);
       }
     },
   },
   async created() {
-    this.businesses_list = await this.getAllBusinesses();
+    await this.getAllBusinesses();
     console.log(this.businesses_list);
   },
 };
