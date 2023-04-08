@@ -6,6 +6,7 @@ const {
   listBusinesses,
   createBusiness,
   getBusiness,
+  me,
   deleteBusiness,
   updateBusiness,
 } = require("../controllers/business");
@@ -19,6 +20,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   createBusiness(req, res);
 });
+
+// GET my authenticated business
+router.get("/me", jwtMiddleware, me);
 
 // GET (single) Business by ID
 router.get("/:id", jwtMiddleware, async (req, res) => {
