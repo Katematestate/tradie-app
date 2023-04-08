@@ -5,6 +5,7 @@ const me = async (req, res) => {
 
   if (authHeader) {
     const token = authHeader.split(" ")[1];
+    try {
       const decoded = jwt.verify(token, process.env.AUTH_SECRET_KEY);
 
       req.userId = decoded.id;
