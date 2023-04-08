@@ -32,7 +32,10 @@ const loginUserOrBusiness = async (req, res) => {
       { id: user?.id ?? business.id },
       process.env.AUTH_SECRET_KEY
     );
-    res.json({ token });
+    res.json({
+      token,
+      id: user?.id ?? business.id,
+    });
   } catch (error) {
     console.error("Error in loginUserOrBusiness:", error);
     res.status(500).json({ message: "Error logging in user or business." });

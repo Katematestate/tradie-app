@@ -11,9 +11,9 @@ function toggleSettingsMenu(event) {
 </script>
 
 <template>
-  {{ this.userType }}
-  {{ this.userId }}
-  {{ this.jwt }}
+  {{ userType }}
+  {{ userId }}
+  {{ jwt }}
   {{ userAlerts }}
   <div class="flex justify-content-between nav-bar">
     <div class="logo flex gap-2">
@@ -71,12 +71,20 @@ function toggleSettingsMenu(event) {
 export default {
   data() {
     return {
-      userType: null,
-      userId: null,
-      jwt: null,
       userAlerts: [],
       hasNotification: false,
     };
+  },
+  computed: {
+    userType() {
+      return sessionStorage.getItem("userType");
+    },
+    userId() {
+      return sessionStorage.getItem("userId");
+    },
+    jwt() {
+      return sessionStorage.getItem("jwt");
+    },
   },
   methods: {
     async fetchUserOrBusinessAlerts() {
@@ -112,25 +120,10 @@ export default {
       this.userType = null;
       this.userId = null;
       this.jwt = null;
-      this.$router.push("/");
+      this.$router.push({ name: "Home" });
     },
   },
   async created() {
-    await new Promise((resolve) => {
-      const intervalId = setInterval(() => {
-        if (
-          sessionStorage.getItem("jwt") &&
-          sessionStorage.getItem("userType") &&
-          sessionStorage.getItem("userId")
-        ) {
-          clearInterval(intervalId);
-          resolve();
-        }
-      }, 100);
-    });
-    this.userType = sessionStorage.getItem("userType");
-    this.userId = sessionStorage.getItem("userId");
-    this.jwt = sessionStorage.getItem("jwt");
     await this.fetchUserOrBusinessAlerts();
     this.checkIfUserHasNotification();
   },

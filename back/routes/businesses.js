@@ -12,31 +12,21 @@ const {
 } = require("../controllers/business");
 
 // GET (all) Businesses route
-router.get("/", async (req, res) => {
-  listBusinesses(req, res);
-});
+router.get("/", listBusinesses);
 
 // POST new Business with hashed password
-router.post("/", async (req, res) => {
-  createBusiness(req, res);
-});
+router.post("/", createBusiness);
 
 // GET my authenticated business
 router.get("/me", jwtMiddleware, me);
 
 // GET (single) Business by ID
-router.get("/:id", jwtMiddleware, async (req, res) => {
-  getBusiness(req, res);
-});
+router.get("/:id", jwtMiddleware, getBusiness);
 
 // DELETE a Business by ID
-router.delete("/:id", jwtMiddleware, async (req, res) => {
-  deleteBusiness(req, res);
-});
+router.delete("/:id", jwtMiddleware, deleteBusiness);
 
 // UPDATE a Business by ID
-router.put("/:id", jwtMiddleware, async (req, res) => {
-  updateBusiness(req, res);
-});
+router.put("/:id", jwtMiddleware, updateBusiness);
 
 module.exports = router;

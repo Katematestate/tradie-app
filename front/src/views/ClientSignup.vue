@@ -9,7 +9,9 @@ import Checkbox from "primevue/checkbox";
   <div class="client-signup">
     <div class="margin1 flex">
       <div class="links-div">
-        <router-link to="/" class="spacing-large link">Go to Home</router-link>
+        <router-link :to="{ name: 'Home' }" class="spacing-large link"
+          >Go to Home</router-link
+        >
       </div>
     </div>
 
@@ -158,7 +160,7 @@ export default {
           sessionStorage.setItem("jwt", data.token);
           sessionStorage.setItem("userId", data.userId);
           sessionStorage.setItem("userType", "user");
-          this.$router.push("/TradieList");
+          this.$router.push({ name: "TradieList" });
         }
       } else {
         console.log("incorrect inputs try again");

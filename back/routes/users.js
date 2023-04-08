@@ -11,31 +11,21 @@ const {
 } = require("../controllers/user");
 
 // GET (all) Users route
-router.get("/", async (req, res) => {
-  await listUsers(req, res);
-});
+router.get("/", listUsers);
 
 // POST new User
-router.post("/", async (req, res) => {
-  await createUser(req, res);
-});
+router.post("/", createUser);
 
 // GET my authenticated user
 router.get("/me", jwtMiddleware, me);
 
 // GET (single) User by ID
-router.get("/:id", jwtMiddleware, async (req, res) => {
-  getUser(req, res);
-});
+router.get("/:id", jwtMiddleware, getUser);
 
 // DELETE a User by ID
-router.delete("/:id", jwtMiddleware, async (req, res) => {
-  deleteUser(req, res);
-});
+router.delete("/:id", jwtMiddleware, deleteUser);
 
 // UPDATE a User by ID
-router.put("/:id", jwtMiddleware, async (req, res) => {
-  updateUser(req, res);
-});
+router.put("/:id", jwtMiddleware, updateUser);
 
 module.exports = router;

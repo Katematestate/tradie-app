@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 // components related to those links needs to be defined below both for import and routes[] array
 import Home from "../views/Home.vue";
 import ClientSignup from "../views/ClientSignup.vue";
+import ClientLogin from "../views/ClientLogin.vue";
 import TradieList from "../views/TradieListPage.vue";
 import TradieAccountEdit from "../views/TradieAccountEdit.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
@@ -15,40 +16,48 @@ import ClientHubPage from "../views/ClientHubPage.vue";
 import userAuth from "./middlewares/userAuth";
 
 const routes = [
+  // Public Routes ------------------------------------------------------------
   {
     path: "/",
     name: "Home",
     component: Home,
   },
   {
-    path: "/ClientSignup",
+    path: "/client/signup",
     name: "ClientSignup",
     component: ClientSignup,
   },
   {
-    path: "/ClientHub",
+    path: "/client/login",
+    name: "ClientLogin",
+    component: ClientLogin,
+  },
+
+  // Private Routes -----------------------------------------------------------
+  {
+    path: "/client/hub",
     name: "ClientHub",
     component: ClientHubPage,
     beforeEnter: userAuth,
   },
   {
-    path: "/TradieList",
+    path: "/tradie/list",
     name: "TradieList",
     component: TradieList,
   },
 
   {
-    path: "/TradieAccountPage",
+    path: "/tradie/account",
     name: "TradieAccountPage",
     component: TradieAccountPage,
   },
   {
-    path: "/TradieAccountEdit",
+    path: "/tradie/account/edit",
     name: "TradieAccountEdit",
     component: TradieAccountEdit,
   },
   {
-    path: "/TradieSignup",
+    path: "/tradie/signup",
     name: "TradieSignup",
     component: TradieSignup,
   },
