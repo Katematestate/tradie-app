@@ -1,181 +1,233 @@
 <script setup>
-
-import InputText from 'primevue/inputtext';
-import Checkbox from 'primevue/checkbox';
-
+import InputText from "primevue/inputtext";
+import Checkbox from "primevue/checkbox";
 </script>
 
-
-
 <template>
+  <h1>THIS IS HEADER</h1>
 
-<h1>THIS IS HEADER </h1>
-
-<div class="client-signup">
+  <div class="client-signup">
     <div class="margin1 flex">
-        <div class="links-div">
-            <router-link to='/' class="spacing-large link">Go to Home</router-link>
-        </div>
+      <div class="links-div">
+        <router-link to="/" class="spacing-large link">Go to Home</router-link>
+      </div>
     </div>
-
 
     <div class="flex">
-        <div class="flex-col">
-
-            <div class="heading-container">
-                <div class="spacing-large align-items-center">
-                    <h1>Sign Up</h1>
-                </div>
-            </div>
-
-            <div class="text-box-container">
-                <div class="spacing-standard">
-                    <p>First Name</p>
-                    <InputText v-model="Fname" class="input-class-box" placeholder ="First Name"/>
-                </div>
-
-
-                <div class="spacing-standard">
-                    <p>Last Name</p>
-                    <InputText v-model="Lname" class="input-class-box" placeholder ="Last Name"/>
-                </div>
-
-
-                <div class="spacing-standard">
-                    <p>Location</p>
-                    <InputText v-model="location" class="input-class-box align-items-center" placeholder ="Location"/>
-                </div>
-
-
-                <div class="spacing-standard">
-                    <p>Email</p>
-                    <InputText v-model="email" class="input-class-box" placeholder ="Email"/>
-                </div>
-
-
-                <div class="spacing-standard">
-                    <p>Password</p>
-                    <InputText v-model="password" class="input-class-box" placeholder ="Password"/>
-                </div>
-
-
-                <div class="spacing-standard">
-                    <p>Confirm Password</p>
-                    <InputText class="input-class-box" placeholder ="Confirm Password"/>
-                </div>
-            </div>
-
-
-            <div class="checkbox-container">
-                <div class="spacing-standard flex-row">
-                    <Checkbox class="" v-model="tos_concent"/>
-                    <p>Do You Consent To The Terms Of Service</p>
-                </div>
-            </div>
-            
-
-            <div class="checkbox-container">
-                <div class="spacing-standard flex-row">
-                    <Checkbox class="" v-model="email_concent"  />
-                    <p>Do You Concent To Recieving Emails From Find A Tradie</p>
-                </div>
-            </div>
-
-            
-            <div class="checkbox-container">
-                <div class="spacing-standard">
-                    <p>Insert Kelsie's Button Here</p>
-                </div>
-            </div>
-
-
+      <div class="flex-col">
+        <div class="heading-container">
+          <div class="spacing-large align-items-center">
+            <h1>Sign Up</h1>
+          </div>
         </div>
+
+        <div class="text-box-container">
+          <div class="spacing-standard">
+            <p>First Name</p>
+            <InputText
+              v-model="Fname"
+              class="input-class-box"
+              placeholder="First Name"
+            />
+          </div>
+
+          <div class="spacing-standard">
+            <p>Last Name</p>
+            <InputText
+              v-model="Lname"
+              class="input-class-box"
+              placeholder="Last Name"
+            />
+          </div>
+
+          <!-- i think don't need location and this might be too hard to implement to show businesses near the client 
+            (for now the client just filters manually through tradies on the tradies list page) so we dont need this i think - Merlin -->
+
+          <!-- <div class="spacing-standard">
+            <p>Location</p>
+            <InputText
+              v-model="location"
+              class="input-class-box align-items-center"
+              placeholder="Location"
+            />
+          </div> -->
+
+          <div class="spacing-standard">
+            <p>Email</p>
+            <InputText
+              v-model="email"
+              class="input-class-box"
+              placeholder="Email"
+            />
+          </div>
+
+          <div class="spacing-standard">
+            <p>Password</p>
+            <InputText
+              v-model="password"
+              type="password"
+              class="input-class-box"
+              placeholder="Password"
+            />
+          </div>
+
+          <div class="spacing-standard">
+            <p>Confirm Password</p>
+            <InputText
+              v-model="confirmPassword"
+              type="password"
+              class="input-class-box"
+              placeholder="Confirm Password"
+            />
+          </div>
+        </div>
+
+        <div class="checkbox-container">
+          <div class="spacing-standard flex-row">
+            <Checkbox class="" v-model="tos_consent" />
+            <p>Do You Consent To The Terms Of Service</p>
+          </div>
+        </div>
+
+        <div class="checkbox-container">
+          <div class="spacing-standard flex-row">
+            <Checkbox class="" v-model="email_consent" />
+            <p>Do You Concent To Recieving Emails From Find A Tradie</p>
+          </div>
+        </div>
+
+        <div class="checkbox-container">
+          <div class="spacing-standard">
+            <!-- merlin fake button to test -->
+            <button @click="createNewUser">
+              create new user (merlin fake button delete when import kelsie)
+            </button>
+            <p>Insert Kelsie's Button Here</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-</div>
-
-    <h1>CLIENT SIGN UP FOOTER AREA</h1>
+  <h1>CLIENT SIGN UP FOOTER AREA</h1>
 </template>
-    
-
 
 <script>
 export default {
-  data(){ // data itself starts
-    return{ // data variables starts
-    
-    } // data variables end
-  }, // data itself ends
+  data() {
+    return {
+      Fname: "",
+      Lname: "",
+      // location: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      tos_consent: true,
+      email_consent: true,
+    };
+  },
   methods: {
-          
-    },
+    async createNewUser() {
+      if (
+        this.tos_consent &&
+        this.email_consent &&
+        (this.Fname || this.Lname) &&
+        this.email &&
+        this.password &&
+        this.confirmPassword &&
+        this.password === this.confirmPassword
+      ) {
+        let name = this.Fname + " " + this.Fname;
 
-}
+        const response = await fetch("http://localhost:4000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            name,
+            email: this.email,
+            password: this.password,
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+
+        if (data.token && data.userId) {
+          sessionStorage.setItem("jwt", data.token);
+          sessionStorage.setItem("userId", data.userId);
+          sessionStorage.setItem("userType", "user");
+          this.$router.push("/TradieList");
+        }
+      } else {
+        console.log("incorrect inputs try again");
+      }
+    },
+  },
+};
 </script>
 
-
 <style scoped lang="scss">
-p{
-    margin: 0;
-    font-family: var(--font-secondary);
+p {
+  margin: 0;
+  font-family: var(--font-secondary);
 }
-h1{
-    font-family: var(--font-main);
+h1 {
+  font-family: var(--font-main);
 }
-.heading-container{
-max-width: 800px;
-margin: 0 auto;
+.heading-container {
+  max-width: 800px;
+  margin: 0 auto;
 }
-.text-box-container{
-max-width: 500px;
-width: 100%;
-margin: 0 auto;
+.text-box-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
 }
-.checkbox-container{
-max-width: 500px;
-margin: 0 auto;
+.checkbox-container {
+  max-width: 500px;
+  margin: 0 auto;
 }
 // .align-items-center{
 //     align-items: center;
 // }
-.link{
-    color: black;
+.link {
+  color: black;
 }
 
-.input-class-box{
-    border-radius: 5px;
-    border: none;
-    // padding-top: 3%;
-    // padding-left: 3% ;
-    // padding-right: 5%;
-    // padding-bottom: 10%;
-    background-color: #eeeeee;
-    width: 100%;
-
+.input-class-box {
+  border-radius: 5px;
+  border: none;
+  // padding-top: 3%;
+  // padding-left: 3% ;
+  // padding-right: 5%;
+  // padding-bottom: 10%;
+  background-color: #eeeeee;
+  width: 100%;
 }
-.flex-row{
-    display: flex;
-    flex-direction: row;
-    flex: 1;
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
 }
-.flex-col{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
-.flex{
-    display: flex;
-    flex: 1;
-    border: 3px solid cyan;
+.flex {
+  display: flex;
+  flex: 1;
+  border: 3px solid cyan;
 }
-.spacing-small{
-padding-bottom: var(--spacing-small);
+.spacing-small {
+  padding-bottom: var(--spacing-small);
 }
-.spacing-standard{
-padding-bottom: var(--spacing-standard);
+.spacing-standard {
+  padding-bottom: var(--spacing-standard);
 }
-.spacing-large{
-margin: var(--spacing-large);
+.spacing-large {
+  margin: var(--spacing-large);
 }
 </style>

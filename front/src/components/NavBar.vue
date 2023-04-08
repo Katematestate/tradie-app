@@ -8,16 +8,13 @@ const settingsMenu = ref();
 function toggleSettingsMenu(event) {
   settingsMenu.value.toggle(event);
 }
-
-function logout() {
-  sessionStorage.removeItem("jwt");
-  sessionStorage.removeItem("userType");
-  sessionStorage.removeItem("userId");
-  this.$router.push("/");
-}
 </script>
 
 <template>
+  {{ this.userType }}
+  {{ this.userId }}
+  {{ this.jwt }}
+  {{ userAlerts }}
   <div class="flex justify-content-between nav-bar">
     <div class="logo flex gap-2">
       <img src="../assets/images/text-logo-icon.svg" alt="App name" />
@@ -38,7 +35,7 @@ function logout() {
         />
         <Icon icon="ion:file-tray-full-sharp" />
       </div>
-      <div v-if="this.userType === 'client'" class="quote-tray icon relative">
+      <div v-if="this.userType === 'user'" class="quote-tray icon relative">
         <Badge
           v-if="hasNotification"
           severity="danger"
@@ -47,7 +44,7 @@ function logout() {
         <Icon icon="ri:chat-quote-fill" />
       </div>
       <div
-        v-if="this.userType === 'tradie' || this.userType === 'client'"
+        v-if="this.userType === 'tradie' || this.userType === 'user'"
         class="settings icon"
         aria-haspopup="true"
         aria-controls="settings-menu"
@@ -74,41 +71,68 @@ function logout() {
 export default {
   data() {
     return {
-      userTypeStored: sessionStorage.getItem("userType"),
-      userId: sessionStorage.getItem("userId"),
-      jwt: sessionStorage.getItem("jwt"),
+      userType: null,
+      userId: null,
+      jwt: null,
+      userAlerts: [],
+      hasNotification: false,
     };
   },
-  computed: {
-    userType() {
-      if (this.jwt && this.userTypeStored) return this.userTypeStored;
-      return "not-logged-in";
-    },
-  },
   methods: {
-    async fetchUserOrBusinessAlerts(userOrBusinessId) {
+    async fetchUserOrBusinessAlerts() {
       try {
         if (this.userType === "not-logged-in") {
           console.log("not logged in, can't fetch alerts");
           return;
         }
-        const endpoint = this.userType === "client" ? "user" : "business";
-        const response = await fetch(`/alerts/${endpoint}/${userOrBusinessId}`);
-
+        const response = await fetch(`/alerts/${this.userType}/${this.userId}`);
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
 
         const alerts = await response.json();
+
         // Use the fetched alerts, e.g., assign them to a data property
         this.userAlerts = alerts;
       } catch (error) {
         console.log("Error fetching alerts for user:", error);
       }
     },
+    checkIfUserHasNotification() {
+      if (this.userAlerts.length > 0) {
+        this.hasNotification = true;
+      } else {
+        this.hasNotification = false;
+      }
+    },
+    logout() {
+      sessionStorage.removeItem("jwt");
+      sessionStorage.removeItem("userType");
+      sessionStorage.removeItem("userId");
+      this.userType = null;
+      this.userId = null;
+      this.jwt = null;
+      this.$router.push("/");
+    },
   },
   async created() {
+    await new Promise((resolve) => {
+      const intervalId = setInterval(() => {
+        if (
+          sessionStorage.getItem("jwt") &&
+          sessionStorage.getItem("userType") &&
+          sessionStorage.getItem("userId")
+        ) {
+          clearInterval(intervalId);
+          resolve();
+        }
+      }, 100);
+    });
+    this.userType = sessionStorage.getItem("userType");
+    this.userId = sessionStorage.getItem("userId");
+    this.jwt = sessionStorage.getItem("jwt");
     await this.fetchUserOrBusinessAlerts();
+    this.checkIfUserHasNotification();
   },
 };
 </script>

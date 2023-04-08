@@ -12,6 +12,8 @@ import TradieSignup from "../views/TradieSignup.vue";
 
 import ClientHubPage from "../views/ClientHubPage.vue";
 
+import clientAuth from "./middlewares/clientAuth";
+
 const routes = [
   {
     path: "/",
@@ -27,6 +29,7 @@ const routes = [
     path: "/ClientHub",
     name: "ClientHub",
     component: ClientHubPage,
+    beforeEnter: clientAuth,
   },
   {
     path: "/TradieList",

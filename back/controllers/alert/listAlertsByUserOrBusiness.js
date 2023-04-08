@@ -1,12 +1,18 @@
-const Alert = require('../../models/Alert');
+const Alert = require("../../models/Alert");
 
 const listAlertsByUserOrBusiness = async (req, res, receiverType) => {
   try {
-    const id = receiverType === 'User' ? req.params.userId : req.params.businessId;
-    const alerts = await Alert.find({ alertReceiver: id, alertReceiverType: receiverType });
+    const id =
+      receiverType === "User" ? req.params.userId : req.params.businessId;
+    const alerts = await Alert.find({
+      alertReceiver: id,
+      alertReceiverType: receiverType,
+    });
 
     if (alerts.length === 0) {
-      return res.status(404).json({ message: `No alerts found for this ${receiverType}` });
+      return res
+        .status(404)
+        .json({ message: `No alerts found for this ${receiverType}` });
     }
     res.json(alerts);
   } catch (error) {

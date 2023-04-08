@@ -5,17 +5,19 @@ const listBusinesses = async (req, res) => {
     const { businessName, businessLocation, skills } = req.query;
     const query = {};
 
-    // if (businessName) {
-    //   query.businessName = new RegExp(businessName, "i");
-    // }
-    // if (businessLocation) {
-    //   query.businessLocation = new RegExp(businessLocation, "i");
-    // }
-    // if (skills) {
-    //   query.skills = { $in: skills.split(",") };
-    // }
+    if (businessName) {
+      query.businessName = new RegExp(businessName, "i");
+    }
+    if (businessLocation) {
+      query.businessLocation = new RegExp(businessLocation, "i");
+    }
+    if (skills) {
+      query.skills = { $in: skills.split(",") };
+    }
 
-    const businesses = await Business.find();
+    const businesses = await Business.find(query).select(
+      "pastWorks businessDescription businessLocation businessWebsite businessPhoneNumber businessName companyImage companyLogo"
+    );
     res.json(businesses);
   } catch (error) {
     res.status(500).json({ message: error.message });

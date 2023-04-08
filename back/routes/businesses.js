@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
 });
 
 // GET (single) Business by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", jwtMiddleware, async (req, res) => {
   getBusiness(req, res);
 });
 
@@ -31,7 +31,6 @@ router.delete("/:id", jwtMiddleware, async (req, res) => {
 });
 
 // UPDATE a Business by ID
-//
 router.put("/:id", jwtMiddleware, async (req, res) => {
   updateBusiness(req, res);
 });

@@ -1,25 +1,58 @@
+<script setup>
+import Carousel from "primevue/carousel";
+
+const carouselItems = [
+  {
+    job: "Wall Renovation",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 4,
+    author: "Guy Gregs",
+  },
+  {
+    job: "Broken Door",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 2,
+    author: "Guy Gregs",
+  },
+
+  {
+    job: "Broken Fence",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 4,
+    author: "Guy Gregs",
+  },
+
+  {
+    job: "Kitchen Renovation",
+    beforeImage: "stairs",
+    afterImage: "better stairs",
+    rating: 4,
+    author: "Guy Gregs",
+  },
+];
+</script>
+
 <template>
   <div class="info-section">
     <h1>Business Profile</h1>
 
     <div class="info-flex">
       <div class="info-image-flex">
-        <img src="../assets/images/dev.jpg" />
-        <h4>Canterbury Builders</h4>
+        <img :src="businessData.companyImage" />
+        <h4>{{ businessData.businessName }}</h4>
         <p>Overal Rating</p>
       </div>
 
       <div class="info-text">
-        <img src="../assets/images/dev.jpg" />
-        <h4>John Campbell</h4>
-        <h4>Phone:021 675 873</h4>
-        <h4>Location: Christchurch</h4>
-        <h4>Website: www.johncampbells.com</h4>
+        <img :src="businessData.companyLogo" />
+        <h4>Phone: {{ businessData.businessPhoneNumber }}</h4>
+        <h4>Location: {{ businessData.businessLocation }}</h4>
+        <h4>Website: {{ businessData.businessWebsite }}</h4>
         <p>
-          Brent Lucas Builders Ltd is a locally owned and operated building and
-          joinery company located in Dunedin. We are a trusted company that has
-          been delivering the highest standard of workmanship in Otago for over
-          20 years.
+          {{ businessData.businessDescription }}
         </p>
       </div>
     </div>
@@ -30,37 +63,83 @@
     <router-view></router-view>
 
     <Carousel :value="carouselItems" :num-visible="2" :num-scroll="1">
-      <template #item="slotProps">
+      <div v-for="pastWork in businessData.pastWorks">
         <div class="job-review">
-          <div>{{ slotProps.data.job }}</div>
+          <!-- <div>{{ slotProps.data.job }}</div> -->
 
           <div class="review-photos">
             <div class="review-photo">
               <span>Before Photo</span>
-              <img src="../assets/images/dev.jpg" />
-              <div>{{ slotProps.data.beforeImage }}</div>
+              <img :src="pastWork.beforePhoto" />
             </div>
 
             <div class="review-photo">
               <span>After Photo</span>
-              <img src="../assets/images/dev.jpg" />
-              <div>{{ slotProps.data.afterImage }}</div>
+              <img :src="pastWork.afterPhoto" />
             </div>
-          </div>
-
-          <div class="review-info">
-            <div>
-              Job Rated:
-              <i v-for="_ in slotProps.data.rating" class="pi pi-star-fill"></i>
-            </div>
-
-            <div>By: {{ slotProps.data.author }}</div>
           </div>
         </div>
-      </template>
+
+        <div class="review-info">
+          <div>
+            Job Rated:
+            <i v-for="_ in slotProps.data.rating" class="pi pi-star-fill"></i>
+          </div>
+
+          <div>By: {{ slotProps.data.author }}</div>
+        </div>
+      </div>
     </Carousel>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      userId: sessionStorage.getItem("userId"),
+      businessData: null,
+    };
+  },
+  methods: {
+    async fetchMyBusiness() {
+      try {
+        const jwt = sessionStorage.getItem("jwt");
+        const response = await fetch(`/businesses/${this.userId}`, {
+          headers: { Authorization: `Bearer ${jwt}` },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const business = await response.json();
+
+        this.businessData = business;
+      } catch (error) {
+        console.log("Error fetching business:", error);
+      }
+    },
+  },
+  async mounted() {
+    try {
+      const jwt = sessionStorage.getItem("jwt");
+      if (!jwt) {
+        throw new Error("No JWT found");
+      }
+      const response = await fetch("/businesses", {
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
+      this.data = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async created() {
+    await this.fetchMyBusiness();
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .info-image-flex img {
@@ -99,40 +178,3 @@
   flex-direction: row;
 }
 </style>
-
-<script setup>
-import Carousel from "primevue/carousel";
-
-const carouselItems = [
-  {
-    job: "Wall Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-  {
-    job: "Broken Door",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 2,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Broken Fence",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Kitchen Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-];
-</script>
