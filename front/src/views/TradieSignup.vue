@@ -2,6 +2,7 @@
 import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox";
 import Button_Main from "../components/Button.vue";
+import Chip from "primevue/chip";
 </script>
 
 <template>
@@ -139,21 +140,35 @@ import Button_Main from "../components/Button.vue";
     <div class="tradie-key-words grid-work">
       <div class="flex-col text-box-container">
         <p>Certification Number</p>
-        <InputText class="input-class-box" placeholder="1234 XXXX XXXX 5678" />
+        <InputText
+          v-model="trade_certification"
+          class="input-class-box"
+          placeholder="1234 XXXX XXXX 5678"
+        />
       </div>
       <div class="flex-col text-box-container">
         <p>Trade Title</p>
         <div class="flex-row text-box-container">
-          <InputText class="input-class-box" placeholder="Example: Carpenter" />
+          <InputText
+            v-model="trade_type"
+            class="input-class-box"
+            placeholder="Example: Carpenter"
+          />
           <Button_Main label="Add" class="button-container disabled" />
         </div>
       </div>
+    </div>
+    <div>
+      <Chip lable="Builder" />
+      <Chip lable="Builder" />
+      <Chip lable="Builder" />
+      <Chip lable="Builder" />
     </div>
   </section>
 
   <!-- Must Delete Below -->
 
-  <p>Idek why but this is showing up red</p>
+  <h1>Idek Tbh but Apply Footer Here</h1>
 </template>
 
 <script>
@@ -161,11 +176,31 @@ export default {
   data() {
     // data itself starts
     return {
+      trade_certification_array: [
+        {
+          certification: "1234 5678 1234 5678",
+          tradie_title: "Mason",
+        },
+        {
+          certification: "1234 5678 1234 5678",
+          tradie_title: "Carpenter",
+        },
+        {
+          certification: "1234 5678 1234 5678",
+          tradie_title: "Elevator Machanic",
+        },
+        {
+          certification: "1234 5678 1234 5678",
+          tradie_title: "Fruity Tiler",
+        },
+      ],
+
       // data variables starts
     }; // data variables end
   }, // data itself ends
   methods: {
     // methods starts
+    // Trade Type array,
   },
 };
 </script>
