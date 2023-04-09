@@ -123,7 +123,7 @@ import Chip from "primevue/chip";
             <p>Write A Short Description Of Your Business</p>
             <InputText
               v-model="business_bio"
-              class="input-class-box"
+              class="input-class-box bio-box"
               placeholder="Max 1000 Words"
             />
           </div>
@@ -154,7 +154,11 @@ import Chip from "primevue/chip";
             class="input-class-box"
             placeholder="Example: Carpenter"
           />
-          <Button_Main label="Add" class="button-container disabled" />
+          <Button_Main
+            label="Add"
+            class="button-container"
+            v-if="!trade_type.lenght"
+          />
         </div>
       </div>
     </div>
@@ -227,6 +231,9 @@ export default {
   display: flex;
   justify-content: center;
 }
+.bio-box {
+  padding-bottom: 19%;
+}
 
 p {
   margin: 0;
@@ -239,6 +246,7 @@ h1 {
   color: lightgrey;
   background-color: grey;
   border-color: grey;
+  margin-left: var(--spacing-standard);
 }
 .disabled:hover {
   background-color: grey;
