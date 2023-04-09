@@ -4,7 +4,7 @@ export default async (_to, _from, next) => {
     return next("/login");
   }
 
-  const response = await fetch("http://localhost:4000/businesses/me", {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}businesses/me`, {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });

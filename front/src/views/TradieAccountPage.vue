@@ -105,9 +105,12 @@ export default {
     async fetchMyBusiness() {
       try {
         const jwt = sessionStorage.getItem("jwt");
-        const response = await fetch(`/businesses/${this.userId}`, {
-          headers: { Authorization: `Bearer ${jwt}` },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses/${this.userId}`,
+          {
+            headers: { Authorization: `Bearer ${jwt}` },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
@@ -127,9 +130,12 @@ export default {
       if (!jwt) {
         throw new Error("No JWT found");
       }
-      const response = await fetch("/businesses", {
-        headers: { Authorization: `Bearer ${jwt}` },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}businesses`,
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
+      );
       this.data = await response.json();
     } catch (error) {
       console.error(error);

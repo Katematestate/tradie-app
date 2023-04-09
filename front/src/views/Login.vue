@@ -81,7 +81,7 @@ export default {
       let response;
       this.isLoading = true;
       try {
-        response = await fetch("http://localhost:4000/auth/login", {
+        response = await fetch(`${import.meta.env.VITE_API_URL}auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -107,6 +107,10 @@ export default {
         sessionStorage.setItem("jwt", data.token);
         sessionStorage.setItem("userId", data.id);
         sessionStorage.setItem("userType", "user");
+
+        const event = new Event("sessionStorageUpdated");
+        window.dispatchEvent(event);
+
         this.$router.push({ name: "TradieList" });
       }
     },

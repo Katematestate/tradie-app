@@ -8,15 +8,15 @@ const me = async (req, res) => {
     try {
       const decoded = jwt.verify(token, process.env.AUTH_SECRET_KEY);
 
-      req.userId = decoded.id;
+      req.businessId = decoded.id;
 
-      const business = Business.findOne({ _id: decoded.id });
+      const business = await Business.findOne({ _id: decoded.id });
       if (!business) {
         throw new Error("Business not found");
       }
 
       return res.status(200).json({
-        message: "authentication successful",
+        message: "authentication successful, lol",
       });
     } catch (error) {
       return res

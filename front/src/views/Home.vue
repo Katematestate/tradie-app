@@ -4,7 +4,7 @@
     <router-link :to="{ name: 'ClientSignup' }"
       >Go to Client Signup</router-link
     >
-    <router-link :to="{ name: 'ClientLogin' }">Go to Client Login</router-link>
+    <router-link :to="{ name: 'Login' }">Go to Client Login</router-link>
   </div>
   <h1>HOME FOOTER AREA</h1>
 </template>

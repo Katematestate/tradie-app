@@ -10,13 +10,13 @@ const me = async (req, res) => {
 
       req.userId = decoded.id;
 
-      const user = User.findOne({ _id: decoded.id });
+      const user = await User.findOne({ _id: decoded.id });
       if (!user) {
         throw new Error("User not found");
       }
 
       return res.status(200).json({
-        message: "authentication successful, lol by the wayt poealses",
+        message: "authentication successful, lol",
       });
     } catch (error) {
       return res

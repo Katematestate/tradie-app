@@ -3,7 +3,6 @@ import { Icon } from "@iconify/vue";
 import Badge from "primevue/badge";
 import Menu from "primevue/menu";
 import { ref } from "vue";
-
 const settingsMenu = ref();
 function toggleSettingsMenu(event) {
   settingsMenu.value.toggle(event);
@@ -73,34 +72,34 @@ export default {
     return {
       userAlerts: [],
       hasNotification: false,
+      userType: "",
+      userId: "",
+      jwt: "",
     };
   },
-  computed: {
-    userType() {
-      return sessionStorage.getItem("userType");
-    },
-    userId() {
-      return sessionStorage.getItem("userId");
-    },
-    jwt() {
-      return sessionStorage.getItem("jwt");
-    },
-  },
+
   methods: {
     async fetchUserOrBusinessAlerts() {
       try {
-        if (this.userType === "not-logged-in") {
+        if (
+          this.userType === "not-logged-in" ||
+          !this.userType ||
+          !this.userId ||
+          !this.jwt
+        ) {
           console.log("not logged in, can't fetch alerts");
           return;
         }
-        const response = await fetch(`/alerts/${this.userType}/${this.userId}`);
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}alerts/${this.userType}/${
+            this.userId
+          }`
+        );
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
 
         const alerts = await response.json();
-
-        // Use the fetched alerts, e.g., assign them to a data property
         this.userAlerts = alerts;
       } catch (error) {
         console.log("Error fetching alerts for user:", error);
@@ -122,10 +121,21 @@ export default {
       this.jwt = null;
       this.$router.push({ name: "Home" });
     },
+    async getSessionStorageData() {
+      this.userId = sessionStorage.getItem("userId");
+      this.userType = sessionStorage.getItem("userType");
+      this.jwt = sessionStorage.getItem("jwt");
+      await this.fetchUserOrBusinessAlerts();
+      this.checkIfUserHasNotification();
+    },
   },
+
   async created() {
-    await this.fetchUserOrBusinessAlerts();
-    this.checkIfUserHasNotification();
+    this.getSessionStorageData();
+    window.addEventListener(
+      "sessionStorageUpdated",
+      this.getSessionStorageData
+    );
   },
 };
 </script>

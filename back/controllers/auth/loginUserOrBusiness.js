@@ -21,7 +21,6 @@ const loginUserOrBusiness = async (req, res) => {
       ? { userId: user._id }
       : { businessId: business._id };
     const storedPassword = await Password.findOne(passwordQuery);
-
     // Compare the provided password with the stored password hash
     const isPasswordMatch = await verifyPassword(password, storedPassword.hash);
     if (!isPasswordMatch) {

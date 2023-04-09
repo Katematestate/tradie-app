@@ -141,7 +141,7 @@ export default {
       ) {
         let name = this.Fname + " " + this.Fname;
 
-        const response = await fetch("http://localhost:4000/users", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}users`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -160,6 +160,8 @@ export default {
           sessionStorage.setItem("jwt", data.token);
           sessionStorage.setItem("userId", data.userId);
           sessionStorage.setItem("userType", "user");
+          const event = new Event("sessionStorageUpdated");
+          window.dispatchEvent(event);
           this.$router.push({ name: "TradieList" });
         }
       } else {

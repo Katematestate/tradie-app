@@ -1,7 +1,5 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
-import DevImg from "../assets/images/dev.jpg";
-
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
@@ -58,9 +56,25 @@ export default {
       businesses_list: [],
       company: "",
       region: "",
-      regions: ref(
-        new Array(20).fill("test region").map((r, i) => `${r} ${i}`)
-      ),
+      regions: ref([
+        "",
+        "Northland",
+        "Auckland",
+        "Waikato",
+        "Bay of Plenty",
+        "Gisborne",
+        "Hawke's Bay",
+        "Taranaki",
+        "Manawatu-Wanganui",
+        "Wellington",
+        "Tasman",
+        "Nelson",
+        "Marlborough",
+        "West Coast",
+        "Canterbury",
+        "Otago",
+        "Southland",
+      ]),
 
       tradiesPerPage: 6,
       tradiesOffset: 0,
@@ -80,7 +94,9 @@ export default {
     async getAllBusinesses() {
       try {
         const response = await fetch(
-          `http://localhost:4000/businesses?businessName=${this.company}&businessLocation=${this.region}&skills=${this.search}`
+          `${import.meta.env.VITE_API_URL}businesses?businessName=${
+            this.company
+          }&businessLocation=${this.region}&skills=${this.search}`
         );
 
         if (!response.ok) {
@@ -88,8 +104,6 @@ export default {
         }
 
         this.businesses_list = await response.json();
-
-        console.log(this.businesses_list);
       } catch (error) {
         console.error("Error fetching businesses:", error);
       }

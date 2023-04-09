@@ -28,9 +28,13 @@ router.delete("/:id", deleteAlert);
 router.put("/:id", updateAlert);
 
 // GET all Alerts containing User's ID
-router.get("/user/:userId", listAlertsByUserOrBusiness);
+router.get("/user/:userId", (req, res) =>
+  listAlertsByUserOrBusiness(req, res, "user")
+);
 
 // GET all Alerts containing Business's ID
-router.get("/business/:businessId", listAlertsByUserOrBusiness);
+router.get("/business/:businessId", (req, res) =>
+  listAlertsByUserOrBusiness(req, res, "business")
+);
 
 module.exports = router;

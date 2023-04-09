@@ -3,7 +3,7 @@ const Alert = require("../../models/Alert");
 const listAlertsByUserOrBusiness = async (req, res, receiverType) => {
   try {
     const id =
-      receiverType === "User" ? req.params.userId : req.params.businessId;
+      receiverType === "user" ? req.params.userId : req.params.businessId;
     const alerts = await Alert.find({
       alertReceiver: id,
       alertReceiverType: receiverType,
