@@ -9,7 +9,10 @@ import Checkbox from "primevue/checkbox";
   <div class="client-signup">
     <div class="margin1 flex">
       <div class="links-div">
-        <router-link to="/" class="spacing-large link">Go to Home</router-link>
+        <router-link :to="{ name: 'Home' }" class="spacing-large link"
+          >Go to Home</router-link
+        >
+
       </div>
     </div>
 
@@ -27,7 +30,8 @@ import Checkbox from "primevue/checkbox";
             <InputText
               v-model="Fname"
               class="input-class-box"
-              label="First Name"
+              placeholder="First Name"
+
             />
           </div>
 
@@ -36,55 +40,75 @@ import Checkbox from "primevue/checkbox";
             <InputText
               v-model="Lname"
               class="input-class-box"
-              label="Last Name"
+              placeholder="Last Name"
             />
           </div>
 
-          <div class="spacing-standard">
+          <!-- i think don't need location and this might be too hard to implement to show businesses near the client 
+            (for now the client just filters manually through tradies on the tradies list page) so we dont need this i think - Merlin -->
+
+          <!-- <div class="spacing-standard">
+
             <p>Location</p>
             <InputText
               v-model="location"
               class="input-class-box align-items-center"
-              label="Location"
+              placeholder="Location"
             />
-          </div>
+          </div> -->
 
           <div class="spacing-standard">
             <p>Email</p>
-            <InputText v-model="email" class="input-class-box" label="Email" />
+            <InputText
+              v-model="email"
+              class="input-class-box"
+              placeholder="Email"
+            />
+     
           </div>
 
           <div class="spacing-standard">
             <p>Password</p>
             <InputText
               v-model="password"
+              type="password"
               class="input-class-box"
-              label="Password"
+              placeholder="Password"
             />
           </div>
 
           <div class="spacing-standard">
             <p>Confirm Password</p>
-            <InputText class="input-class-box" label="Confirm Password" />
+            <InputText
+              v-model="confirmPassword"
+              type="password"
+              class="input-class-box"
+              placeholder="Confirm Password"
+            />
           </div>
         </div>
 
         <div class="checkbox-container">
           <div class="spacing-standard flex-row">
-            <Checkbox class="" v-model="tos_concent" />
+            <Checkbox class="" v-model="tos_consent" />
+
             <p>Do You Consent To The Terms Of Service</p>
           </div>
         </div>
 
         <div class="checkbox-container">
           <div class="spacing-standard flex-row">
-            <Checkbox class="" v-model="email_concent" />
+            <Checkbox class="" v-model="email_consent" />
             <p>Do You Concent To Recieving Emails From Find A Tradie</p>
           </div>
         </div>
 
         <div class="checkbox-container">
           <div class="spacing-standard">
+            <!-- merlin fake button to test -->
+            <button @click="createNewUser">
+              create new user (merlin fake button delete when import kelsie)
+            </button>
             <p>Insert Kelsie's Button Here</p>
           </div>
         </div>
@@ -98,12 +122,58 @@ import Checkbox from "primevue/checkbox";
 <script>
 export default {
   data() {
-    // data itself starts
     return {
-      // data variables starts
-    }; // data variables end
-  }, // data itself ends
-  methods: {},
+      Fname: "",
+      Lname: "",
+      // location: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      tos_consent: true,
+      email_consent: true,
+    };
+  },
+  methods: {
+    async createNewUser() {
+      if (
+        this.tos_consent &&
+        this.email_consent &&
+        (this.Fname || this.Lname) &&
+        this.email &&
+        this.password &&
+        this.confirmPassword &&
+        this.password === this.confirmPassword
+      ) {
+        let name = this.Fname + " " + this.Fname;
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}users`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            name,
+            email: this.email,
+            password: this.password,
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+
+        if (data.token && data.userId) {
+          sessionStorage.setItem("jwt", data.token);
+          sessionStorage.setItem("userId", data.userId);
+          sessionStorage.setItem("userType", "user");
+          const event = new Event("sessionStorageUpdated");
+          window.dispatchEvent(event);
+          this.$router.push({ name: "TradieList" });
+        }
+      } else {
+        console.log("incorrect inputs try again");
+      }
+    },
+  },
 };
 </script>
 

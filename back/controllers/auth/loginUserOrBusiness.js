@@ -21,7 +21,6 @@ const loginUserOrBusiness = async (req, res) => {
       ? { userId: user._id }
       : { businessId: business._id };
     const storedPassword = await Password.findOne(passwordQuery);
-
     // Compare the provided password with the stored password hash
     const isPasswordMatch = await verifyPassword(password, storedPassword.hash);
     if (!isPasswordMatch) {
@@ -32,7 +31,10 @@ const loginUserOrBusiness = async (req, res) => {
       { id: user?.id ?? business.id },
       process.env.AUTH_SECRET_KEY
     );
-    res.json({ token });
+    res.json({
+      token,
+      id: user?.id ?? business.id,
+    });
   } catch (error) {
     console.error("Error in loginUserOrBusiness:", error);
     res.status(500).json({ message: "Error logging in user or business." });

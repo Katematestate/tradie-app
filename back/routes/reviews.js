@@ -1,36 +1,31 @@
 const express = require("express");
 const router = express.Router();
 
-const { listReviews, createReview, getReview, updateReview, deleteReview, getReviewsByUser } = require('../controllers/review');
+const {
+  listReviews,
+  createReview,
+  getReview,
+  updateReview,
+  deleteReview,
+  getReviewsByUser,
+} = require("../controllers/review");
 
 // GET All Reviews
-router.get('/', async (req, res) => {
-    listReviews(req, res);
-});
+router.get("/", listReviews);
 
 // POST new Review
-router.post('/', async (req, res) => {
-    await createReview(req, res);
-});
+router.post("/", createReview);
 
 // GET (single) Review by ID
-router.get('/:id', async (req, res) => {
-    getReview(req, res);
-});
+router.get("/:id", getReview);
 
 // UPDATE a Review by ID
-router.put('/:id', async (req, res) => {
-    updateReview(req, res);
-});
+router.put("/:id", updateReview);
 
 // DELETE a Review by ID
-router.delete('/:id', async (req, res) => {
-    deleteReview(req, res);
-});
+router.delete("/:id", deleteReview);
 
 // GET Reviews by User ID
-router.get('/user/:id', async (req, res) => {
-    getReviewsByUser(req, res);
-});
+router.get("/user/:id", getReviewsByUser);
 
 module.exports = router;

@@ -1,149 +1,24 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
+
 import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
 import ClientQuoteRequestDialog from "./dialogs/ClientQuoteRequestDialog.vue";
-
 import Button from "../components/Button.vue";
+
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import Paginator from "primevue/paginator";
 import DevImg from "../assets/images/dev.jpg";
 import { ref } from "vue";
-
 import { useDialog } from "primevue/usedialog";
-</script>
-
-<script>
-export default {
-  data() {
-    return {
-      businesses_list: [],
-      region: ref(""),
-      regions: ref(
-        new Array(20).fill("test region").map((r, i) => `${r} ${i}`)
-      ),
-
-      tradiesPerPage: 6,
-      tradiesOffset: 0,
-      dialog: useDialog(),
-      openDialog: null,
-    };
-  },
-  computed: {
-    pagedTradiesSlice() {
-      return this.businesses_list.slice(
-        this.tradiesOffset,
-        this.tradiesOffset + this.tradiesPerPage
-      );
-    },
-  },
-  methods: {
-    async getAllBusinesses() {
-      try {
-        throw ""; // Test throw to avoid waiting for fetch to resolve
-        const response = await fetch("http://localhost:4000/businesses/");
-
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
-
-        const received_data = await response.json();
-        return received_data;
-      } catch (error) {
-        console.error("Error fetching businesses:", error);
-        return [
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: true,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: true,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-        ];
-      }
-    },
-
-    quote(id) {
-      this.dialog.open(ClientQuoteRequestDialog, {
-        props: { header: "Job Request Form", modal: true },
-      });
-    },
-
-    viewMore(id) {
-      this.openDialog = this.dialog.open(TradieInfoDialog, {
-        props: { header: "Electro Lights LTD", modal: true },
-        emits: {
-          onQuote: (e) => {
-            this.openDialog.close();
-            this.quote(e);
-          },
-          onViewSite: () => {
-            this.openDialog.close();
-          },
-        },
-      });
-    },
-  },
-  async created() {
-    this.businesses_list = (await this.getAllBusinesses()) || [];
-    console.log(this.businesses_list);
-  },
-};
 </script>
 
 <template>
   <section class="looking-for-tradie">
     <h1>Looking for a Tradie</h1>
-    <form class="tradie-search">
+    <form class="tradie-search" @submit.prevent="getAllBusinesses">
       <div class="config">
-        <InputText label="Company" />
+        <InputText placeholder="Company" v-model="company" />
         <Dropdown v-model="region" :options="regions" placeholder="Region" />
       </div>
       <span class="search-instruct"
@@ -152,9 +27,9 @@ export default {
       <div class="search-keywords">
         <div class="p-input-icon-left">
           <i class="pi pi-search" />
-          <InputText label="Search" />
+          <InputText placeholder="Search" v-model="search" />
         </div>
-        <Button label="Find a Tradie" />
+        <Button @click="getAllBusinesses" type="submit">Find a Tradie</Button>
       </div>
     </form>
   </section>
@@ -165,8 +40,8 @@ export default {
       <TradieCard
         v-for="tradie in pagedTradiesSlice"
         v-bind="tradie"
-        @quote="quote(tradie.id)"
-        @viewMore="viewMore(tradie.id)"
+        @quote="quote(tradie._id)"
+        @viewMore="viewMore(tradie._id)"
       />
     </div>
   </section>
@@ -183,7 +58,211 @@ export default {
       <Button label="Tradie Signup" />
     </div>
   </section>
+  {{ user }}
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      businesses_list: [],
+      company: "",
+      region: "",
+      regions: ref([
+        "",
+        "Northland",
+        "Auckland",
+        "Waikato",
+        "Bay of Plenty",
+        "Gisborne",
+        "Hawke's Bay",
+        "Taranaki",
+        "Manawatu-Wanganui",
+        "Wellington",
+        "Tasman",
+        "Nelson",
+        "Marlborough",
+        "West Coast",
+        "Canterbury",
+        "Otago",
+        "Southland",
+      ]),
+
+      tradiesPerPage: 6,
+      tradiesOffset: 0,
+      dialog: useDialog(),
+      search: "",
+
+      userType: "",
+      userId: "",
+      jwt: "",
+
+      user: {},
+    };
+  },
+  computed: {
+    pagedTradiesSlice() {
+      return this.businesses_list.slice(
+        this.tradiesOffset,
+        this.tradiesOffset + this.tradiesPerPage
+      );
+    },
+  },
+  methods: {
+    async getAllBusinesses() {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses?businessName=${
+            this.company
+          }&businessLocation=${this.region}&skills=${this.search}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        this.businesses_list = await response.json();
+        console.log(this.businesses_list);
+      } catch (error) {
+        console.error("Error fetching businesses:", error);
+        // return [
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: true,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: true,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        // ];
+      }
+    },
+
+    quote(id) {
+      console.log(this.userId && this.userType && this.jwt);
+      if (this.userId && this.userType && this.jwt && this.user) {
+        const business = this.businesses_list.find((item) => item._id === id);
+
+        this.dialog.open(ClientQuoteRequestDialog, {
+          props: { header: "Job Request Form", modal: true },
+          data: {
+            business,
+            user: this.user,
+          },
+        });
+      } else {
+        console.log("not logged in. login first");
+        window.alert("please login prompt");
+      }
+    },
+
+    viewMore(id) {
+      const business = this.businesses_list.find((item) => item._id === id);
+      console.log(business);
+      this.openDialog = this.dialog.open(TradieInfoDialog, {
+        data: {
+          business,
+        },
+        props: {
+          header: business.businessName,
+          modal: true,
+        },
+        emits: {
+          onQuote: (e) => {
+            this.openDialog.close();
+            this.quote(e);
+          },
+          onViewSite: () => {
+            this.openDialog.close();
+            window.open(business.businessWebsite, "_blank", "noreferrer");
+          },
+        },
+      });
+    },
+    async getClientData() {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}users/${this.userId}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${this.jwt}` },
+          }
+        );
+        const user = await response.json();
+        this.user = user;
+        return user;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getSessionStorageData() {
+      this.userId = sessionStorage.getItem("userId");
+      this.userType = sessionStorage.getItem("userType");
+      this.jwt = sessionStorage.getItem("jwt");
+
+      if (
+        this.userId &&
+        this.userType &&
+        this.jwt &&
+        this.userType === "user"
+      ) {
+        // fetch client data
+        await this.getClientData();
+      }
+    },
+  },
+  async created() {
+    await this.getAllBusinesses();
+    this.getSessionStorageData();
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .looking-for-tradie {
