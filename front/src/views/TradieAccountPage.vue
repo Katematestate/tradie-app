@@ -1,106 +1,68 @@
 <script setup>
 import Carousel from "primevue/carousel";
-
-const carouselItems = [
-  {
-    job: "Wall Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-  {
-    job: "Broken Door",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 2,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Broken Fence",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Kitchen Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-];
+import TestCompanyImage from "../assets/images/Victoria-Mitchell-11 1.png";
+import TestCompanyLogo from "../assets/images/tradie-landing.png";
+import BackToLink from "../components/BackToLink.vue";
+import Rating from "primevue/rating";
 </script>
 
 <template>
   <div class="info-section">
-    <h1>Business Profile</h1>
-    <div class="info-flex">
+    <BackToLink :to="{ name: 'LandingPage' }" label="Back to Home" />
+    <h1 class="text-center">Business Profile</h1>
+    <div class="flex gap-4 justify-content-center">
       <div class="info-image-flex">
         <img :src="businessData.companyImage" />
         <h4>{{ businessData.businessName }}</h4>
-        <p>Overal Rating</p>
+        <p class="flex gap-5">
+          Overall Rating :
+          <Rating :model-value="businessData.rating" :cancel="false" />
+        </p>
       </div>
 
-      <div class="info-text">
-        <img :src="businessData.companyLogo" />
-        <h4>Phone: {{ businessData.businessPhoneNumber }}</h4>
-        <h4>Location: {{ businessData.businessLocation }}</h4>
-        <h4>Website: {{ businessData.businessWebsite }}</h4>
+      <div class="info-text flex flex-column gap-1">
+        <img height="80" :src="businessData.companyLogo" />
+        <strong class="user-name h4">?? User data ??</strong>
+        <strong>Phone: {{ businessData.businessPhoneNumber }}</strong>
+        <strong>Location: {{ businessData.businessLocation }}</strong>
+        <strong>Website: {{ businessData.businessWebsite }}</strong>
         <p>
           {{ businessData.businessDescription }}
         </p>
-        <div class="info-section">
-          <h4>Company Image</h4>
-          <img
-            class="info-section-company"
-            src="../assets/images/Victoria-Mitchell-11 1.png"
-          />
-          <h5>import image button</h5>
-          <h5>Comfirm Password</h5>
-          <input
-            class="input-class"
-            v-model="message"
-            label="Comfirm Password"
-          />
-        </div>
       </div>
     </div>
   </div>
   <div class="review-section">
-    <h2>Reviews</h2>
-    <router-view></router-view>
+    <h2 class="text-center">Reviews</h2>
 
-    <Carousel :value="carouselItems" :num-visible="2" :num-scroll="1">
-      <div v-for="pastWork in businessData.pastWorks">
+    <Carousel :value="businessData.pastWorks" :num-visible="2" :num-scroll="1">
+      <template #item="sp">
         <div class="job-review">
           <!-- <div>{{ slotProps.data.job }}</div> -->
+          <div class="review-card">
+            <div class="review-photos flex gap-5">
+              <div class="review-photo">
+                <span>Before</span>
+                <img class="border-edge" :src="sp.data.beforePhoto" />
+              </div>
 
-          <div class="review-photos">
-            <div class="review-photo">
-              <span>Before Photo</span>
-              <img :src="pastWork.beforePhoto" />
+              <div class="review-photo">
+                <span>After</span>
+                <img class="border-edge" :src="sp.data.afterPhoto" />
+              </div>
             </div>
 
-            <div class="review-photo">
-              <span>After Photo</span>
-              <img :src="pastWork.afterPhoto" />
+            <div class="review-info flex gap-5">
+              <div>
+                Job Rated:
+                <i v-for="_ in sp.data.rating" class="pi pi-star-fill"></i>
+              </div>
+
+              <div>By: {{ sp.data.author }}</div>
             </div>
           </div>
         </div>
-
-        <div class="review-info">
-          <div>
-            Job Rated:
-            <i v-for="_ in slotProps.data.rating" class="pi pi-star-fill"></i>
-          </div>
-
-          <div>By: {{ slotProps.data.author }}</div>
-        </div>
-      </div>
+      </template>
     </Carousel>
   </div>
 </template>
@@ -110,7 +72,47 @@ export default {
   data() {
     return {
       userId: sessionStorage.getItem("userId"),
-      businessData: null,
+      businessData: {
+        rating: 4,
+        companyImage: TestCompanyImage,
+        companyLogo: TestCompanyLogo,
+        businessPhoneNumber: 12345,
+        businessLocation: "A place somewhere",
+        businessWebsite: "www.nowhere.com",
+        businessDescription: "A business",
+        pastWorks: [
+          {
+            job: "Wall Renovation",
+            beforeImage: "stairs",
+            afterImage: "better stairs",
+            rating: 4,
+            author: "Guy Gregs",
+          },
+          {
+            job: "Broken Door",
+            beforeImage: "stairs",
+            afterImage: "better stairs",
+            rating: 2,
+            author: "Guy Gregs",
+          },
+
+          {
+            job: "Broken Fence",
+            beforeImage: "stairs",
+            afterImage: "better stairs",
+            rating: 4,
+            author: "Guy Gregs",
+          },
+
+          {
+            job: "Kitchen Renovation",
+            beforeImage: "stairs",
+            afterImage: "better stairs",
+            rating: 4,
+            author: "Guy Gregs",
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -160,39 +162,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.info-image-flex img {
-  height: 20em;
-  width: 30em;
-  border-radius: 5%;
+.info-section {
+  padding: var(--spacing-large);
+}
+.info-text {
+  font-family: var(--font-secondary);
 }
 
-.info-text img {
-  height: 5em;
-  width: 15em;
-  border-radius: 5%;
-}
-
-.info-flex {
-  display: flex;
-  flex-direction: row;
-  gap: 5%;
-  padding: 3%;
-}
-.info-text h4 {
-  margin: 0%;
-  padding: 1%;
-}
 .job-review {
-  display: flex;
-  flex-flow: nowrap column;
-  align-items: stretch;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
 }
-.review-photo img {
-  width: 15em;
-  height: 20em;
+
+.review-card {
+  padding: var(--spacing-standard);
+  border-radius: var(--border-radius-standard);
+  background-color: var(--color-shade);
 }
-.review-photos {
-  display: flex;
-  flex-direction: row;
+
+.border-edge {
+  border-radius: var(--border-radius-standard);
 }
 </style>

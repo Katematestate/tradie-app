@@ -9,7 +9,7 @@ import Checkbox from "primevue/checkbox";
   <div class="client-login">
     <div class="margin1 flex">
       <div class="links-div">
-        <router-link :to="{ name: 'Home' }" class="spacing-large link"
+        <router-link :to="{ name: 'LandingPage' }" class="spacing-large link"
           >Go to Home</router-link
         >
       </div>

@@ -57,18 +57,13 @@ const routes = [
     path: "/tradie/account",
     name: "TradieAccountPage",
     component: TradieAccountPage,
-    beforeEnter: businessAuth,
+    // beforeEnter: businessAuth,
   },
   {
     path: "/tradie/account/edit",
     name: "TradieAccountEdit",
     component: TradieAccountEdit,
     beforeEnter: businessAuth,
-  },
-  {
-    path: "/TradieAccountPage",
-    name: "TradieAccountPage",
-    component: TradieAccountPage,
   },
 
   // add more routes here
