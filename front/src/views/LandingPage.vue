@@ -1,26 +1,27 @@
 <template>
   <div class="landing">
+    <img class="back-splash" src="../assets/images/tradie-landing.png" />
+    <div class="solid-background"></div>
     <div class="client-landing">
-      <h2>Looking for a tradie?</h2>
-      <div class="button-flex">
-        <h5>import button here</h5>
-        <h5>import button here</h5>
+      <h1>Looking for a tradie?</h1>
+      <div class="button-flex gap-4">
+        <Button label="Client Signup" />
+        <Button label="View Tradie List" type="secondary" />
       </div>
     </div>
-    <div class="tradie-landing">
-      <h2>Are you a tradie?</h2>
-      <div class="button-flex">
-        <h5>import button here</h5>
-        <h5>import button here</h5>
+    <div class="tradie-landing flex flex-column">
+      <h1>Are you a tradie?</h1>
+      <div>
+        <Button label="Tradie Signup" />
       </div>
     </div>
   </div>
 
-  <div class="how-it-works">
-    <h2>How find a tradie works</h2>
+  <div class="how-it-works flex flex-column">
+    <h1>How find a tradie works</h1>
     <div class="works-grid">
-      <div class="rated-line-flex">
-        <div class="works-info">
+      <div class="rated-line flex">
+        <div class="works-info line-after">
           <h4>1. Tell us what you need</h4>
           <div class="icons">
             <Icon icon="mdi:account-help" />
@@ -30,11 +31,10 @@
             go straight to view all of the tradies on the app.
           </p>
         </div>
-        <div class="vl"></div>
       </div>
 
-      <div class="rated-line-flex">
-        <div class="works-info">
+      <div class="rated-line flex">
+        <div class="works-info line">
           <h4>2.View tradies</h4>
           <div class="icons">
             <Icon icon="fa6-solid:person-digging" />
@@ -43,11 +43,10 @@
             View the list of qualified tradies who suite the job you need done.
           </p>
         </div>
-        <div class="vl"></div>
       </div>
 
-      <div class="rated-line-flex">
-        <div class="works-info">
+      <div class="rated-line flex">
+        <div class="works-info line">
           <h4>3. Send a job request</h4>
           <div class="icons">
             <Icon icon="mdi:paper-edit" />
@@ -56,126 +55,197 @@
         </div>
       </div>
     </div>
-    <div class="vl"></div>
   </div>
 
   <div class="top-rated-section">
     <div class="top-rated-header">
-      <h2>Top rated tradies</h2>
+      <h1>Top rated tradies</h1>
       <h4>Discover more weekly</h4>
     </div>
     <div class="rated-grid">
-      <div class="rated-line-flex">
-        <div class="rated-info">
+      <div class="rated-line flex">
+        <div class="rated-info line-after">
           <img src="../assets/images/tradie-1.png" />
 
           <h4>Bob's Fencer</h4>
           <p>
-            ptent taciti sociosqu ad litora torquent per conubia nostra, per
-            inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac
-            scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac
-            rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi
-            convallis convallis diam sit amet lacinia. Aliquam in elementum
-            tellus.
+            Great service. This is the second time I have contacted this company
+            for jobs and both times have been hassle free with excellent
+            tradespeople.
           </p>
           <br />
           <h5>- Larry</h5>
         </div>
-        <div class="vl"></div>
       </div>
-      <div class="rated-line-flex">
-        <div class="rated-info">
+      <div class="rated-line flex">
+        <div class="rated-info line">
           <img src="../assets/images/tradie-2.png" />
           <h4>Builders Crack</h4>
           <p>
-            ptent taciti sociosqu ad litora torquent per conubia nostra, per
-            inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac
-            scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac
-            rhoncus nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi
-            convallis convallis diam sit amet lacinia. Aliquam in elementum
-            tellus.
+            It took months, the weather was appalling but the outcome was
+            pleasing. We're both happy with Builders Crack. The Tradie was very
+            professional and personable, we're happy with the job, we would
+            definitely recommend this company.
           </p>
           <br />
           <h5>- Barry</h5>
         </div>
-        <div class="vl"></div>
       </div>
 
-      <div class="rated-info">
+      <div class="rated-info line">
         <img src="../assets/images/tradie-3.png" />
         <h4>Electro Lights</h4>
         <p>
-          ptent taciti sociosqu ad litora torquent per conubia nostra, per
-          inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac
-          scelerisque ante pulvinar. Donec ut rhoncus ex. Suspendisse ac rhoncus
-          nisl, eu tempor urna. Curabitur vel bibendum lorem. Morbi convallis
-          convallis diam sit amet lacinia. Aliquam in elementum tellus.
+          Electro Lights is amazing, they are so professional. We had to get a
+          new lighting system in a hurry . . . nothing was too much trouble and
+          very good prices. Heather and her team are such lovely people and made
+          a stressful time so much easier. Thank you very much Electro Lights
+          will definitely be using you again.
         </p>
         <br />
         <h5>- Harry</h5>
       </div>
     </div>
 
-    <div class="view-button">
-      <Button label="View button" type="button.cta" />
+    <div class="view-button flex justify-content-end">
+      <Button label="View Tradies" />
     </div>
   </div>
-
-  <!-- <div class="member">
-    <h2>Become a member</h2>
-    <div class="member-button">
-      <Button label="Client Signup" type="button.cta" />
-      <Button label="Tradie  Signup" type="button.cta" />
-    </div>
-  </div> -->
 </template>
 
 <style scoped lang="scss">
+h1 {
+  margin: 0 0 var(--spacing-large);
+}
 .landing {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  isolation: isolate;
+  position: relative;
   width: 100%;
   height: 30em;
+  overflow: hidden;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+.back-splash {
+  position: absolute;
+  height: 65%;
+  z-index: -2;
+  bottom: 0;
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+.solid-background {
+  $offset: 50vw;
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-primary);
+  background: linear-gradient(
+    50deg,
+    transparent $offset,
+    var(--color-primary) calc($offset + 1px)
+  );
+  z-index: -1;
+
+  @media (max-width: 1460px) {
+    $offset: 60vw;
+    background: linear-gradient(
+      70deg,
+      transparent $offset,
+      var(--color-primary) calc($offset + 1px)
+    );
+  }
+
+  @media (max-width: 600px) {
+    background: var(--color-primary);
+  }
 }
 .client-landing {
-  background-image: url("../assets/images/tradie-landing.png");
+  align-items: flex-end;
   width: 100%;
+  padding: 32px 64px;
+
+  @media (max-width: 1090px) {
+    padding: 32px;
+  }
+  @media (max-width: 600px) {
+    text-align: center;
+    color: var(--color-primary-text);
+    padding: var(--spacing-standard);
+  }
 }
 .tradie-landing {
-  background-color: var(--color-primary);
+  align-items: flex-end;
+  color: var(--color-primary-text);
   width: 100%;
+  padding: 32px 64px;
+
+  @media (max-width: 1090px) {
+    padding: 32px;
+  }
+  @media (max-width: 600px) {
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-standard);
+  }
 }
 .button-flex {
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
-.landing {
-  display: flex;
-  flex-direction: row;
-  padding-right: 5%;
-  padding-left: 5%;
+
+.how-it-works {
+  text-align: center;
+  padding-top: var(--spacing-large);
+
+  h1 {
+    margin: 0;
+  }
 }
 .works-info {
   display: flex;
   flex-direction: column;
-}
+  padding: var(--spacing-small);
 
-// needs media query for grid
+  h4 {
+    text-align: center;
+  }
+}
 .works-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-standard);
-  padding-right: 5%;
-  padding-left: 5%;
+  padding-right: var(--spacing-standard);
+  padding-left: var(--spacing-standard);
+  margin: var(--spacing-large);
+
+  @media (max-width: 425px) {
+    grid-template-columns: 1fr;
+  }
 }
-.works-info {
-  padding: 2%;
+
+.line {
+  border-left: 2px solid black;
+
+  @media (max-width: 425px) {
+    border-left: 0;
+    border-bottom: 2px solid black;
+  }
 }
-.how-it-works {
-  padding: 3%;
-}
-.how-it-works h2 {
-  text-align: center;
+
+.line-after {
+  @media (max-width: 425px) {
+    border-bottom: 2px solid black;
+  }
 }
 .rated-grid img {
   border-radius: 5%;
@@ -189,6 +259,10 @@
   gap: var(--spacing-standard);
   padding-right: 5%;
   padding-left: 5%;
+
+  @media (max-width: 425px) {
+    grid-template-columns: 1fr;
+  }
 }
 .top-rated-section {
   padding: 3%;
@@ -197,22 +271,17 @@
 .top-rated-header {
   text-align: center;
 }
+
+h4 {
+  margin: 0 0 var(--spacing-large);
+}
 .rated-info h5 {
   text-align: right;
+  margin: 0;
 }
 .rated-info {
   padding: 5%;
-}
-.vl {
-  border-left: 2px solid black;
-  height: 100%;
-}
-.rated-line-flex {
-  display: flex;
-  flex-direction: row;
-}
-.view-button {
-  padding-left: 80%;
+  margin-bottom: var(--spacing-standard);
 }
 .icons svg {
   width: 6em;
@@ -224,17 +293,6 @@
 .works-info p {
   text-align: left;
 }
-// .member-button {
-//   display: flex;
-//   flex-direction: row;
-//   gap: 5%;
-// }
-// .member {
-//   padding: 5%;
-//   background-image: url(../assets/images/member-background.png);
-//   color: var(--color-brand-text);
-//   height: 15em;
-// }
 </style>
 
 <script setup>
