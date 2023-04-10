@@ -1,122 +1,84 @@
 <script setup>
 import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox";
+import Button from "primevue/button";
+import BackToLink from "../components/BackToLink.vue";
 </script>
 
 <template>
-  <h1>THIS IS HEADER</h1>
-
-  <div class="client-signup">
-    <div class="margin1 flex">
-      <div class="links-div">
-        <router-link :to="{ name: 'Home' }" class="spacing-large link"
-          >Go to Home</router-link
-        >
-
-      </div>
+  <section class="client-signup flex flex-column">
+    <div class="links-div flex-end">
+      <BackToLink :to="{ name: 'LandingPage' }" label="Go To Home" />
     </div>
 
-    <div class="flex">
-      <div class="flex-col">
-        <div class="heading-container">
-          <div class="spacing-large align-items-center">
-            <h1>Sign Up</h1>
-          </div>
+    <div class="heading-container flex flex-column align-items-center">
+      <h1>Sign Up</h1>
+
+      <div class="text-box-container flex flex-column">
+        <div class="spacing-small">
+          <h5>First Name</h5>
+          <InputText
+            v-model="Fname"
+            class="input-class-box"
+            placeholder="First Name"
+          />
         </div>
 
-        <div class="text-box-container">
-          <div class="spacing-standard">
-            <p>First Name</p>
-            <InputText
-              v-model="Fname"
-              class="input-class-box"
-              placeholder="First Name"
-
-            />
-          </div>
-
-          <div class="spacing-standard">
-            <p>Last Name</p>
-            <InputText
-              v-model="Lname"
-              class="input-class-box"
-              placeholder="Last Name"
-            />
-          </div>
-
-          <!-- i think don't need location and this might be too hard to implement to show businesses near the client 
-            (for now the client just filters manually through tradies on the tradies list page) so we dont need this i think - Merlin -->
-
-          <!-- <div class="spacing-standard">
-
-            <p>Location</p>
-            <InputText
-              v-model="location"
-              class="input-class-box align-items-center"
-              placeholder="Location"
-            />
-          </div> -->
-
-          <div class="spacing-standard">
-            <p>Email</p>
-            <InputText
-              v-model="email"
-              class="input-class-box"
-              placeholder="Email"
-            />
-     
-          </div>
-
-          <div class="spacing-standard">
-            <p>Password</p>
-            <InputText
-              v-model="password"
-              type="password"
-              class="input-class-box"
-              placeholder="Password"
-            />
-          </div>
-
-          <div class="spacing-standard">
-            <p>Confirm Password</p>
-            <InputText
-              v-model="confirmPassword"
-              type="password"
-              class="input-class-box"
-              placeholder="Confirm Password"
-            />
-          </div>
+        <div class="spacing-small">
+          <h5>Last Name</h5>
+          <InputText
+            v-model="Lname"
+            class="input-class-box"
+            placeholder="Last Name"
+          />
         </div>
 
-        <div class="checkbox-container">
-          <div class="spacing-standard flex-row">
-            <Checkbox class="" v-model="tos_consent" />
-
-            <p>Do You Consent To The Terms Of Service</p>
-          </div>
+        <div class="spacing-small">
+          <h5>Email</h5>
+          <InputText
+            v-model="email"
+            class="input-class-box"
+            placeholder="Email"
+          />
         </div>
 
-        <div class="checkbox-container">
-          <div class="spacing-standard flex-row">
-            <Checkbox class="" v-model="email_consent" />
-            <p>Do You Concent To Recieving Emails From Find A Tradie</p>
-          </div>
+        <div class="spacing-small">
+          <h5>Password</h5>
+          <InputText
+            v-model="password"
+            type="password"
+            class="input-class-box"
+            placeholder="Password"
+          />
         </div>
 
-        <div class="checkbox-container">
-          <div class="spacing-standard">
-            <!-- merlin fake button to test -->
-            <button @click="createNewUser">
-              create new user (merlin fake button delete when import kelsie)
-            </button>
-            <p>Insert Kelsie's Button Here</p>
-          </div>
+        <div class="spacing-small">
+          <h5>Confirm Password</h5>
+          <InputText
+            v-model="confirmPassword"
+            type="password"
+            class="input-class-box"
+            placeholder="Confirm Password"
+          />
         </div>
       </div>
-    </div>
-  </div>
 
-  <h1>CLIENT SIGN UP FOOTER AREA</h1>
+      <div class="checkbox-container flex flex-column align-items-start gap-2">
+        <div class="flex gap-2">
+          <Checkbox class="" v-model="tos_consent" />
+          <p>Do You Consent To The Terms Of Service</p>
+        </div>
+        <div class="flex gap-2">
+          <Checkbox class="" v-model="email_consent" />
+          <p>Do You Concent To Receiving Emails From Find A Tradie</p>
+        </div>
+      </div>
+
+      <div class="spacing-small create-user">
+        <Button @click="createNewUser"> Create New User </Button>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -178,63 +140,36 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h5,
 p {
   margin: 0;
-  font-family: var(--font-secondary);
-}
-h1 {
-  font-family: var(--font-main);
-}
-.heading-container {
-  max-width: 800px;
-  margin: 0 auto;
 }
 .text-box-container {
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
+  gap: var(--spacing-standard);
+
+  @media (max-width: 425px) {
+    padding: 0 var(--spacing-standard);
+  }
 }
 .checkbox-container {
   max-width: 500px;
   margin: 0 auto;
-}
-// .align-items-center{
-//     align-items: center;
-// }
-.link {
-  color: black;
+  padding: var(--spacing-standard);
 }
 
 .input-class-box {
   border-radius: 5px;
   border: none;
-  // padding-top: 3%;
-  // padding-left: 3% ;
-  // padding-right: 5%;
-  // padding-bottom: 10%;
-  background-color: #eeeeee;
+  background-color: var(--color-shade);
+  color: var(--color-shade-text);
   width: 100%;
 }
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-}
-.flex-col {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.flex {
-  display: flex;
-  flex: 1;
-  border: 3px solid cyan;
-}
-.spacing-small {
-  padding-bottom: var(--spacing-small);
-}
-.spacing-standard {
-  padding-bottom: var(--spacing-standard);
+
+.create-user {
+  margin-bottom: var(--spacing-large);
 }
 .spacing-large {
   margin: var(--spacing-large);
