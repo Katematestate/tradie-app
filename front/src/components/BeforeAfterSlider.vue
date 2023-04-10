@@ -3,7 +3,7 @@ import { Icon } from "@iconify/vue";
 import { computed } from "@vue/reactivity";
 import { ref } from "vue";
 
-defineProps({ beforeImage: String, afterImage: String, height: String });
+defineProps({ beforePhoto: String, afterPhoto: String, height: String });
 
 const slider = ref(80);
 const clipPath = computed(() => {
@@ -17,8 +17,8 @@ const barPos = computed(() => {
 <template>
   <!-- :style="height ? `height: ${height}` : 'height: auto'" -->
   <div class="before-after">
-    <img class="before-img" :style="clipPath" :src="beforeImage" />
-    <img class="after-img" :src="afterImage" />
+    <img class="before-img" :style="clipPath" :src="beforePhoto" />
+    <img class="after-img" :src="afterPhoto" />
     <div class="slide-bar" :style="barPos">
       <span
         class="slide-thumb flex align-items-center justify-content-center icon-size-3"
@@ -31,6 +31,11 @@ const barPos = computed(() => {
 </template>
 
 <style scoped lang="scss">
+// added this img class to make the images not be different height
+// im not sure of the best approach here - merlin
+img {
+  height: 300px;
+}
 .before-after {
   display: flex;
   position: relative;

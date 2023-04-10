@@ -29,7 +29,7 @@ import { useDialog } from "primevue/usedialog";
           <i class="pi pi-search" />
           <InputText placeholder="Search" v-model="search" />
         </div>
-        <Button type="submit">Find a Tradie</Button>
+        <Button @click="getAllBusinesses" type="submit">Find a Tradie</Button>
       </div>
     </form>
   </section>
@@ -58,6 +58,7 @@ import { useDialog } from "primevue/usedialog";
       <Button label="Tradie Signup" />
     </div>
   </section>
+  {{ user }}
 </template>
 
 <script>
@@ -91,6 +92,12 @@ export default {
       tradiesOffset: 0,
       dialog: useDialog(),
       search: "",
+
+      userType: "",
+      userId: "",
+      jwt: "",
+
+      user: {},
     };
   },
   computed: {
@@ -178,14 +185,34 @@ export default {
     },
 
     quote(id) {
-      this.dialog.open(ClientQuoteRequestDialog, {
-        props: { header: "Job Request Form", modal: true },
-      });
+      console.log(this.userId && this.userType && this.jwt);
+      if (this.userId && this.userType && this.jwt && this.user) {
+        const business = this.businesses_list.find((item) => item._id === id);
+
+        this.dialog.open(ClientQuoteRequestDialog, {
+          props: { header: "Job Request Form", modal: true },
+          data: {
+            business,
+            user: this.user,
+          },
+        });
+      } else {
+        console.log("not logged in. login first");
+        window.alert("please login prompt");
+      }
     },
 
     viewMore(id) {
+      const business = this.businesses_list.find((item) => item._id === id);
+      console.log(business);
       this.openDialog = this.dialog.open(TradieInfoDialog, {
-        props: { header: "Electro Lights LTD", modal: true },
+        data: {
+          business,
+        },
+        props: {
+          header: business.businessName,
+          modal: true,
+        },
         emits: {
           onQuote: (e) => {
             this.openDialog.close();
@@ -193,15 +220,46 @@ export default {
           },
           onViewSite: () => {
             this.openDialog.close();
+            window.open(business.businessWebsite, "_blank", "noreferrer");
           },
         },
       });
     },
+    async getClientData() {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}users/${this.userId}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${this.jwt}` },
+          }
+        );
+        const user = await response.json();
+        this.user = user;
+        return user;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getSessionStorageData() {
+      this.userId = sessionStorage.getItem("userId");
+      this.userType = sessionStorage.getItem("userType");
+      this.jwt = sessionStorage.getItem("jwt");
+
+      if (
+        this.userId &&
+        this.userType &&
+        this.jwt &&
+        this.userType === "user"
+      ) {
+        // fetch client data
+        await this.getClientData();
+      }
+    },
   },
   async created() {
     await this.getAllBusinesses();
-
-    console.log(this.businesses_list);
+    this.getSessionStorageData();
   },
 };
 </script>

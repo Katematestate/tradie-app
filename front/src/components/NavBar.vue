@@ -10,10 +10,6 @@ function toggleSettingsMenu(event) {
 </script>
 
 <template>
-  {{ userType }}
-  {{ userId }}
-  {{ jwt }}
-  {{ userAlerts }}
   <div class="flex justify-content-between nav-bar">
     <div class="logo flex gap-2">
       <img src="../assets/images/text-logo-icon.svg" alt="App name" />
@@ -130,9 +126,15 @@ export default {
     },
   },
 
-  async created() {
-    this.getSessionStorageData();
+  mounted() {
+    this.getSessionStorageData;
     window.addEventListener(
+      "sessionStorageUpdated",
+      this.getSessionStorageData
+    );
+  },
+  beforeUnmount() {
+    window.removeEventListener(
       "sessionStorageUpdated",
       this.getSessionStorageData
     );
