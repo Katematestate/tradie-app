@@ -1,4 +1,5 @@
 <script setup>
+import { inject, onMounted } from "vue";
 import Carousel from "primevue/carousel";
 import ReviewCard from "../../components/ReviewCard.vue";
 import Button from "../../components/Button.vue";
@@ -17,11 +18,8 @@ function viewSite(id) {
 
 // This data would be fetched from the server via some sort of company id
 const details = {
-  companyId: 123,
+  // todo - add rating avg
   rating: 4.5,
-  companyBio:
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium nulla distinctio placeat, libero accusantium eius odio magnam impedit, fugit dolores aperiam blanditiis! Voluptates sapiente neque unde! Sed rem quas architecto.",
-  companyImage: Tradie1Img,
 };
 
 // Reviews would be fetched from the server via some sort of company id
@@ -32,27 +30,19 @@ const reviews = [
     rating: 3.5,
   },
 ];
-
-// Examples of work would be fetched from the server via some sort of company id
-const examples = [
-  {
-    afterImage: Tradie1Img,
-    beforeImage: Tradie2Img,
-  },
-];
 </script>
 
 <template>
   <div class="company-dialog flex gap-5">
     <section class="company-info">
       <div class="company-img">
-        <img :src="details.companyImage" alt="" />
+        <img :src="business.companyImage" alt="" />
       </div>
       <span class="h5">
         Average Rated {{ details.rating }}
         <i class="pi pi-star-fill text-brand"></i>
       </span>
-      <p>{{ details.companyBio }}</p>
+      <p>{{ business.businessDescription }}</p>
     </section>
     <section class="company-examples">
       <div class="customer-reviews flex flex-column gap-5">
@@ -61,7 +51,7 @@ const examples = [
             <ReviewCard v-bind="slotProps.data" />
           </template>
         </Carousel>
-        <Carousel :value="examples">
+        <Carousel :value="business.pastWorks">
           <template #item="slotProps">
             <BeforeAfterSlider v-bind="slotProps.data" />
           </template>
@@ -74,6 +64,18 @@ const examples = [
     </section>
   </div>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    business: {},
+  }),
+  inject: ["dialogRef"],
+  mounted() {
+    this.business = this.dialogRef.data.business;
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .company-dialog {
