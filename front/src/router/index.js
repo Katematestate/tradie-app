@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 // components related to those links needs to be defined below both for import and routes[] array
 import Home from "../views/Home.vue";
 import ClientSignup from "../views/ClientSignup.vue";
+import Login from "../views/Login.vue";
 import TradieList from "../views/TradieListPage.vue";
 import TradieAccountEdit from "../views/TradieAccountEdit.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
@@ -12,37 +13,57 @@ import TradieSignup from "../views/TradieSignup.vue";
 
 import ClientHubPage from "../views/ClientHubPage.vue";
 
+import userAuth from "./middlewares/userAuth";
+import businessAuth from "./middlewares/businessAuth";
+
 const routes = [
+  // Public Routes ------------------------------------------------------------
   {
     path: "/",
     name: "Home",
     component: Home,
   },
   {
-    path: "/ClientSignup",
+    path: "/client/signup",
     name: "ClientSignup",
     component: ClientSignup,
   },
   {
-    path: "/ClientHub",
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+
+  {
+    path: "/tradie/signup",
+    name: "TradieSignup",
+    component: TradieSignup,
+  },
+
+  // Private Routes -----------------------------------------------------------
+  {
+    path: "/client/hub",
     name: "ClientHub",
     component: ClientHubPage,
+    beforeEnter: userAuth,
   },
   {
-    path: "/TradieList",
+    path: "/tradie/list",
     name: "TradieList",
     component: TradieList,
   },
 
   {
-    path: "/TradieAccountPage",
+    path: "/tradie/account",
     name: "TradieAccountPage",
     component: TradieAccountPage,
+    beforeEnter: businessAuth,
   },
   {
-    path: "/TradieSignup",
-    name: "TradieSignup",
-    component: TradieSignup,
+    path: "/tradie/account/edit",
+    name: "TradieAccountEdit",
+    component: TradieAccountEdit,
+    beforeEnter: businessAuth,
   },
 
   // add more routes here

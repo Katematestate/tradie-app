@@ -1,14 +1,49 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
+
 import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
 import ClientQuoteRequestDialog from "./dialogs/ClientQuoteRequestDialog.vue";
-
 import Button from "../components/Button.vue";
+
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import Paginator from "primevue/paginator";
 import DevImg from "../assets/images/dev.jpg";
 import { ref } from "vue";
+</script>
+
+<template>
+  <section class="looking-for-tradie">
+    <h1>Looking for a Tradie</h1>
+    <form class="tradie-search" @submit.prevent="getAllBusinesses">
+      <div class="config">
+        <InputText placeholder="Company" v-model="company" />
+        <Dropdown v-model="region" :options="regions" placeholder="Region" />
+      </div>
+      <span class="search-instruct"
+        >Keywords that identify with what you're looking for</span
+      >
+      <div class="search-keywords">
+        <div class="p-input-icon-left">
+          <i class="pi pi-search" />
+          <InputText placeholder="Search" v-model="search" />
+        </div>
+        <Button type="submit">Find a Tradie</Button>
+      </div>
+    </form>
+  </section>
+
+  <section class="qualified-tradies">
+    <h1 class="text-center">All Qualified Tradies</h1>
+    <div class="tradie-list">
+      <TradieCard v-for="tradie in pagedTradiesSlice" v-bind="tradie" />
+    </div>
+  </section>
+  <Paginator
+    v-model:first="tradiesOffset"
+    :rows="tradiesPerPage"
+    :totalRecords="this.businesses_list.length"
+  ></Paginator>
 
 import { useDialog } from "primevue/usedialog";
 </script>
@@ -18,15 +53,33 @@ export default {
   data() {
     return {
       businesses_list: [],
-      region: ref(""),
-      regions: ref(
-        new Array(20).fill("test region").map((r, i) => `${r} ${i}`)
-      ),
+      company: "",
+      region: "",
+      regions: ref([
+        "",
+        "Northland",
+        "Auckland",
+        "Waikato",
+        "Bay of Plenty",
+        "Gisborne",
+        "Hawke's Bay",
+        "Taranaki",
+        "Manawatu-Wanganui",
+        "Wellington",
+        "Tasman",
+        "Nelson",
+        "Marlborough",
+        "West Coast",
+        "Canterbury",
+        "Otago",
+        "Southland",
+      ]),
 
       tradiesPerPage: 6,
       tradiesOffset: 0,
-      dialog: useDialog(),
-      openDialog: null,
+
+      search: "",
+
     };
   },
   computed: {
@@ -40,15 +93,18 @@ export default {
   methods: {
     async getAllBusinesses() {
       try {
-        throw ""; // Test throw to avoid waiting for fetch to resolve
-        const response = await fetch("http://localhost:4000/businesses/");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses?businessName=${
+            this.company
+          }&businessLocation=${this.region}&skills=${this.search}`
+        );
+
 
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
 
-        const received_data = await response.json();
-        return received_data;
+        this.businesses_list = await response.json();
       } catch (error) {
         console.error("Error fetching businesses:", error);
         return [
@@ -132,7 +188,8 @@ export default {
     },
   },
   async created() {
-    this.businesses_list = (await this.getAllBusinesses()) || [];
+    await this.getAllBusinesses();
+
     console.log(this.businesses_list);
   },
 };

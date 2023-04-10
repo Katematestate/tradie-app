@@ -1,3 +1,5 @@
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
 const createPassword = require("../password/createPassword");
 const { hashPassword } = require("../../utils/passwordHashing");
@@ -48,6 +50,13 @@ const createUser = async (req, res) => {
     // Finally, update the User document with the ObjectId of the newly created Password document
     newUser.password = newPassword._id;
     await newUser.save();
+
+    const token = jwt.sign({ id: newUser._id }, process.env.AUTH_SECRET_KEY);
+    res.status(201).json({
+      message: "User created successfully",
+      token,
+      userId: newUser._id,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Error creating user" });

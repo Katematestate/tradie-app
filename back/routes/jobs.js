@@ -1,41 +1,34 @@
 const express = require("express");
 const router = express.Router();
 
-const { listJobs, createJob, getJob, deleteJob, updateJob, listJobsByUserOrBusiness } = require('../controllers/job');
+const {
+  listJobs,
+  createJob,
+  getJob,
+  deleteJob,
+  updateJob,
+  listJobsByUserOrBusiness,
+} = require("../controllers/job");
 
 // GET (all) Jobs route
-router.get('/', async (req, res) => {
-    listJobs(req, res)
-});
+router.get("/", listJobs);
 
 // POST new Job
-router.post('/', async (req, res) => {
-    createJob(req, res)
-});
+router.post("/", createJob);
 
 // GET (single) Job by ID
-router.get('/:id', async (req, res) => {
-    getJob(req, res)
-});
+router.get("/:id", getJob);
 
 // DELETE a Job by ID
-router.delete('/:id', async (req, res) => {
-    deleteJob(req, res)
-});
+router.delete("/:id", deleteJob);
 
 // UPDATE a Job by ID
-router.put('/:id', async (req, res) => {
-    updateJob(req, res)
-});
+router.put("/:id", updateJob);
 
 // GET all Jobs containing User's ID
-router.get("/user/:userId", async (req, res) => {
-    listJobsByUserOrBusiness(req, res)
-});
+router.get("/user/:userId", listJobsByUserOrBusiness);
 
 // GET all Jobs containing Business's ID
-router.get("/business/:businessId", async (req, res) => {
-    listJobsByUserOrBusiness(req, res)
-});
+router.get("/business/:businessId", listJobsByUserOrBusiness);
 
 module.exports = router;
