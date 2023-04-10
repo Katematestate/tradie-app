@@ -1,9 +1,14 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
-import Button from "primevue/button";
+
+import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
+import ClientQuoteRequestDialog from "./dialogs/ClientQuoteRequestDialog.vue";
+import Button from "../components/Button.vue";
+
 import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
 import Paginator from "primevue/paginator";
+import DevImg from "../assets/images/dev.jpg";
 import { ref } from "vue";
 </script>
 
@@ -40,14 +45,8 @@ import { ref } from "vue";
     :totalRecords="this.businesses_list.length"
   ></Paginator>
 
-  <section class="become-member">
-    <h1>Become a Member</h1>
-    <div class="sign-up">
-      <button>Client Signup</button>
-      <button>Tradie Signup</button>
-    </div>
-  </section>
-</template>
+import { useDialog } from "primevue/usedialog";
+</script>
 
 <script>
 export default {
@@ -80,6 +79,7 @@ export default {
       tradiesOffset: 0,
 
       search: "",
+
     };
   },
   computed: {
@@ -99,6 +99,7 @@ export default {
           }&businessLocation=${this.region}&skills=${this.search}`
         );
 
+
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
@@ -106,15 +107,140 @@ export default {
         this.businesses_list = await response.json();
       } catch (error) {
         console.error("Error fetching businesses:", error);
+        return [
+          {
+            id: 123,
+            skills: ["plumber"],
+            activeQuote: true,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            id: 123,
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            id: 123,
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            id: 123,
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            id: 123,
+            skills: ["plumber"],
+            activeQuote: false,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+          {
+            id: 123,
+            skills: ["plumber"],
+            activeQuote: true,
+            businessName: "dingus",
+            businessDescription: "dingus dong",
+            companyImage: DevImg,
+            companyLogo: DevImg,
+          },
+        ];
       }
+    },
+
+    quote(id) {
+      this.dialog.open(ClientQuoteRequestDialog, {
+        props: { header: "Job Request Form", modal: true },
+      });
+    },
+
+    viewMore(id) {
+      this.openDialog = this.dialog.open(TradieInfoDialog, {
+        props: { header: "Electro Lights LTD", modal: true },
+        emits: {
+          onQuote: (e) => {
+            this.openDialog.close();
+            this.quote(e);
+          },
+          onViewSite: () => {
+            this.openDialog.close();
+          },
+        },
+      });
     },
   },
   async created() {
     await this.getAllBusinesses();
+
     console.log(this.businesses_list);
   },
 };
 </script>
+
+<template>
+  <section class="looking-for-tradie">
+    <h1>Looking for a Tradie</h1>
+    <form class="tradie-search">
+      <div class="config">
+        <InputText label="Company" />
+        <Dropdown v-model="region" :options="regions" placeholder="Region" />
+      </div>
+      <span class="search-instruct"
+        >Keywords that identify with what you're looking for</span
+      >
+      <div class="search-keywords">
+        <div class="p-input-icon-left">
+          <i class="pi pi-search" />
+          <InputText label="Search" />
+        </div>
+        <Button label="Find a Tradie" />
+      </div>
+    </form>
+  </section>
+
+  <section class="qualified-tradies">
+    <h1 class="text-center">All Qualified Tradies</h1>
+    <div class="tradie-list">
+      <TradieCard
+        v-for="tradie in pagedTradiesSlice"
+        v-bind="tradie"
+        @quote="quote(tradie.id)"
+        @viewMore="viewMore(tradie.id)"
+      />
+    </div>
+  </section>
+  <Paginator
+    v-model:first="tradiesOffset"
+    :rows="tradiesPerPage"
+    :totalRecords="this.businesses_list.length"
+  ></Paginator>
+
+  <section class="become-member">
+    <h1>Become a Member</h1>
+    <div class="sign-up">
+      <Button label="Client Signup" />
+      <Button label="Tradie Signup" />
+    </div>
+  </section>
+</template>
 
 <style scoped lang="scss">
 .looking-for-tradie {
@@ -148,8 +274,14 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    width: 600px;
+    max-width: 600px;
     gap: var(--spacing-small);
+
+    .config {
+      @media (max-width: 480px) {
+        flex-direction: column;
+      }
+    }
   }
 
   .search-instruct {
@@ -157,11 +289,23 @@ export default {
   }
 }
 
+.qualified-tradies {
+  padding: 0 var(--spacing-standard);
+}
+
 .tradie-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-standard);
-  margin: 0 200px;
+  gap: var(--spacing-large) var(--spacing-standard);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .load-more {

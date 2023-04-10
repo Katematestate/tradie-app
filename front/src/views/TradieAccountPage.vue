@@ -38,7 +38,6 @@ const carouselItems = [
 <template>
   <div class="info-section">
     <h1>Business Profile</h1>
-
     <div class="info-flex">
       <div class="info-image-flex">
         <img :src="businessData.companyImage" />
@@ -54,6 +53,15 @@ const carouselItems = [
         <p>
           {{ businessData.businessDescription }}
         </p>
+      <div class="info-section">
+        <h4>Company Image</h4>
+        <img
+          class="info-section-company"
+          src="../assets/images/Victoria-Mitchell-11 1.png"
+        />
+        <h5>import image button</h5>
+        <h5>Comfirm Password</h5>
+        <input class="input-class" v-model="message" label="Comfirm Password" />
       </div>
     </div>
   </div>

@@ -16,11 +16,7 @@
         />
         <h5>Rating *****</h5>
         <h5>Current Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Current Password"
-        />
+        <input class="input-class" v-model="message" label="Current Password" />
       </div>
       <div class="info-section">
         <h5>First Name</h5>
@@ -46,11 +42,7 @@
           :placeholder="businessData.businessWebsite"
         />
         <h5>New Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="New Password"
-        />
+        <input class="input-class" v-model="message" label="New Password" />
       </div>
       <div class="info-section">
         <h4>Company Image</h4>
@@ -68,11 +60,7 @@
 
   <div class="description">
     <h4>Write a short description of your company</h4>
-    <input
-      class="input-class-box"
-      v-model="message"
-      placeholder="Max 1000 words"
-    />
+    <input class="input-class-box" v-model="message" label="Max 1000 words" />
     <div class="button-flex">
       <h5>edit button here</h5>
       <h5>save button here</h5>
@@ -100,11 +88,7 @@
     </div>
     <div class="testimonial">
       <h4>Testimonial</h4>
-      <input
-        class="input-class-box"
-        v-model="message"
-        placeholder="Max 1000 words"
-      />
+      <input class="input-class-box" v-model="message" label="Max 1000 words" />
       <h5>import button</h5>
     </div>
   </div>

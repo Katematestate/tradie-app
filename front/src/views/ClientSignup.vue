@@ -12,6 +12,7 @@ import Checkbox from "primevue/checkbox";
         <router-link :to="{ name: 'Home' }" class="spacing-large link"
           >Go to Home</router-link
         >
+
       </div>
     </div>
 
@@ -30,6 +31,7 @@ import Checkbox from "primevue/checkbox";
               v-model="Fname"
               class="input-class-box"
               placeholder="First Name"
+
             />
           </div>
 
@@ -46,6 +48,7 @@ import Checkbox from "primevue/checkbox";
             (for now the client just filters manually through tradies on the tradies list page) so we dont need this i think - Merlin -->
 
           <!-- <div class="spacing-standard">
+
             <p>Location</p>
             <InputText
               v-model="location"
@@ -61,6 +64,7 @@ import Checkbox from "primevue/checkbox";
               class="input-class-box"
               placeholder="Email"
             />
+     
           </div>
 
           <div class="spacing-standard">
@@ -87,6 +91,7 @@ import Checkbox from "primevue/checkbox";
         <div class="checkbox-container">
           <div class="spacing-standard flex-row">
             <Checkbox class="" v-model="tos_consent" />
+
             <p>Do You Consent To The Terms Of Service</p>
           </div>
         </div>
