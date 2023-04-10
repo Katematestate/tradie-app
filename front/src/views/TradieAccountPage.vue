@@ -53,19 +53,23 @@ const carouselItems = [
         <p>
           {{ businessData.businessDescription }}
         </p>
-      <div class="info-section">
-        <h4>Company Image</h4>
-        <img
-          class="info-section-company"
-          src="../assets/images/Victoria-Mitchell-11 1.png"
-        />
-        <h5>import image button</h5>
-        <h5>Comfirm Password</h5>
-        <input class="input-class" v-model="message" label="Comfirm Password" />
+        <div class="info-section">
+          <h4>Company Image</h4>
+          <img
+            class="info-section-company"
+            src="../assets/images/Victoria-Mitchell-11 1.png"
+          />
+          <h5>import image button</h5>
+          <h5>Comfirm Password</h5>
+          <input
+            class="input-class"
+            v-model="message"
+            label="Comfirm Password"
+          />
+        </div>
       </div>
     </div>
   </div>
-
   <div class="review-section">
     <h2>Reviews</h2>
     <router-view></router-view>

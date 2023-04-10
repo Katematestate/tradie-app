@@ -10,6 +10,7 @@ import Dropdown from "primevue/dropdown";
 import Paginator from "primevue/paginator";
 import DevImg from "../assets/images/dev.jpg";
 import { ref } from "vue";
+import { useDialog } from "primevue/usedialog";
 </script>
 
 <template>
@@ -36,7 +37,12 @@ import { ref } from "vue";
   <section class="qualified-tradies">
     <h1 class="text-center">All Qualified Tradies</h1>
     <div class="tradie-list">
-      <TradieCard v-for="tradie in pagedTradiesSlice" v-bind="tradie" />
+      <TradieCard
+        v-for="tradie in pagedTradiesSlice"
+        v-bind="tradie"
+        @quote="quote(tradie._id)"
+        @viewMore="viewMore(tradie._id)"
+      />
     </div>
   </section>
   <Paginator
@@ -45,8 +51,14 @@ import { ref } from "vue";
     :totalRecords="this.businesses_list.length"
   ></Paginator>
 
-import { useDialog } from "primevue/usedialog";
-</script>
+  <section class="become-member">
+    <h1>Become a Member</h1>
+    <div class="sign-up">
+      <Button label="Client Signup" />
+      <Button label="Tradie Signup" />
+    </div>
+  </section>
+</template>
 
 <script>
 export default {
@@ -77,9 +89,8 @@ export default {
 
       tradiesPerPage: 6,
       tradiesOffset: 0,
-
+      dialog: useDialog(),
       search: "",
-
     };
   },
   computed: {
@@ -99,70 +110,70 @@ export default {
           }&businessLocation=${this.region}&skills=${this.search}`
         );
 
-
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
 
         this.businesses_list = await response.json();
+        console.log(this.businesses_list);
       } catch (error) {
         console.error("Error fetching businesses:", error);
-        return [
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: true,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: false,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-          {
-            id: 123,
-            skills: ["plumber"],
-            activeQuote: true,
-            businessName: "dingus",
-            businessDescription: "dingus dong",
-            companyImage: DevImg,
-            companyLogo: DevImg,
-          },
-        ];
+        // return [
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: true,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: false,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        //   {
+        //     id: 123,
+        //     skills: ["plumber"],
+        //     activeQuote: true,
+        //     businessName: "dingus",
+        //     businessDescription: "dingus dong",
+        //     companyImage: DevImg,
+        //     companyLogo: DevImg,
+        //   },
+        // ];
       }
     },
 
@@ -194,53 +205,6 @@ export default {
   },
 };
 </script>
-
-<template>
-  <section class="looking-for-tradie">
-    <h1>Looking for a Tradie</h1>
-    <form class="tradie-search">
-      <div class="config">
-        <InputText label="Company" />
-        <Dropdown v-model="region" :options="regions" placeholder="Region" />
-      </div>
-      <span class="search-instruct"
-        >Keywords that identify with what you're looking for</span
-      >
-      <div class="search-keywords">
-        <div class="p-input-icon-left">
-          <i class="pi pi-search" />
-          <InputText label="Search" />
-        </div>
-        <Button label="Find a Tradie" />
-      </div>
-    </form>
-  </section>
-
-  <section class="qualified-tradies">
-    <h1 class="text-center">All Qualified Tradies</h1>
-    <div class="tradie-list">
-      <TradieCard
-        v-for="tradie in pagedTradiesSlice"
-        v-bind="tradie"
-        @quote="quote(tradie.id)"
-        @viewMore="viewMore(tradie.id)"
-      />
-    </div>
-  </section>
-  <Paginator
-    v-model:first="tradiesOffset"
-    :rows="tradiesPerPage"
-    :totalRecords="this.businesses_list.length"
-  ></Paginator>
-
-  <section class="become-member">
-    <h1>Become a Member</h1>
-    <div class="sign-up">
-      <Button label="Client Signup" />
-      <Button label="Tradie Signup" />
-    </div>
-  </section>
-</template>
 
 <style scoped lang="scss">
 .looking-for-tradie {
