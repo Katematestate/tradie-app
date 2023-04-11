@@ -8,51 +8,51 @@
       <div class="info-section">
         <img class="info-section-logo" src="../assets/images/dev.jpg" />
         <h5>Import button here</h5>
-        <h5>Company name</h5>
+        <h5>{{ businessData.businessName }}</h5>
         <input
           class="input-class"
           v-model="message"
-          placeholder="Company Name"
+          :placeholder="businessData.businessName"
         />
         <h5>Rating *****</h5>
         <h5>Current Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Current Password"
-        />
+        <input class="input-class" v-model="message" label="Current Password" />
       </div>
       <div class="info-section">
         <h5>First Name</h5>
-        <input class="input-class" v-model="message" placeholder="First Name" />
+        <!-- <input class="input-class" v-model="message" placeholder="First Name" />
         <h5>Last Name</h5>
-        <input class="input-class" v-model="message" placeholder="Last Name" />
+        <input class="input-class" v-model="message" placeholder="Last Name" /> -->
         <h5>Mobile Number</h5>
         <input
           class="input-class"
           v-model="message"
-          placeholder="Mobile Number"
+          :placeholder="businessData.businessPhoneNumber"
         />
         <h5>Location</h5>
-        <input class="input-class" v-model="message" placeholder="Location" />
-        <h5>Website</h5>
-        <input class="input-class" v-model="message" placeholder="Website" />
-        <h5>New Password</h5>
         <input
           class="input-class"
           v-model="message"
-          placeholder="New Password"
+          :placeholder="businessData.businessLocation"
         />
+        <h5>Website</h5>
+        <input
+          class="input-class"
+          v-model="message"
+          :placeholder="businessData.businessWebsite"
+        />
+        <h5>New Password</h5>
+        <input class="input-class" v-model="message" label="New Password" />
       </div>
       <div class="info-section">
         <h4>Company Image</h4>
-        <img class="info-section-company" src="../assets/images/dev.jpg" />
+        <img class="info-section-company" :src="businessData.companyImage" />
         <h5>import image button</h5>
         <h5>Comfirm Password</h5>
         <input
           class="input-class"
           v-model="message"
-          placeholder="Comfirm Password"
+          placeholder="Confirm Password"
         />
       </div>
     </div>
@@ -60,11 +60,7 @@
 
   <div class="description">
     <h4>Write a short description of your company</h4>
-    <input
-      class="input-class-box"
-      v-model="message"
-      placeholder="Max 1000 words"
-    />
+    <input class="input-class-box" v-model="message" label="Max 1000 words" />
     <div class="button-flex">
       <h5>edit button here</h5>
       <h5>save button here</h5>
@@ -92,15 +88,93 @@
     </div>
     <div class="testimonial">
       <h4>Testimonial</h4>
-      <input
-        class="input-class-box"
-        v-model="message"
-        placeholder="Max 1000 words"
-      />
+      <input class="input-class-box" v-model="message" label="Max 1000 words" />
       <h5>import button</h5>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      userId: sessionStorage.getItem("userId"),
+      businessData: null,
+    };
+  },
+  methods: {
+    async fetchMyBusiness() {
+      try {
+        const jwt = sessionStorage.getItem("jwt");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses/${this.userId}`,
+          {
+            headers: { Authorization: `Bearer ${jwt}` },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const business = await response.json();
+
+        this.businessData = business;
+      } catch (error) {
+        console.log("Error fetching business:", error);
+      }
+    },
+
+    async updateBusiness() {
+      try {
+        const jwt = sessionStorage.getItem("jwt");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses/${this.userId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify(this.businessData),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const business = await response.json();
+
+        this.businessData = business;
+      } catch (error) {
+        console.log("Error updating business:", error);
+      }
+    },
+  },
+  async mounted() {
+    try {
+      const jwt = sessionStorage.getItem("jwt");
+      if (!jwt) {
+        throw new Error("No JWT found");
+      }
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}businesses`,
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
+      );
+      this.data = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async created() {
+    await this.fetchMyBusiness();
+  },
+};
+</script>
+
 <style scoped lang="scss">
 .business-profile {
   display: flex;
@@ -204,4 +278,3 @@
   padding: 3%;
 }
 </style>
-<script setup></script>

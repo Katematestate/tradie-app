@@ -3,17 +3,9 @@ import { Icon } from "@iconify/vue";
 import Badge from "primevue/badge";
 import Menu from "primevue/menu";
 import { ref } from "vue";
-
 const settingsMenu = ref();
 function toggleSettingsMenu(event) {
   settingsMenu.value.toggle(event);
-}
-
-function logout() {
-  sessionStorage.removeItem("jwt");
-  sessionStorage.removeItem("userType");
-  sessionStorage.removeItem("userId");
-  this.$router.push("/");
 }
 </script>
 
@@ -38,7 +30,7 @@ function logout() {
         />
         <Icon icon="ion:file-tray-full-sharp" />
       </div>
-      <div v-if="this.userType === 'client'" class="quote-tray icon relative">
+      <div v-if="this.userType === 'user'" class="quote-tray icon relative">
         <Badge
           v-if="hasNotification"
           severity="danger"
@@ -47,7 +39,7 @@ function logout() {
         <Icon icon="ri:chat-quote-fill" />
       </div>
       <div
-        v-if="this.userType === 'tradie' || this.userType === 'client'"
+        v-if="this.userType === 'tradie' || this.userType === 'user'"
         class="settings icon"
         aria-haspopup="true"
         aria-controls="settings-menu"
@@ -74,41 +66,78 @@ function logout() {
 export default {
   data() {
     return {
-      userTypeStored: sessionStorage.getItem("userType"),
-      userId: sessionStorage.getItem("userId"),
-      jwt: sessionStorage.getItem("jwt"),
+      userAlerts: [],
+      hasNotification: false,
+      userType: "",
+      userId: "",
+      jwt: "",
     };
   },
-  computed: {
-    userType() {
-      if (this.jwt && this.userTypeStored) return this.userTypeStored;
-      return "not-logged-in";
-    },
-  },
+
   methods: {
-    async fetchUserOrBusinessAlerts(userOrBusinessId) {
+    async fetchUserOrBusinessAlerts() {
       try {
-        if (this.userType === "not-logged-in") {
+        if (
+          this.userType === "not-logged-in" ||
+          !this.userType ||
+          !this.userId ||
+          !this.jwt
+        ) {
           console.log("not logged in, can't fetch alerts");
           return;
         }
-        const endpoint = this.userType === "client" ? "user" : "business";
-        const response = await fetch(`/alerts/${endpoint}/${userOrBusinessId}`);
-
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}alerts/${this.userType}/${
+            this.userId
+          }`
+        );
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
         }
 
         const alerts = await response.json();
-        // Use the fetched alerts, e.g., assign them to a data property
         this.userAlerts = alerts;
       } catch (error) {
         console.log("Error fetching alerts for user:", error);
       }
     },
+    checkIfUserHasNotification() {
+      if (this.userAlerts.length > 0) {
+        this.hasNotification = true;
+      } else {
+        this.hasNotification = false;
+      }
+    },
+    logout() {
+      sessionStorage.removeItem("jwt");
+      sessionStorage.removeItem("userType");
+      sessionStorage.removeItem("userId");
+      this.userType = null;
+      this.userId = null;
+      this.jwt = null;
+      this.$router.push({ name: "Home" });
+    },
+    async getSessionStorageData() {
+      this.userId = sessionStorage.getItem("userId");
+      this.userType = sessionStorage.getItem("userType");
+      this.jwt = sessionStorage.getItem("jwt");
+      await this.fetchUserOrBusinessAlerts();
+      this.checkIfUserHasNotification();
+    },
   },
-  async created() {
-    await this.fetchUserOrBusinessAlerts();
+
+  mounted() {
+    this.getSessionStorageData;
+    window.addEventListener(
+      "sessionStorageUpdated",
+      this.getSessionStorageData
+    );
+  },
+  beforeUnmount() {
+    window.removeEventListener(
+      "sessionStorageUpdated",
+      this.getSessionStorageData
+    );
   },
 };
 </script>

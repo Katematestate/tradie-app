@@ -1,6 +1,8 @@
-/* ---------------- */
 .p-inputtext {
   font-family: var(--font-secondary);
+}
+.p-inputtext::placeholder {
+  font-size: 0.75em;
 }
 
 .p-dropdown-panel {
@@ -93,4 +95,80 @@
 
 .p-link:focus {
   box-shadow: 0 0 0 0.2rem var(--color-brand-hover);
+}
+
+.p-inputtext {
+  background: var(--color-shade);
+  color: var(--color-text-shade);
+}
+
+.p-inputtext:enabled:hover {
+  border-color: var(--color-brand);
+}
+
+.p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
+  color: var(--color-brand);
+}
+
+.p-rating:not(.p-disabled):not(.p-readonly)
+  .p-rating-item:hover
+  .p-rating-icon {
+  color: var(--color-brand);
+}
+
+.p-dialog .p-dialog-header {
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  font-family: var(--font-main);
+  position: relative;
+
+  .p-dialog-title {
+    font-size: 55px;
+    font-weight: normal;
+    margin: auto;
+
+    @media (max-width: 480px) {
+      font-size: 35px;
+    }
+  }
+  .p-dialog-header-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  .p-dialog-header-icon {
+    color: var(--color-brand);
+  }
+  .p-dialog-header-icon:enabled:hover {
+    background-color: var(--color-brand-hover);
+    color: var(--color-brand-hover-text);
+  }
+  .p-dialog-header-icon:focus {
+    box-shadow: none;
+  }
+}
+
+.p-fileupload {
+  display: flex;
+  flex-flow: nowrap column;
+  border: 1px solid var(--color-text-shade);
+  border-radius: var(--border-radius-standard);
+
+  .p-fileupload-content {
+    border: none;
+    border-radius: 0;
+    border-top-right-radius: var(--border-radius-standard);
+    border-top-left-radius: var(--border-radius-standard);
+  }
+
+  .p-fileupload-buttonbar {
+    justify-content: flex-end;
+    padding: var(--spacing-small);
+    order: 1;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    border-bottom-left-radius: var(--border-radius-standard);
+    border-bottom-right-radius: var(--border-radius-standard);
+  }
 }

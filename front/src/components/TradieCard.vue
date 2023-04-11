@@ -12,6 +12,8 @@ defineProps({
   companyLogo: String,
 });
 
+defineEmits(["quote", "viewMore"]);
+
 function truncateCompanyBlurb(businessDescription) {
   const charLimit = 320;
   if (businessDescription.length >= charLimit) {
@@ -36,8 +38,14 @@ function truncateCompanyBlurb(businessDescription) {
       <Chip :label="keyword" v-for="keyword in skills" />
     </div>
     <div class="card-footer">
-      <Button size="small" raised>Quote</Button>
-      <Button severity="secondary" size="small" outlined>View more</Button>
+      <Button size="small" raised @click="$emit('quote')">Quote</Button>
+      <Button
+        severity="secondary"
+        size="small"
+        outlined
+        @click="$emit('viewMore')"
+        >View more</Button
+      >
     </div>
   </div>
 </template>
