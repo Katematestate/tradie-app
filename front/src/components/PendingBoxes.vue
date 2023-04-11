@@ -1,26 +1,30 @@
+<script setup>
+</script>
+
 <template>
-    <div class="main-container">
-        <div class="img-wrapper">
-            placeholder
-        </div>
-        <div class="contact-info">
-            <div class="name-location">
-                <h3>linda B</h3>
-                <h3>Christchurch</h3>
+    <div class="card">
+        <div class="info">
+            <div class="img-wrapper">
+                placeholder
             </div>
-            <h4>email@email.com</h4>
-            <h4>phone:0000000000</h4>
+            <div class="name-location-info">
+                <div class="name-location">
+                    <h3>Linda B</h3>
+                    <h3 class="variation">Christchurch</h3>
+                </div>
+                <h5>Email: linda&john@gmail.com</h5>
+                <h5>Phone:027273274</h5>
+            </div>
+            <div class="job-title">
+                Kitchen Renovation
+            </div>
         </div>
-        .
+        <div class="desc-btns">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, doloribus molestias similique eaque rerum dignissimos quae laudantium quidem dolores quam maiores error! Labore veniam doloremque dolorum velit voluptatum, quae sint!</p>
+        </div>
     </div>
 </template>
 
 <style scoped lang="scss">
-.main-container{
-    display: flex;
-    background-color:var(--color-page);
-    border: 2px solid black;
-    border-radius: 5px;
-}
 
 </style>
