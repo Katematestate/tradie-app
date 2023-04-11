@@ -1,8 +1,6 @@
 <script setup>
 import InputText from "primevue/inputtext";
-import Checkbox from "primevue/checkbox";
 import Button_Main from "../components/Button.vue";
-import Chip from "primevue/chip";
 </script>
 
 <template>
