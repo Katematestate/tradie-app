@@ -270,6 +270,7 @@ h1 {
 
   @media (max-width: 425px) {
     grid-template-columns: 1fr;
+    height: 0%;
   }
 }
 .top-rated-section {
