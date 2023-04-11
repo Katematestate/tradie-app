@@ -162,12 +162,6 @@ import Chip from "primevue/chip";
         </div>
       </div>
     </div>
-    <div>
-      <Chip lable="Builder" />
-      <Chip lable="Builder" />
-      <Chip lable="Builder" />
-      <Chip lable="Builder" />
-    </div>
   </section>
 
   <!-- Must Delete Below -->
