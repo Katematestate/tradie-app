@@ -5,23 +5,49 @@ import Button_Main from "./Button.vue";
 
 <template>
   <div class="modal-container">
-    <div>
-      <h1>Log In</h1>
+    <div class="flex">
+      <h1 class="spacing-large-top">Log In</h1>
     </div>
-    <InputText v-model="email" class="input-class-box" placeholder="Email" />
-    <InputText
-      v-model="password"
-      type="password"
-      class="input-class-box"
-      placeholder="Password"
-    />
-    <Button_Main label />
+    <div class="flex flex-col spacing-standard-textbox">
+      <p>Email</p>
+      <InputText v-model="email" class="input-class-box" placeholder="Email" />
+    </div>
+    <div class="flex flex-col spacing-standard-textbox">
+      <p>Password</p>
+      <InputText
+        v-model="password"
+        type="password"
+        class="input-class-box"
+        placeholder="Password"
+      />
+    </div>
+    <div>
+      <a class="flex" href="#">Forgot Your Password?</a>
+    </div>
+    <div class="flex flex-row spacing-large-top">
+      <a href="" class="secondary">Client Sign up</a>
+      <p>or</p>
+      <a href="" class="secondary">Tradie Sign up</a>
+    </div>
+    <div class="spacing-standard flex spacing-large-bottom">
+      <Button_Main label="Log In" />
+    </div>
   </div>
 </template>
 
-<style>
+<style scoped lang="scss">
+p {
+  margin-left: 4px;
+  margin-right: 4px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
 .modal-container {
-  border: black solid 3px;
+  border: black solid 2px;
+  border-radius: 5px;
+  max-width: 350px;
+  width: 100%;
+  margin: 0 auto;
 }
 .text-box-container {
   max-width: 500px;
@@ -32,5 +58,36 @@ import Button_Main from "./Button.vue";
   @media (max-width: 425px) {
     padding: 0 var(--spacing-standard);
   }
+}
+.spacing-large-top {
+  padding-top: var(--spacing-large);
+}
+.spacing-large-bottom {
+  padding-bottom: var(--spacing-large);
+}
+.spacing-standard {
+  padding: var(--spacing-standard);
+}
+.spacing-standard-textbox {
+  padding-left: var(--spacing-large);
+  padding-right: var(--spacing-large);
+  padding-bottom: var(--spacing-standard);
+}
+.flex {
+  display: flex;
+  justify-content: center;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: column;
+}
+.secondary {
+  color: var(--color-primary);
+}
+.secondary:hover {
+  color: var(--color-brand);
+  transition: 0.4s;
 }
 </style>
