@@ -10,7 +10,7 @@ import TradieList from "../views/TradieListPage.vue";
 import TradieAccountEdit from "../views/TradieAccountEdit.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
 import TradieSignup from "../views/TradieSignup.vue";
-
+import Footer from "../components/Footer.vue";
 import ClientHubPage from "../views/ClientHubPage.vue";
 
 import userAuth from "./middlewares/userAuth";
@@ -38,6 +38,11 @@ const routes = [
     path: "/tradie/signup",
     name: "TradieSignup",
     component: TradieSignup,
+  },
+  {
+    path: "/tradie/Footer",
+    name: "Footer",
+    component: Footer,
   },
 
   // Private Routes -----------------------------------------------------------
