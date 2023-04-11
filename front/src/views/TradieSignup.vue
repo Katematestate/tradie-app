@@ -27,13 +27,23 @@ import Checkbox from "primevue/checkbox";
 
       <div class="image-drop grid-work">
         <div class="flex-col align-items-center spacing-large">
-          <ImageUpload />
-          <Button_Main label="Upload Logo" />
+          <InputText
+            v-model="companyLogo"
+            class="input-class-box image-url-input-box"
+            placeholder="Logo Image URL"
+          />
+          <!-- <ImageUpload />
+          <Button_Main label="Upload Logo" /> -->
         </div>
 
         <div class="flex-col align-items-center spacing-large">
-          <ImageUpload />
-          <Button_Main label="Upload Image" />
+          <InputText
+            v-model="companyImage"
+            class="input-class-box image-url-input-box"
+            placeholder="Company Image URL"
+          />
+          <!-- <ImageUpload />
+          <Button_Main label="Upload Image" /> -->
         </div>
       </div>
 
@@ -44,8 +54,8 @@ import Checkbox from "primevue/checkbox";
       <div class="input grid-work">
         <div class="input-field-1">
           <div class="text-box-container">
-            <div class="spacing-standard">
-              <p>First Name</p>
+            <!-- <div class="spacing-standard"> -->
+            <!-- <p>First Name</p>
               <InputText
                 v-model="Fname"
                 class="input-class-box"
@@ -59,8 +69,8 @@ import Checkbox from "primevue/checkbox";
                 v-model="Lname"
                 class="input-class-box"
                 placeholder="Last Name"
-              />
-            </div>
+              /> -->
+            <!-- </div> -->
 
             <div class="spacing-standard">
               <p>Email</p>
@@ -85,6 +95,15 @@ import Checkbox from "primevue/checkbox";
               <InputText
                 class="input-class-box"
                 placeholder="Confirm Password"
+                v-model="confirmPassword"
+              />
+            </div>
+            <div class="spacing-standard">
+              <p>Business Location</p>
+              <InputText
+                class="input-class-box"
+                placeholder="Business Location"
+                v-model="businessLocation"
               />
             </div>
           </div>
@@ -122,7 +141,6 @@ import Checkbox from "primevue/checkbox";
                 placeholder="Business Website"
               />
             </div>
-
             <div class="spacing-standard">
               <p>Write A Short Description Of Your Business</p>
               <InputText
@@ -173,24 +191,27 @@ import Checkbox from "primevue/checkbox";
             :key="index"
             class="chip-spacing"
           >
-            <Chip :label="sweaty_ball_sack.trade_type" removable="" />
+            <Chip
+              :label="sweaty_ball_sack.trade_type"
+              @click="removeThisChip(index)"
+            />
           </div>
         </div>
       </div>
       <div class="flex-row checkbox-container spacing-small">
-        <Checkbox v-model="TermsOfService" />
+        <Checkbox v-model="tos_consent" :binary="true" />
         <p class="checkbox-spacing">
           Do You Accept The Find A Tradie Terms Of Service
         </p>
       </div>
       <div class="flex-row checkbox-container">
-        <Checkbox />
+        <Checkbox v-model="email_consent" :binary="true" />
         <p class="checkbox-spacing spacing-small">
           Do You Accept To Revice Emails From Find A Tradie
         </p>
       </div>
       <div class="flex-row checkbox-container spacing-large">
-        <Button_Main label="Create" />
+        <Button_Main @click="createNewBusiness" label="Create" />
       </div>
     </section>
   </div>
@@ -199,7 +220,6 @@ import Checkbox from "primevue/checkbox";
 <script>
 export default {
   data() {
-    // data itself starts
     return {
       trade_certification_array: [],
       trade_certification: "",
@@ -209,21 +229,88 @@ export default {
       business_phone_number: "",
       business_name: "",
       password: "",
+      confirmPassword: "",
       email: "",
-      Fname: "",
-      Lname: "",
-      // data variables starts
-    }; // data variables end
+      companyLogo: "",
+      companyImage: "",
+      businessLocation: "",
+      // Fname: "",
+      // Lname: "",
+      tos_consent: false,
+      email_consent: false,
+    };
   },
   methods: {
-    // methods starts
     add_trade_type() {
+      if (this.trade_certification === "" || this.trade_type === "")
+        return alert("Please fill out all fields");
       this.trade_certification_array.push({
         trade_certification: this.trade_certification,
-        trade_type: this.trade_type,
+        trade_type: this.trade_type + " ✕",
       });
       this.trade_certification = "";
       this.trade_type = "";
+    },
+    removeThisChip(index) {
+      this.trade_certification_array.splice(index, 1);
+    },
+    async createNewBusiness() {
+      if (
+        this.tos_consent &&
+        this.email_consent &&
+        this.business_bio &&
+        this.business_website &&
+        this.business_phone_number &&
+        this.business_name &&
+        this.email &&
+        this.password &&
+        this.confirmPassword &&
+        this.password === this.confirmPassword &&
+        this.companyImage &&
+        this.companyImage &&
+        this.businessLocation &&
+        this.trade_certification_array.length
+      ) {
+        const skills = this.trade_certification_array.map((skill) => {
+          return skill.trade_type.slice(0, -2);
+        });
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+              companyLogo: this.companyLogo,
+              companyImage: this.companyImage,
+              businessLocation: this.businessLocation,
+              email: this.email,
+              password: this.password,
+              businessName: this.business_name,
+              businessPhoneNumber: this.business_phone_number,
+              businessWebsite: this.business_website,
+              businessDescription: this.business_bio,
+              skills,
+            }),
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+
+        if (data.token && data.businessId) {
+          sessionStorage.setItem("jwt", data.token);
+          sessionStorage.setItem("userId", data.businessId);
+          sessionStorage.setItem("userType", "tradie");
+          const event = new Event("sessionStorageUpdated");
+          window.dispatchEvent(event);
+          this.$router.push({ name: "TradieAccountPage" });
+        }
+      } else {
+        console.log("incorrect inputs try again");
+      }
     },
   },
   components: { ImageUpload },
@@ -294,6 +381,10 @@ h1 {
   // padding-bottom: 10%;
   background-color: #eeeeee;
   width: 100%;
+}
+
+.image-url-input-box {
+  width: 70% !important;
 }
 .flex-row {
   display: flex;

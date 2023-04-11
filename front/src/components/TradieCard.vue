@@ -78,6 +78,7 @@ p {
 }
 
 .company-image {
+  height: 200px;
   width: 100%;
   border-radius: var(--border-radius-standard);
 }

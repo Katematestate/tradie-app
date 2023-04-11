@@ -65,12 +65,12 @@ import BackToLink from "../components/BackToLink.vue";
 
       <div class="checkbox-container flex flex-column align-items-start gap-2">
         <div class="flex gap-2">
-          <Checkbox class="" v-model="tos_consent" />
+          <Checkbox class="" v-model="tos_consent" :binary="true" />
           <p>Do You Consent To The Terms Of Service</p>
         </div>
         <div class="flex gap-2">
-          <Checkbox class="" v-model="email_consent" />
-          <p>Do You Concent To Receiving Emails From Find A Tradie</p>
+          <Checkbox class="" v-model="email_consent" :binary="true" />
+          <label>Do You Concent To Receiving Emails From Find A Tradie</label>
         </div>
       </div>
 
@@ -91,8 +91,8 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
-      tos_consent: true,
-      email_consent: true,
+      tos_consent: false,
+      email_consent: false,
     };
   },
   methods: {
