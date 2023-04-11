@@ -5,10 +5,12 @@ import Footer from "./components/Footer.vue";
 </script>
 
 <template>
-  <NavBar />
-  <router-view></router-view>
-  <DynamicDialog />
-  <Footer />
+  <div>
+    <NavBar />
+    <router-view></router-view>
+    <DynamicDialog />
+    <Footer />
+  </div>
 </template>
 
 <style scoped></style>
