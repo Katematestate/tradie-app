@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/vue";
 import Badge from "primevue/badge";
 import Menu from "primevue/menu";
+import modalMixin from "../mixins/modalMixin.vue";
 import { ref } from "vue";
 const settingsMenu = ref();
 function toggleSettingsMenu(event) {
@@ -20,7 +21,7 @@ function toggleSettingsMenu(event) {
         v-if="!this.userType || this.userType === 'not-logged-in'"
         class="log-in icon"
       >
-        <Icon icon="mdi:account" />
+        <Icon icon="mdi:account" @click="toggleModal" />
       </div>
 
       <div v-if="this.userType === 'tradie'" class="job-tray icon relative">
@@ -65,6 +66,7 @@ function toggleSettingsMenu(event) {
 
 <script>
 export default {
+  mixins: [modalMixin],
   data() {
     return {
       userAlerts: [],
