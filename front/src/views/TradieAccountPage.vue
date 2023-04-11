@@ -12,7 +12,7 @@ import Rating from "primevue/rating";
     <h1 class="text-center">Business Profile</h1>
     <div class="flex gap-4 justify-content-center">
       <div class="info-image-flex">
-        <img :src="businessData.companyImage" />
+        <img class="companyImg" :src="businessData.companyImage" />
         <h4>{{ businessData.businessName }}</h4>
         <p class="flex gap-5">
           Overall Rating :
@@ -134,6 +134,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// kinda ugly approach for image sizing but before it was taking the whole screen for the image (below)
+.companyImg {
+  max-height: 400px;
+  max-width: 800px;
+}
 .job-review {
   display: flex;
   flex-flow: nowrap column;

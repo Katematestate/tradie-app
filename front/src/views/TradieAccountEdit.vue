@@ -21,11 +21,12 @@
           v-model="currentPassword"
           type="password"
           label="Current Password"
+          placeholder="Current Password"
         />
       </div>
       <div class="info-section">
-        <!-- <h5>First Name</h5> -->
-        <!-- <input class="input-class" v-model="message" placeholder="First Name" />
+        <!-- <h5>First Name</h5>
+        <input class="input-class" v-model="message" placeholder="First Name" />
         <h5>Last Name</h5>
         <input class="input-class" v-model="message" placeholder="Last Name" /> -->
         <h5>Mobile Number</h5>
@@ -52,6 +53,7 @@
           v-model="newPassword"
           type="password"
           label="New Password"
+          placeholder="New Password"
         />
       </div>
       <div class="info-section">
@@ -303,7 +305,7 @@ export default {
 
 .info-section-logo {
   height: 15em;
-  width: 100%;
+  width: 15em;
   border-radius: 5%;
 }
 .info-section-company {

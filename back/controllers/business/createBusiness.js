@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const Business = require("../../models/business");
 const createPassword = require("../password/createPassword");
 const { hashPassword } = require("../../utils/passwordHashing");
@@ -55,11 +57,18 @@ const createBusiness = async (req, res) => {
     };
     const newPassword = await createPassword(passwordReq, passwordRes);
 
-    // Finally, update the Business document with the ObjectId of the newly created Password document
     newBusiness.password = newPassword._id;
     await newBusiness.save();
 
-    res.json(newBusiness);
+    const token = jwt.sign(
+      { id: newBusiness._id },
+      process.env.AUTH_SECRET_KEY
+    );
+    res.status(201).json({
+      message: "Business created successfully",
+      token,
+      businessId: newBusiness._id,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });

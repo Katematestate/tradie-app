@@ -29,7 +29,11 @@ import { useDialog } from "primevue/usedialog";
           <i class="pi pi-search" />
           <InputText placeholder="Search" v-model="search" />
         </div>
-        <Button @click="getAllBusinesses" type="submit">Find a Tradie</Button>
+        <Button
+          @click="getAllBusinesses"
+          type="submit"
+          label="Find a Tradie"
+        ></Button>
       </div>
     </form>
   </section>
