@@ -26,5 +26,10 @@
 </template>
 
 <style scoped lang="scss">
-
+.info{
+    display: flex;
+}
+.name-location{
+    display: flex;
+}
 </style>
