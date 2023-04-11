@@ -5,14 +5,20 @@
     <div class="client-landing">
       <h1>Looking for a tradie?</h1>
       <div class="button-flex gap-4">
-        <Button label="Client Signup" />
-        <Button label="View Tradie List" type="secondary" />
+        <router-link to="/client/signup">
+          <Button label="Client Signup" />
+        </router-link>
+        <router-link to="/tradie/list">
+          <Button label="View Tradie List" type="secondary" />
+        </router-link>
       </div>
     </div>
     <div class="tradie-landing flex flex-column">
       <h1>Are you a tradie?</h1>
       <div>
-        <Button label="Tradie Signup" />
+        <router-link to="/tradie/signup">
+          <Button label="Tradie Signup" />
+        </router-link>
       </div>
     </div>
   </div>
@@ -108,7 +114,9 @@
     </div>
 
     <div class="view-button flex justify-content-end">
-      <Button label="View Tradies" />
+      <router-link to="/tradie/list">
+        <Button label="View Tradies" />
+      </router-link>
     </div>
   </div>
 </template>

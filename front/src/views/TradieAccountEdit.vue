@@ -6,43 +6,53 @@
 
     <div class="business-info">
       <div class="info-section">
-        <img class="info-section-logo" src="../assets/images/dev.jpg" />
+        <img class="info-section-logo" :src="businessData.companyLogo" />
         <h5>Import button here</h5>
         <h5>{{ businessData.businessName }}</h5>
         <input
           class="input-class"
-          v-model="message"
+          v-model="businessName"
           :placeholder="businessData.businessName"
         />
         <h5>Rating *****</h5>
         <h5>Current Password</h5>
-        <input class="input-class" v-model="message" label="Current Password" />
+        <input
+          class="input-class"
+          v-model="currentPassword"
+          type="password"
+          label="Current Password"
+        />
       </div>
       <div class="info-section">
-        <h5>First Name</h5>
+        <!-- <h5>First Name</h5> -->
         <!-- <input class="input-class" v-model="message" placeholder="First Name" />
         <h5>Last Name</h5>
         <input class="input-class" v-model="message" placeholder="Last Name" /> -->
         <h5>Mobile Number</h5>
         <input
           class="input-class"
-          v-model="message"
-          :placeholder="businessData.businessPhoneNumber"
+          v-model="phone"
+          placeholder="Business Phone Number"
         />
         <h5>Location</h5>
         <input
           class="input-class"
-          v-model="message"
-          :placeholder="businessData.businessLocation"
+          v-model="location"
+          placeholder="Business Location"
         />
         <h5>Website</h5>
         <input
           class="input-class"
-          v-model="message"
-          :placeholder="businessData.businessWebsite"
+          v-model="businessWebsite"
+          placeholder="Business Website"
         />
         <h5>New Password</h5>
-        <input class="input-class" v-model="message" label="New Password" />
+        <input
+          class="input-class"
+          v-model="newPassword"
+          type="password"
+          label="New Password"
+        />
       </div>
       <div class="info-section">
         <h4>Company Image</h4>
@@ -51,7 +61,8 @@
         <h5>Comfirm Password</h5>
         <input
           class="input-class"
-          v-model="message"
+          v-model="newConfirmPassword"
+          type="password"
           placeholder="Confirm Password"
         />
       </div>
@@ -60,7 +71,11 @@
 
   <div class="description">
     <h4>Write a short description of your company</h4>
-    <input class="input-class-box" v-model="message" label="Max 1000 words" />
+    <input
+      class="input-class-box"
+      v-model="businessDescription"
+      label="Max 1000 words"
+    />
     <div class="button-flex">
       <h5>edit button here</h5>
       <h5>save button here</h5>
@@ -88,7 +103,11 @@
     </div>
     <div class="testimonial">
       <h4>Testimonial</h4>
-      <input class="input-class-box" v-model="message" label="Max 1000 words" />
+      <input
+        class="input-class-box"
+        v-model="testimonial"
+        label="Max 1000 words"
+      />
       <h5>import button</h5>
     </div>
   </div>
@@ -99,7 +118,22 @@ export default {
   data() {
     return {
       userId: sessionStorage.getItem("userId"),
-      businessData: null,
+      // placeholder images because otherwise stupid console error because hasn't fetched the images yet from profile otherwise.
+      businessData: {
+        companyImage:
+          "https://cdn.intelligencebank.com/au/share/NOrD/1VN0z/4Xkw0/preset=pB6BA/T125AI117_chai_brewed_loose_leaf",
+        companyLogo:
+          "https://cdn.intelligencebank.com/au/share/NOrD/1VN0z/4Xkw0/preset=pB6BA/T125AI117_chai_brewed_loose_leaf",
+      },
+      businessName: "",
+      businessDescription: "",
+      businessWebsite: "",
+      phone: "",
+      location: "",
+      currentPassword: "",
+      newPassword: "",
+      newConfirmPassword: "",
+      testimonial: "",
     };
   },
   methods: {
@@ -151,6 +185,38 @@ export default {
         console.log("Error updating business:", error);
       }
     },
+    async addPastWork() {
+      const businessId = this.userId;
+      let beforeImage = this.beforeImage;
+      let afterImage = this.afterImage;
+      let testimonial = this.testimonial;
+      let jwt = sessionStorage.getItem("jwt");
+      if (!jwt) return console.log("No JWT found");
+
+      if (beforeImage && afterImage && testimonial) {
+        const body = {
+          beforeImage,
+          afterImage,
+          testimonial,
+        };
+
+        const response = await fetch(`/api/business/${businessId}/pastwork`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+        this.businessData = data;
+
+        this.beforeImage = "";
+        this.afterImage = "";
+        this.testimonial = "";
+      }
+    },
   },
   async mounted() {
     try {
@@ -171,6 +237,11 @@ export default {
   },
   async created() {
     await this.fetchMyBusiness();
+    this.businessName = this.businessData.businessName;
+    this.businessDescription = this.businessData.businessDescription;
+    this.businessWebsite = this.businessData.businessWebsite;
+    this.phone = this.businessData.businessPhoneNumber;
+    this.location = this.businessData.businessLocation;
   },
 };
 </script>

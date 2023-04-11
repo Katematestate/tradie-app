@@ -1,12 +1,12 @@
 <script setup>
-defineProps({ body: String, companyName: String, rating: Number });
+defineProps({ comment: String, businessName: String, rating: Number });
 </script>
 
 <template>
   <div class="review-card panel flex flex-column">
-    <p>{{ body }}</p>
+    <p>{{ comment }}</p>
     <div class="card-footer flex justify-content-between align-items-center">
-      <strong>{{ companyName }}</strong>
+      <strong>{{ businessName }}</strong>
       <div class="rating flex align-items-center gap-1">
         <span>{{ rating }}</span>
         <i class="pi pi-star-fill text-brand"></i>

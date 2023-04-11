@@ -15,7 +15,6 @@ const createBusiness = async (req, res) => {
       businessLocation,
       businessDescription,
       skills,
-      pastWorks,
     } = req.body;
     console.log(req.body);
     // First, create the Business document with a temporary password field
@@ -32,7 +31,7 @@ const createBusiness = async (req, res) => {
       jobs: [],
       alerts: [],
       skills,
-      pastWorks,
+      pastWorks: [],
     });
     await newBusiness.save();
 

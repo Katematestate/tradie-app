@@ -1,17 +1,17 @@
 export default async (_to, _from, next) => {
   const token = sessionStorage.getItem("jwt");
   if (!token) {
-    return next("/login");
+    return next();
   }
 
-  const response = await fetch(`${import.meta.env.VITE_API_URL}users/me`, {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}businesses/me`, {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   });
 
   if (response.ok) {
-    next();
+    next("/tradie/account");
   } else {
-    next("/");
+    next();
   }
 };

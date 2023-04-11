@@ -15,6 +15,7 @@ import ClientHubPage from "../views/ClientHubPage.vue";
 
 import userAuth from "./middlewares/userAuth";
 import businessAuth from "./middlewares/businessAuth";
+import userOrNoneAuth from "./middlewares/userOrNoneAuth";
 
 const routes = [
   // Public Routes ------------------------------------------------------------
@@ -56,13 +57,14 @@ const routes = [
     path: "/tradie/list",
     name: "TradieList",
     component: TradieList,
+    beforeEnter: userOrNoneAuth,
   },
 
   {
     path: "/tradie/account",
     name: "TradieAccountPage",
     component: TradieAccountPage,
-    // beforeEnter: businessAuth,
+    beforeEnter: businessAuth,
   },
   {
     path: "/tradie/account/edit",
@@ -77,6 +79,9 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 export default router;

@@ -12,6 +12,6 @@ export default async (_to, _from, next) => {
   if (response.ok) {
     next();
   } else {
-    next("/login");
+    next("/");
   }
 };
