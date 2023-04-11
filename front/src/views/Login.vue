@@ -106,12 +106,14 @@ export default {
       if (data.token && data.id) {
         sessionStorage.setItem("jwt", data.token);
         sessionStorage.setItem("userId", data.id);
-        sessionStorage.setItem("userType", "user");
+        sessionStorage.setItem("userType", data.userType);
 
         const event = new Event("sessionStorageUpdated");
         window.dispatchEvent(event);
 
-        this.$router.push({ name: "TradieList" });
+        if (data.userType === "user") this.$router.push({ name: "TradieList" });
+        else if (data.userType === "tradie")
+          this.$router.push({ name: "TradieAccountPage" });
       }
     },
   },

@@ -54,11 +54,14 @@ import { useDialog } from "primevue/usedialog";
   <section class="become-member">
     <h1>Become a Member</h1>
     <div class="sign-up">
-      <Button label="Client Signup" />
-      <Button label="Tradie Signup" />
+      <router-link to="/client/signup">
+        <Button label="Client Signup" />
+      </router-link>
+      <router-link to="/tradie/signup">
+        <Button label="Tradie Signup" />
+      </router-link>
     </div>
   </section>
-  {{ user }}
 </template>
 
 <script>
@@ -114,7 +117,7 @@ export default {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}businesses?businessName=${
             this.company
-          }&businessLocation=${this.region}&skills=${this.search}`
+          }&businessLocation=${this.region}&skills=${this.search.toLowerCase()}`
         );
 
         if (!response.ok) {
@@ -125,67 +128,10 @@ export default {
         console.log(this.businesses_list);
       } catch (error) {
         console.error("Error fetching businesses:", error);
-        // return [
-        //   {
-        //     id: 123,
-        //     skills: ["plumber"],
-        //     activeQuote: true,
-        //     businessName: "dingus",
-        //     businessDescription: "dingus dong",
-        //     companyImage: DevImg,
-        //     companyLogo: DevImg,
-        //   },
-        //   {
-        //     id: 123,
-        //     skills: ["plumber"],
-        //     activeQuote: false,
-        //     businessName: "dingus",
-        //     businessDescription: "dingus dong",
-        //     companyImage: DevImg,
-        //     companyLogo: DevImg,
-        //   },
-        //   {
-        //     id: 123,
-        //     skills: ["plumber"],
-        //     activeQuote: false,
-        //     businessName: "dingus",
-        //     businessDescription: "dingus dong",
-        //     companyImage: DevImg,
-        //     companyLogo: DevImg,
-        //   },
-        //   {
-        //     id: 123,
-        //     skills: ["plumber"],
-        //     activeQuote: false,
-        //     businessName: "dingus",
-        //     businessDescription: "dingus dong",
-        //     companyImage: DevImg,
-        //     companyLogo: DevImg,
-        //   },
-        //   {
-        //     id: 123,
-        //     skills: ["plumber"],
-        //     activeQuote: false,
-        //     businessName: "dingus",
-        //     businessDescription: "dingus dong",
-        //     companyImage: DevImg,
-        //     companyLogo: DevImg,
-        //   },
-        //   {
-        //     id: 123,
-        //     skills: ["plumber"],
-        //     activeQuote: true,
-        //     businessName: "dingus",
-        //     businessDescription: "dingus dong",
-        //     companyImage: DevImg,
-        //     companyLogo: DevImg,
-        //   },
-        // ];
       }
     },
 
     quote(id) {
-      console.log(this.userId && this.userType && this.jwt);
       if (this.userId && this.userType && this.jwt && this.user) {
         const business = this.businesses_list.find((item) => item._id === id);
 
@@ -202,12 +148,18 @@ export default {
       }
     },
 
-    viewMore(id) {
+    async viewMore(id) {
       const business = this.businesses_list.find((item) => item._id === id);
-      console.log(business);
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}reviews/business/${id}`
+      );
+      let reviews = await response.json();
+      if (!reviews || reviews.message === "No reviews found") reviews = [];
       this.openDialog = this.dialog.open(TradieInfoDialog, {
         data: {
           business,
+          reviews,
         },
         props: {
           header: business.businessName,
@@ -252,7 +204,6 @@ export default {
         this.jwt &&
         this.userType === "user"
       ) {
-        // fetch client data
         await this.getClientData();
       }
     },

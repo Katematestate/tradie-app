@@ -22,6 +22,7 @@ function toggleSettingsMenu(event) {
       >
         <Icon icon="mdi:account" />
       </div>
+
       <div v-if="this.userType === 'tradie'" class="job-tray icon relative">
         <Badge
           v-if="hasNotification"
@@ -86,10 +87,15 @@ export default {
           console.log("not logged in, can't fetch alerts");
           return;
         }
+        let path = "";
+        if (this.userType === "user") {
+          path = "user";
+        } else if (this.userType === "tradie") {
+          path = "business";
+        }
+
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}alerts/${this.userType}/${
-            this.userId
-          }`
+          `${import.meta.env.VITE_API_URL}alerts/${path}/${this.userId}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error ${response.status}`);
@@ -115,7 +121,7 @@ export default {
       this.userType = null;
       this.userId = null;
       this.jwt = null;
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "LandingPage" });
     },
     async getSessionStorageData() {
       this.userId = sessionStorage.getItem("userId");
@@ -126,18 +132,20 @@ export default {
     },
   },
 
-  mounted() {
-    this.getSessionStorageData;
+  async mounted() {
     window.addEventListener(
       "sessionStorageUpdated",
       this.getSessionStorageData
     );
   },
-  beforeUnmount() {
+  async beforeUnmount() {
     window.removeEventListener(
       "sessionStorageUpdated",
       this.getSessionStorageData
     );
+  },
+  async created() {
+    this.getSessionStorageData();
   },
 };
 </script>

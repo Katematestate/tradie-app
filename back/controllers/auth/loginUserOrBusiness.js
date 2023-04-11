@@ -34,6 +34,7 @@ const loginUserOrBusiness = async (req, res) => {
     res.json({
       token,
       id: user?.id ?? business.id,
+      userType: user ? "user" : "tradie",
     });
   } catch (error) {
     console.error("Error in loginUserOrBusiness:", error);

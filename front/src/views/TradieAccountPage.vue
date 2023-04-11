@@ -8,7 +8,7 @@ import Rating from "primevue/rating";
 
 <template>
   <div class="info-section">
-    <BackToLink :to="{ name: 'LandingPage' }" label="Back to Home" />
+    <BackToLink to="/" label="Back to Home" />
     <h1 class="text-center">Business Profile</h1>
     <div class="flex gap-4 justify-content-center">
       <div class="info-image-flex">
@@ -21,8 +21,12 @@ import Rating from "primevue/rating";
       </div>
 
       <div class="info-text flex flex-column gap-1">
-        <img height="80" :src="businessData.companyLogo" />
-        <strong class="user-name h4">?? User data ??</strong>
+        <img
+          class="width-controller"
+          height="80"
+          :src="businessData.companyLogo"
+        />
+        <strong class="user-name h4">{{ businessData.businessName }}</strong>
         <strong>Phone: {{ businessData.businessPhoneNumber }}</strong>
         <strong>Location: {{ businessData.businessLocation }}</strong>
         <strong>Website: {{ businessData.businessWebsite }}</strong>
@@ -74,44 +78,6 @@ export default {
       userId: sessionStorage.getItem("userId"),
       businessData: {
         rating: 4,
-        companyImage: TestCompanyImage,
-        companyLogo: TestCompanyLogo,
-        businessPhoneNumber: 12345,
-        businessLocation: "A place somewhere",
-        businessWebsite: "www.nowhere.com",
-        businessDescription: "A business",
-        pastWorks: [
-          {
-            job: "Wall Renovation",
-            beforeImage: "stairs",
-            afterImage: "better stairs",
-            rating: 4,
-            author: "Guy Gregs",
-          },
-          {
-            job: "Broken Door",
-            beforeImage: "stairs",
-            afterImage: "better stairs",
-            rating: 2,
-            author: "Guy Gregs",
-          },
-
-          {
-            job: "Broken Fence",
-            beforeImage: "stairs",
-            afterImage: "better stairs",
-            rating: 4,
-            author: "Guy Gregs",
-          },
-
-          {
-            job: "Kitchen Renovation",
-            beforeImage: "stairs",
-            afterImage: "better stairs",
-            rating: 4,
-            author: "Guy Gregs",
-          },
-        ],
       },
     };
   },
@@ -137,6 +103,11 @@ export default {
         console.log("Error fetching business:", error);
       }
     },
+    async getSessionStorageData() {
+      this.userId = sessionStorage.getItem("userId");
+      this.userType = sessionStorage.getItem("userType");
+      this.jwt = sessionStorage.getItem("jwt");
+    },
   },
   async mounted() {
     try {
@@ -157,11 +128,31 @@ export default {
   },
   async created() {
     await this.fetchMyBusiness();
+    this.getSessionStorageData();
   },
 };
 </script>
 
 <style scoped lang="scss">
+.job-review {
+  display: flex;
+  flex-flow: nowrap column;
+  align-items: stretch;
+  background-color: #eeeeee;
+}
+.review-photos {
+  display: flex;
+  flex-direction: row;
+}
+.review-photo img {
+  width: 30%;
+  height: 20em;
+  border-radius: 5%;
+}
+.width-controller {
+  // logo way too wide without controller
+  max-width: 90px;
+}
 .info-section {
   padding: var(--spacing-large);
 }

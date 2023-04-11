@@ -8,7 +8,7 @@ import BackToLink from "../components/BackToLink.vue";
 <template>
   <section class="client-signup flex flex-column">
     <div class="links-div flex-end">
-      <BackToLink :to="{ name: 'LandingPage' }" label="Go To Home" />
+      <BackToLink to="/" label="Go to Home" />
     </div>
 
     <div class="heading-container flex flex-column align-items-center">

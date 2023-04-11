@@ -16,20 +16,10 @@ function viewSite(id) {
   emit("viewSite", id);
 }
 
-// This data would be fetched from the server via some sort of company id
 const details = {
   // todo - add rating avg
   rating: 4.5,
 };
-
-// Reviews would be fetched from the server via some sort of company id
-const reviews = [
-  {
-    body: "some body text for the review",
-    companyName: "Electro Lights",
-    rating: 3.5,
-  },
-];
 </script>
 
 <template>
@@ -48,7 +38,11 @@ const reviews = [
       <div class="customer-reviews flex flex-column gap-5">
         <Carousel :value="reviews">
           <template #item="slotProps">
-            <ReviewCard v-bind="slotProps.data" />
+            <ReviewCard
+              :rating="slotProps.data.rating"
+              :comment="slotProps.data.comment"
+              :businessName="business.businessName"
+            />
           </template>
         </Carousel>
         <Carousel :value="business.pastWorks">
@@ -69,10 +63,12 @@ const reviews = [
 export default {
   data: () => ({
     business: {},
+    reviews: [],
   }),
   inject: ["dialogRef"],
   mounted() {
     this.business = this.dialogRef.data.business;
+    this.reviews = this.dialogRef.data.reviews;
   },
 };
 </script>
