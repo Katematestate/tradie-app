@@ -8,10 +8,14 @@
             <h3>Pending</h3>
         </div>
     </div>
+    <section class="content">
+        <PendingBoxes/>
+    </section>
 </template>
 
 <script setup>
 import { Icon } from '@iconify/vue';
+import PendingBoxes from './PendingBoxes.vue';
 
 </script>
 
@@ -42,5 +46,9 @@ import { Icon } from '@iconify/vue';
 .icon svg{
     width: 100%;
     height: 100%;
+}
+.content{
+    background-color: var(--color-shade);
+    max-width: 90%;
 }
 </style>
