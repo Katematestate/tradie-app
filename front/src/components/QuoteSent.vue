@@ -1,24 +1,21 @@
+<script setup>
+import { Icon } from '@iconify/vue';
+import QuoteSentBoxes from './QuoteSentBoxes.vue';
+</script>
 
 <template>
     <div class="heading-wrapper">
      <div class="icon">
-            <Icon icon="solar:menu-dots-circle-bold" color="#222030" />
+        <Icon icon="mdi:invoice-clock-outline" color="#222030" />
     </div>
         <div class="blue-div">
-            <h3>Pending</h3>
+            <h3>Quote Sent</h3>
         </div>
     </div>
     <section class="content">
-        <PendingBoxes/>
-
+        <QuoteSentBoxes/>
     </section>
 </template>
-
-<script setup>
-import { Icon } from '@iconify/vue';
-import PendingBoxes from './PendingBoxes.vue';
-
-</script>
 
 <style scoped lang="scss">
 .heading-wrapper{
