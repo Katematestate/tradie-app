@@ -138,8 +138,31 @@ a {
   font-family: var(--font-secondary);
   text-decoration: none;
 }
+a:hover {
+  color: var(--color-brand-hover);
+  text-decoration: underline;
+}
 
 .input-group {
+  display: flex;
+  flex-flow: nowrap column;
+  gap: calc(var(--spacing-small) / 2);
+
+  &.checkbox {
+    align-items: center;
+    flex-flow: nowrap row;
+    gap: var(--spacing-small);
+
+    label {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  input {
+    flex: 1;
+  }
+
   label {
     font-family: var(--font-secondary);
     font-size: 0.8rem;

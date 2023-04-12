@@ -1,16 +1,15 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
 
-import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
-import ClientQuoteRequestDialog from "./dialogs/ClientQuoteRequestDialog.vue";
 import Button from "../components/Button.vue";
+import ClientQuoteRequestDialog from "./dialogs/ClientQuoteRequestDialog.vue";
+import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
 
-import InputText from "primevue/inputtext";
 import Dropdown from "primevue/dropdown";
+import InputText from "primevue/inputtext";
 import Paginator from "primevue/paginator";
-import DevImg from "../assets/images/dev.jpg";
-import { ref } from "vue";
 import { useDialog } from "primevue/usedialog";
+import { ref } from "vue";
 </script>
 
 <template>

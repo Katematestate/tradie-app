@@ -3,17 +3,18 @@ import { createRouter, createWebHistory } from "vue-router";
 // App.vue will be redirected to linked components via <router-links>
 // as a convention we will create new folder in 'src' named 'views' and place components to be linked in there
 // components related to those links needs to be defined below both for import and routes[] array
-import LandingPage from "../views/LandingPage.vue";
-import ClientSignup from "../views/ClientSignup.vue";
-import TradieList from "../views/TradieListPage.vue";
-import TradieAccountEdit from "../views/TradieAccountEdit.vue";
-import TradieAccountPage from "../views/TradieAccountPage.vue";
-import TradieSignup from "../views/TradieSignup.vue";
 import Footer from "../components/Footer.vue";
 import ClientHubPage from "../views/ClientHubPage.vue";
+import ClientSignup from "../views/ClientSignup.vue";
+import LandingPage from "../views/LandingPage.vue";
+import TradieAccountEdit from "../views/TradieAccountEdit.vue";
+import TradieAccountPage from "../views/TradieAccountPage.vue";
+import TradieJobRequests from "../views/TradieJobRequests.vue";
+import TradieList from "../views/TradieListPage.vue";
+import TradieSignupPage from "../views/TradieSignupPage.vue";
 
-import userAuth from "./middlewares/userAuth";
 import businessAuth from "./middlewares/businessAuth";
+import userAuth from "./middlewares/userAuth";
 import userOrNoneAuth from "./middlewares/userOrNoneAuth";
 
 const routes = [
@@ -32,7 +33,7 @@ const routes = [
   {
     path: "/tradie/signup",
     name: "TradieSignup",
-    component: TradieSignup,
+    component: TradieSignupPage,
   },
   {
     path: "/tradie/Footer",
@@ -65,6 +66,11 @@ const routes = [
     name: "TradieAccountEdit",
     component: TradieAccountEdit,
     beforeEnter: businessAuth,
+  },
+  {
+    path: "/TradieJobRequests",
+    name: "TradieJobRequest",
+    component: TradieJobRequests,
   },
 
   // add more routes here
