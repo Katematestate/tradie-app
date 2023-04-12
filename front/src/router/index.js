@@ -59,7 +59,7 @@ const routes = [
     path: "/tradie/account",
     name: "TradieAccountPage",
     component: TradieAccountPage,
-    beforeEnter: businessAuth,
+    // beforeEnter: businessAuth,
   },
   {
     path: "/tradie/account/edit",
@@ -71,7 +71,7 @@ const routes = [
     path: "/tradie/jobrequests",
     name: "TradieJobRequests",
     component: TradieJobRequests,
-    // beforeEnter: businessAuth,
+    beforeEnter: businessAuth,
   },
 
   // add more routes here

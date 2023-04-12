@@ -1,14 +1,12 @@
 <script setup>
 import Carousel from "primevue/carousel";
+import Rating from "primevue/rating";
 import TestCompanyImage from "../assets/images/Victoria-Mitchell-11 1.png";
 import TestCompanyLogo from "../assets/images/tradie-landing.png";
-import BackToLink from "../components/BackToLink.vue";
-import Rating from "primevue/rating";
 </script>
 
 <template>
   <div class="info-section">
-    <BackToLink to="/" label="Back to Home" />
     <h1 class="text-center">Business Profile</h1>
     <div class="flex gap-4 justify-content-center">
       <div class="info-image-flex">
@@ -21,11 +19,7 @@ import Rating from "primevue/rating";
       </div>
 
       <div class="info-text flex flex-column gap-1">
-        <img
-          class="width-controller"
-          height="80"
-          :src="businessData.companyLogo"
-        />
+        <img height="80" :src="businessData.companyLogo" />
         <strong class="user-name h4">{{ businessData.businessName }}</strong>
         <strong>Phone: {{ businessData.businessPhoneNumber }}</strong>
         <strong>Location: {{ businessData.businessLocation }}</strong>
@@ -46,20 +40,20 @@ import Rating from "primevue/rating";
           <div class="review-card">
             <div class="review-photos flex gap-5">
               <div class="review-photo">
-                <span>Before</span>
-                <img class="border-edge" :src="sp.data.beforePhoto" />
+                <span class="h5">Before</span>
+                <img :src="sp.data.beforePhoto" />
               </div>
 
               <div class="review-photo">
-                <span>After</span>
-                <img class="border-edge" :src="sp.data.afterPhoto" />
+                <span class="h5">After</span>
+                <img :src="sp.data.afterPhoto" />
               </div>
             </div>
 
-            <div class="review-info flex gap-5">
-              <div>
-                Job Rated:
-                <i v-for="_ in sp.data.rating" class="pi pi-star-fill"></i>
+            <div class="review-info flex align-items-center gap-5">
+              <div class="flex gap-2">
+                <strong>Job Rated:</strong>
+                <Rating :model-value="sp.data.rating" :cancel="false" />
               </div>
 
               <div>By: {{ sp.data.author }}</div>
@@ -77,7 +71,52 @@ export default {
     return {
       userId: sessionStorage.getItem("userId"),
       businessData: {
+        companyImage: TestCompanyImage,
+        businessName: "Test Business",
+        companyLogo: TestCompanyLogo,
+        businessPhoneNumber: 1234,
+        businessLocation: "Somewhere",
+        businessWebsite: "www.somewhere.com",
+        businessDescription: "A business",
         rating: 4,
+        pastWorks: [
+          {
+            beforePhoto: TestCompanyImage,
+            afterPhoto: TestCompanyImage,
+            rating: 4,
+            author: "Dingus",
+          },
+          {
+            beforePhoto: TestCompanyImage,
+            afterPhoto: TestCompanyImage,
+            rating: 4,
+            author: "Dingus",
+          },
+          {
+            beforePhoto: TestCompanyImage,
+            afterPhoto: TestCompanyImage,
+            rating: 4,
+            author: "Dingus",
+          },
+          {
+            beforePhoto: TestCompanyImage,
+            afterPhoto: TestCompanyImage,
+            rating: 4,
+            author: "Dingus",
+          },
+          {
+            beforePhoto: TestCompanyImage,
+            afterPhoto: TestCompanyImage,
+            rating: 4,
+            author: "Dingus",
+          },
+          {
+            beforePhoto: TestCompanyImage,
+            afterPhoto: TestCompanyImage,
+            rating: 4,
+            author: "Dingus",
+          },
+        ],
       },
     };
   },
@@ -150,13 +189,8 @@ export default {
   flex-direction: row;
 }
 .review-photo img {
-  width: 30%;
-  height: 20em;
-  border-radius: 5%;
-}
-.width-controller {
-  // logo way too wide without controller
-  max-width: 90px;
+  width: 100%;
+  border-radius: var(--border-radius-standard);
 }
 .info-section {
   padding: var(--spacing-large);
@@ -165,18 +199,9 @@ export default {
   font-family: var(--font-secondary);
 }
 
-.job-review {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .review-card {
   padding: var(--spacing-standard);
   border-radius: var(--border-radius-standard);
   background-color: var(--color-shade);
-}
-
-.border-edge {
-  border-radius: var(--border-radius-standard);
 }
 </style>

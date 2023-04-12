@@ -17,7 +17,7 @@ function toggleSettingsMenu(event) {
       /></router-link>
     </div>
 
-    <div class="actions flex align-self-center gap-1 icon-size-4">
+    <div class="actions flex align-self-center gap-3 icon-size-4">
       <div
         v-if="!this.userType || this.userType === 'not-logged-in'"
         class="log-in icon"
