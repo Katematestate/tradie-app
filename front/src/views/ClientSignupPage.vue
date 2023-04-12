@@ -61,12 +61,24 @@ import BackToLink from "../components/BackToLink.vue";
 
       <div class="checkbox-container flex flex-column align-items-start gap-2">
         <div class="input-group checkbox">
-          <Checkbox class="" v-model="tos_consent" :binary="true" />
-          <label>Do You Consent To The Terms Of Service</label>
+          <Checkbox
+            input-id="input-consent-terms"
+            v-model="tos_consent"
+            :binary="true"
+          />
+          <label for="input-consent-terms">
+            Do you accept the Find A Tradie Terms of Service?
+          </label>
         </div>
         <div class="input-group checkbox">
-          <Checkbox class="" v-model="email_consent" :binary="true" />
-          <label>Do You Concent To Receiving Emails From Find A Tradie</label>
+          <Checkbox
+            input-id="input-consent-emails"
+            v-model="email_consent"
+            :binary="true"
+          />
+          <label for="input-consent-emails">
+            Do you agree to receive emails from Find A Tradie?
+          </label>
         </div>
       </div>
 
