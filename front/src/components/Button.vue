@@ -24,11 +24,4 @@ const buttonSeverity = computed(() => {
   />
 </template>
 
-<style scoped>
-@media screen and (max-width: 480px) {
-  .button {
-    padding: 8px;
-    font-size: 0.9rem;
-  }
-}
-</style>
+<style scoped></style>

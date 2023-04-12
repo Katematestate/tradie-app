@@ -9,7 +9,7 @@ import Login from "../views/Login.vue";
 import TradieList from "../views/TradieListPage.vue";
 import TradieAccountEdit from "../views/TradieAccountEdit.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
-import TradieSignup from "../views/TradieSignup.vue";
+import TradieSignupPage from "../views/TradieSignupPage.vue";
 import Footer from "../components/Footer.vue";
 import ClientHubPage from "../views/ClientHubPage.vue";
 import TradieJobRequests from "../views/TradieJobRequests.vue";
@@ -39,7 +39,7 @@ const routes = [
   {
     path: "/tradie/signup",
     name: "TradieSignup",
-    component: TradieSignup,
+    component: TradieSignupPage,
   },
   {
     path: "/tradie/Footer",
