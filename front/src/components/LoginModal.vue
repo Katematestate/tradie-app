@@ -1,93 +1,45 @@
 <script setup>
 import InputText from "primevue/inputtext";
-import Button_Main from "./Button.vue";
+import Button from "./Button.vue";
 </script>
 
 <template>
-  <div class="modal-container">
-    <div class="flex">
-      <h1 class="spacing-large-top">Log In</h1>
-    </div>
-    <div class="flex flex-col spacing-standard-textbox">
-      <p>Email</p>
-      <InputText v-model="email" class="input-class-box" placeholder="Email" />
-    </div>
-    <div class="flex flex-col spacing-standard-textbox">
-      <p>Password</p>
+  <div class="modal-container flex flex-column gap-3">
+    <div class="input-group">
+      <label for="input-email">Email</label>
       <InputText
+        id="input-email"
+        v-model="email"
+        placeholder="Email"
+        type="email"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="input-password">Password</label>
+      <InputText
+        id="input-password"
         v-model="password"
         type="password"
-        class="input-class-box"
         placeholder="Password"
       />
     </div>
-    <div>
-      <a class="flex" href="#">Forgot Your Password?</a>
+
+    <router-link to="/???">Forgot Your Password?</router-link>
+
+    <div class="flex">
+      <router-link to="/client/signup">Client sign up</router-link>
+      <span>&nbsp;or&nbsp;</span>
+      <router-link to="/tradie/signup"> Tradie sign up </router-link>
     </div>
-    <div class="flex flex-row spacing-large-top">
-      <a href="" class="secondary">Client Sign up</a>
-      <p>or</p>
-      <a href="" class="secondary">Tradie Sign up</a>
-    </div>
-    <div class="spacing-standard flex spacing-large-bottom">
-      <Button_Main label="Log In" />
-    </div>
+
+    <Button class="align-self-center" label="Log In" />
   </div>
 </template>
 
 <style scoped lang="scss">
-p {
-  margin-left: 4px;
-  margin-right: 4px;
-  margin-top: 0;
-  margin-bottom: 0;
-}
 .modal-container {
-  border: black solid 2px;
-  border-radius: 5px;
-  max-width: 350px;
   width: 100%;
-  margin: 0 auto;
-}
-.text-box-container {
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
-  gap: var(--spacing-standard);
-
-  @media (max-width: 425px) {
-    padding: 0 var(--spacing-standard);
-  }
-}
-.spacing-large-top {
-  padding-top: var(--spacing-large);
-}
-.spacing-large-bottom {
-  padding-bottom: var(--spacing-large);
-}
-.spacing-standard {
-  padding: var(--spacing-standard);
-}
-.spacing-standard-textbox {
-  padding-left: var(--spacing-large);
-  padding-right: var(--spacing-large);
-  padding-bottom: var(--spacing-standard);
-}
-.flex {
-  display: flex;
-  justify-content: center;
-}
-.flex-col {
-  flex-direction: column;
-}
-.flex-row {
-  flex-direction: column;
-}
-.secondary {
-  color: var(--color-primary);
-}
-.secondary:hover {
-  color: var(--color-brand);
-  transition: 0.4s;
+  padding-top: var(--spacing-standard);
 }
 </style>

@@ -138,6 +138,10 @@ a {
   font-family: var(--font-secondary);
   text-decoration: none;
 }
+a:hover {
+  color: var(--color-brand-hover);
+  text-decoration: underline;
+}
 
 .input-group {
   display: flex;

@@ -12,7 +12,9 @@ function toggleSettingsMenu(event) {
 <template>
   <div class="flex justify-content-between nav-bar">
     <div class="logo flex gap-2">
-      <img src="../assets/images/text-logo-icon.svg" alt="App name" />
+      <router-link to="/">
+        <img src="../assets/images/text-logo-icon.svg" alt="App name"
+      /></router-link>
     </div>
 
     <div class="actions flex align-self-center gap-1 icon-size-4">
@@ -20,7 +22,7 @@ function toggleSettingsMenu(event) {
         v-if="!this.userType || this.userType === 'not-logged-in'"
         class="log-in icon"
       >
-        <Icon icon="mdi:account" />
+        <Icon icon="mdi:account" @click="loadLoginModal()" />
       </div>
 
       <div v-if="this.userType === 'tradie'" class="job-tray icon relative">
@@ -64,6 +66,8 @@ function toggleSettingsMenu(event) {
 </template>
 
 <script>
+import { useDialog } from "primevue/usedialog";
+import LoginModal from "./LoginModal.vue";
 export default {
   data() {
     return {
@@ -72,10 +76,22 @@ export default {
       userType: "",
       userId: "",
       jwt: "",
+      dialog: useDialog(),
     };
   },
 
   methods: {
+    loadLoginModal() {
+      this.dialog.open(LoginModal, {
+        props: {
+          header: "LOG IN",
+          modal: true,
+          closeOnEscape: true,
+          dismissableMask: true,
+        },
+      });
+    },
+
     async fetchUserOrBusinessAlerts() {
       try {
         if (
