@@ -156,18 +156,7 @@ p {
   padding: var(--spacing-standard);
 }
 
-.input-class-box {
-  border-radius: 5px;
-  border: none;
-  background-color: var(--color-shade);
-  color: var(--color-shade-text);
-  width: 100%;
-}
-
 .create-user {
   margin-bottom: var(--spacing-large);
-}
-.spacing-large {
-  margin: var(--spacing-large);
 }
 </style>
