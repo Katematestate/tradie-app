@@ -1,54 +1,71 @@
-<template>
-    <div class="heading-wrapper">
-     <div class="icon">
-        <Icon icon="ic:round-cancel" color="#222030" />
-    </div>
-        <div class="blue-div">
-            <h3>Cancelled Jobs</h3>
-        </div>
-    </div>
-    <section class="content">
-        <CancelledJobsBoxes/>
-    </section>
-</template>
-
 <script setup>
-import { Icon } from '@iconify/vue';
-import CancelledJobsBoxes from './CancelledJobsBoxes.vue';
+import { Icon } from "@iconify/vue";
+import JobCard from "./JobCard.vue";
+
+function foo() {
+  window.alert("ding from cancelled");
+}
+function bar() {
+  window.alert("dong from cancelled");
+}
 </script>
 
+<template>
+  <div class="heading-wrapper">
+    <div class="icon">
+      <Icon icon="ic:round-cancel" color="#222030" />
+    </div>
+    <div class="blue-div">
+      <h3>Cancelled Jobs</h3>
+    </div>
+  </div>
+  <section class="content">
+    <JobCard
+      client-name="Linda B"
+      client-location="Christchurch"
+      client-email="linda&john@gmail.com"
+      client-phone="027273274"
+      job-description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste numquam distinctio possimus in voluptates, placeat impedit voluptate veniam cumque accusantium?"
+      job-type="Kitchen Renovation"
+      job-state="cancelled"
+      @primary-action="foo()"
+      @secondary-action="bar()"
+    />
+  </section>
+</template>
+
 <style scoped lang="scss">
-.heading-wrapper{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
+.heading-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
-.blue-div{
-    background-color:var(--color-primary);
-    color: var(--color-brand-text);
-    border-radius: 5px;
-    padding: 0px;
-    margin: 0 5px;
-    flex: 1;
+.blue-div {
+  background-color: var(--color-primary);
+  color: var(--color-brand-text);
+  border-radius: 5px;
+  padding: 0px;
+  margin: 0 5px;
+  flex: 1;
 }
-.blue-div h3{
-    margin: 10px;
+.blue-div h3 {
+  margin: 10px;
 }
 
-.icon{
-    width: 4em;
-    height: 4em;
-    margin: 5px;
+.icon {
+  width: 4em;
+  height: 4em;
+  margin: 5px;
 }
-.icon svg{
-    width: 100%;
-    height: 100%;
+.icon svg {
+  width: 100%;
+  height: 100%;
 }
-.content{
-    background-color: var(--color-shade);
-    margin: 10px;
-    padding: 20px;
-    border-radius: 5px;
+.content {
+  background-color: var(--color-shade);
+  margin: 10px;
+  padding: 20px;
+  border-radius: 5px;
 }
 </style>
