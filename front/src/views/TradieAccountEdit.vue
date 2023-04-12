@@ -1,3 +1,6 @@
+<script setup>
+import Textarea from "primevue/textarea";
+</script>
 <template>
   <div class="business-profile">
     <div class="business-header">
@@ -93,14 +96,14 @@
     <div class="upload-section">
       <div class="upload-before">
         <h4>Before Photo</h4>
-        <img src="../assets/images/dev.jpg" />
-        <h5>upload button</h5>
+        <img :src="beforeImage" />
+        <Textarea v-model="afterImage" placeholder="before image link" />
       </div>
 
       <div class="upload-after">
         <h4>After Photo</h4>
-        <img src="../assets/images/dev.jpg" />
-        <h5>upload button</h5>
+        <img :src="afterImage" />
+        <Textarea v-model="afterImage" placeholder="after image link" />
       </div>
     </div>
     <div class="testimonial">
@@ -136,6 +139,8 @@ export default {
       newPassword: "",
       newConfirmPassword: "",
       testimonial: "",
+      beforeImage: "",
+      afterImage: "",
     };
   },
   methods: {

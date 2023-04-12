@@ -1,7 +1,9 @@
 export default async (_to, _from, next) => {
   const token = sessionStorage.getItem("jwt");
   if (!token) {
-    return next("/login");
+    window.dispatchEvent(new CustomEvent("show-login-modal"));
+    return next("/");
+    // return next("/login");
   }
 
   const response = await fetch(`${import.meta.env.VITE_API_URL}businesses/me`, {

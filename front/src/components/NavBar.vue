@@ -79,7 +79,7 @@ export default {
       dialog: useDialog(),
     };
   },
-
+  emits: ["toggle_modal"],
   methods: {
     loadLoginModal() {
       this.dialog.open(LoginModal, {

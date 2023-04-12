@@ -1,3 +1,8 @@
+<script setup>
+import { Icon } from "@iconify/vue";
+import Button from "../components/Button.vue";
+</script>
+
 <template>
   <div class="landing">
     <img class="back-splash" src="../assets/images/tradie-landing.png" />
@@ -120,6 +125,8 @@
     </div>
   </div>
 </template>
+
+<script></script>
 
 <style scoped lang="scss">
 h1 {
@@ -303,8 +310,3 @@ h4 {
   text-align: left;
 }
 </style>
-
-<script setup>
-import { Icon } from "@iconify/vue";
-import Button from "../components/Button.vue";
-</script>
