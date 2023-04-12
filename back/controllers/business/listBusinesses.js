@@ -12,10 +12,12 @@ const listBusinesses = async (req, res) => {
       query.businessLocation = new RegExp(businessLocation, "i");
     }
     if (skills) {
-      query.skills = { $in: skills.split(",") };
+      query.skills = { $in: [skills] };
     }
 
-    const businesses = await Business.find(query);
+    const businesses = await Business.find(query).select(
+      "pastWorks businessDescription businessLocation businessWebsite businessPhoneNumber businessName companyImage companyLogo skills"
+    );
     res.json(businesses);
   } catch (error) {
     res.status(500).json({ message: error.message });

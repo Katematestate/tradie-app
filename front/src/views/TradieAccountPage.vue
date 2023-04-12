@@ -1,195 +1,143 @@
+<script setup>
+import Carousel from "primevue/carousel";
+import TestCompanyImage from "../assets/images/Victoria-Mitchell-11 1.png";
+import TestCompanyLogo from "../assets/images/tradie-landing.png";
+import BackToLink from "../components/BackToLink.vue";
+import Rating from "primevue/rating";
+</script>
+
 <template>
-  <div class="business-profile">
-    <div class="business-header">
-      <h1>Business Profile</h1>
-    </div>
-
-    <div class="business-info">
-      <div class="info-section">
-        <img class="info-section-logo" src="../assets/images/dev.jpg" />
-        <h5>Import button here</h5>
-        <h5>Company name</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Company Name"
-        />
-        <h5>Rating *****</h5>
-        <h5>Current Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Current Password"
-        />
-      </div>
-      <div class="info-section">
-        <h5>First Name</h5>
-        <input class="input-class" v-model="message" placeholder="First Name" />
-        <h5>Last Name</h5>
-        <input class="input-class" v-model="message" placeholder="Last Name" />
-        <h5>Mobile Number</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Mobile Number"
-        />
-        <h5>Location</h5>
-        <input class="input-class" v-model="message" placeholder="Location" />
-        <h5>Website</h5>
-        <input class="input-class" v-model="message" placeholder="Website" />
-        <h5>New Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="New Password"
-        />
-      </div>
-      <div class="info-section">
-        <h4>Company Image</h4>
-        <img class="info-section-company" src="../assets/images/dev.jpg" />
-        <h5>import image button</h5>
-        <h5>Comfirm Password</h5>
-        <input
-          class="input-class"
-          v-model="message"
-          placeholder="Comfirm Password"
-        />
-      </div>
-    </div>
-
-    <div class="description">
-      <h4>Write a short description of your company</h4>
-      <input
-        class="input-class-box"
-        v-model="message"
-        placeholder="Max 1000 words"
-      />
-      <div class="button-flex">
-        <h5>edit button here</h5>
-        <h5>save button here</h5>
+  <div class="info-section">
+    <BackToLink to="/" label="Back to Home" />
+    <h1 class="text-center">Business Profile</h1>
+    <div class="flex gap-4 justify-content-center">
+      <div class="info-image-flex">
+        <img class="companyImg" :src="businessData.companyImage" />
+        <h4>{{ businessData.businessName }}</h4>
+        <p class="flex gap-5">
+          Overall Rating :
+          <Rating :model-value="businessData.rating" :cancel="false" />
+        </p>
       </div>
 
-      <div class="add-past-work">
-        <h2>ADD PAST WORK</h2>
-        <router-view></router-view>
-
-        <Carousel :value="carouselItems" :num-visible="2" :num-scroll="1">
-          <template #item="slotProps">
-            <div class="job-review">
-              <div>{{ slotProps.data.job }}</div>
-
-              <div class="review-photos">
-                <div class="review-photo">
-                  <span
-                    >Before Photo
-                    <img src="../assets/images/dev.jpg" />
-                  </span>
-
-                  <div>{{ slotProps.data.beforeImage }}</div>
-                </div>
-
-                <div class="review-photo">
-                  <span
-                    >After Photo
-                    <img src="../assets/images/dev.jpg" />
-                  </span>
-
-                  <div>{{ slotProps.data.afterImage }}</div>
-                </div>
-              </div>
-
-              <div class="review-info">
-                <div>
-                  Job Rated:
-                  <i
-                    v-for="_ in slotProps.data.rating"
-                    class="pi pi-star-fill"
-                  ></i>
-                </div>
-
-                <div>By: {{ slotProps.data.author }}</div>
-              </div>
-            </div>
-          </template>
-        </Carousel>
-        <div>
-          <!-- <CarouselAccountPage/> -->
-        </div>
+      <div class="info-text flex flex-column gap-1">
+        <img
+          class="width-controller"
+          height="80"
+          :src="businessData.companyLogo"
+        />
+        <strong class="user-name h4">{{ businessData.businessName }}</strong>
+        <strong>Phone: {{ businessData.businessPhoneNumber }}</strong>
+        <strong>Location: {{ businessData.businessLocation }}</strong>
+        <strong>Website: {{ businessData.businessWebsite }}</strong>
+        <p>
+          {{ businessData.businessDescription }}
+        </p>
       </div>
     </div>
   </div>
-</template>
-<style scoped lang="scss">
-.business-profile {
-  display: flex;
-  flex-direction: column;
-  padding: 5%;
-}
-.button-flex {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-.business-info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-standard);
-}
-.business-info h5 {
-  margin: 0%;
-}
-.info-section {
-  background-color: white;
-  padding: 10%;
-}
-.business-header h1 {
-  text-align: center;
-}
-.picture-flex {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding: 20px;
-  background-color: antiquewhite;
-}
-.input-class {
-  border-radius: 5px;
-  border: none;
-  padding: 5%;
-  background-color: #eeeeee;
-  width: 100%;
-}
-.input-class-box {
-  border-radius: 5px;
-  border: none;
-  padding-top: 3%;
-  padding-left: 3%;
-  padding-right: 5%;
-  padding-bottom: 10%;
-  background-color: #eeeeee;
-  width: 100%;
-}
-.business-profile h4 {
-  margin: 0%;
-  padding: 1%;
-}
+  <div class="review-section">
+    <h2 class="text-center">Reviews</h2>
 
-.info-section-logo {
-  height: 15em;
-  width: 100%;
-  border-radius: 5%;
-}
-.info-section-company {
-  width: 100%;
-  height: 20em;
-  border-radius: 5%;
-}
-.info-section h5 {
-  padding-top: 5%;
-}
-.description {
-  margin-right: 3%;
-  margin-left: 3%;
+    <Carousel :value="businessData.pastWorks" :num-visible="2" :num-scroll="1">
+      <template #item="sp">
+        <div class="job-review">
+          <!-- <div>{{ slotProps.data.job }}</div> -->
+          <div class="review-card">
+            <div class="review-photos flex gap-5">
+              <div class="review-photo">
+                <span>Before</span>
+                <img class="border-edge" :src="sp.data.beforePhoto" />
+              </div>
+
+              <div class="review-photo">
+                <span>After</span>
+                <img class="border-edge" :src="sp.data.afterPhoto" />
+              </div>
+            </div>
+
+            <div class="review-info flex gap-5">
+              <div>
+                Job Rated:
+                <i v-for="_ in sp.data.rating" class="pi pi-star-fill"></i>
+              </div>
+
+              <div>By: {{ sp.data.author }}</div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </Carousel>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      userId: sessionStorage.getItem("userId"),
+      businessData: {
+        rating: 4,
+      },
+    };
+  },
+  methods: {
+    async fetchMyBusiness() {
+      try {
+        const jwt = sessionStorage.getItem("jwt");
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses/${this.userId}`,
+          {
+            headers: { Authorization: `Bearer ${jwt}` },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const business = await response.json();
+
+        this.businessData = business;
+      } catch (error) {
+        console.log("Error fetching business:", error);
+      }
+    },
+    async getSessionStorageData() {
+      this.userId = sessionStorage.getItem("userId");
+      this.userType = sessionStorage.getItem("userType");
+      this.jwt = sessionStorage.getItem("jwt");
+    },
+  },
+  async mounted() {
+    try {
+      const jwt = sessionStorage.getItem("jwt");
+      if (!jwt) {
+        throw new Error("No JWT found");
+      }
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}businesses`,
+        {
+          headers: { Authorization: `Bearer ${jwt}` },
+        }
+      );
+      this.data = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async created() {
+    await this.fetchMyBusiness();
+    this.getSessionStorageData();
+  },
+};
+</script>
+
+<style scoped lang="scss">
+// kinda ugly approach for image sizing but before it was taking the whole screen for the image (below)
+.companyImg {
+  max-height: 400px;
+  max-width: 800px;
 }
 .job-review {
   display: flex;
@@ -206,41 +154,29 @@
   height: 20em;
   border-radius: 5%;
 }
+.width-controller {
+  // logo way too wide without controller
+  max-width: 90px;
+}
+.info-section {
+  padding: var(--spacing-large);
+}
+.info-text {
+  font-family: var(--font-secondary);
+}
+
+.job-review {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.review-card {
+  padding: var(--spacing-standard);
+  border-radius: var(--border-radius-standard);
+  background-color: var(--color-shade);
+}
+
+.border-edge {
+  border-radius: var(--border-radius-standard);
+}
 </style>
-<script setup>
-import Carousel from "primevue/carousel";
-
-const carouselItems = [
-  {
-    job: "Wall Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Broken Door",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 2,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Broken Fence",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-
-  {
-    job: "Kitchen Renovation",
-    beforeImage: "stairs",
-    afterImage: "better stairs",
-    rating: 4,
-    author: "Guy Gregs",
-  },
-];
-</script>

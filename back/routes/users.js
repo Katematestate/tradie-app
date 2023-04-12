@@ -1,31 +1,31 @@
 const express = require("express");
 const router = express.Router();
-const isAuthenticated = require('../middlewares/isAuthenticated');
-const { listUsers, createUser, getUser, deleteUser, updateUser } = require('../controllers/user');
+const jwtMiddleware = require("../middlewares/jwtMiddleware");
+const {
+  listUsers,
+  createUser,
+  getUser,
+  me,
+  deleteUser,
+  updateUser,
+} = require("../controllers/user");
 
 // GET (all) Users route
-router.get('/', async (req, res) => {
-    await listUsers(req, res);
-});
+router.get("/", listUsers);
 
 // POST new User
-router.post('/', async (req, res) => {
-    await createUser(req, res);
-});
+router.post("/", createUser);
+
+// GET my authenticated user
+router.get("/me", jwtMiddleware, me);
 
 // GET (single) User by ID
-router.get('/:id', async (req, res) => {
-    getUser(req, res);
-});
+router.get("/:id", jwtMiddleware, getUser);
 
 // DELETE a User by ID
-router.delete('/:id', isAuthenticated('user'), async (req, res) => {
-    deleteUser(req, res);
-});
+router.delete("/:id", jwtMiddleware, deleteUser);
 
 // UPDATE a User by ID
-router.put('/:id', isAuthenticated('user'), async (req, res) => {
-    updateUser(req, res);
-});
+router.put("/:id", jwtMiddleware, updateUser);
 
 module.exports = router;
