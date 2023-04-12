@@ -7,7 +7,7 @@ import Footer from "../components/Footer.vue";
 import ClientHubPage from "../views/ClientHubPage.vue";
 import ClientSignup from "../views/ClientSignup.vue";
 import LandingPage from "../views/LandingPage.vue";
-import TradieAccountEdit from "../views/TradieAccountEdit.vue";
+import TradieAccountEdit from "../views/TradieAccountEditPage.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
 import TradieJobRequests from "../views/TradieJobRequestsPage.vue";
 import TradieList from "../views/TradieListPage.vue";
@@ -65,7 +65,7 @@ const routes = [
     path: "/tradie/account/edit",
     name: "TradieAccountEdit",
     component: TradieAccountEdit,
-    beforeEnter: businessAuth,
+    // beforeEnter: businessAuth,
   },
   {
     path: "/tradie/jobrequests",

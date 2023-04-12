@@ -1,9 +1,9 @@
 <script setup>
 import DynamicDialog from "primevue/dynamicdialog";
+import ConfirmPopup from "primevue/confirmpopup";
 import NavBar from "./components/NavBar.vue";
 import Footer from "./components/Footer.vue";
 import LoginModal from "./components/LoginModal.vue";
-import { def } from "@vue/shared";
 </script>
 
 <template>
@@ -11,8 +11,9 @@ import { def } from "@vue/shared";
     <LoginModal @toggle_modal="toggleModal" v-if="showModal" />
     <NavBar @toggle_modal="toggleModal" />
     <router-view></router-view>
-    <DynamicDialog />
     <Footer />
+    <DynamicDialog />
+    <ConfirmPopup />
   </div>
 </template>
 
