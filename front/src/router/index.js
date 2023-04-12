@@ -9,7 +9,7 @@ import ClientSignup from "../views/ClientSignup.vue";
 import LandingPage from "../views/LandingPage.vue";
 import TradieAccountEdit from "../views/TradieAccountEdit.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
-import TradieJobRequests from "../views/TradieJobRequests.vue";
+import TradieJobRequests from "../views/TradieJobRequestsPage.vue";
 import TradieList from "../views/TradieListPage.vue";
 import TradieSignupPage from "../views/TradieSignupPage.vue";
 
@@ -68,9 +68,10 @@ const routes = [
     beforeEnter: businessAuth,
   },
   {
-    path: "/TradieJobRequests",
-    name: "TradieJobRequest",
+    path: "/tradie/jobrequests",
+    name: "TradieJobRequests",
     component: TradieJobRequests,
+    // beforeEnter: businessAuth,
   },
 
   // add more routes here
