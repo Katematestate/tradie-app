@@ -68,6 +68,7 @@ function toggleSettingsMenu(event) {
 <script>
 import { useDialog } from "primevue/usedialog";
 import LoginModal from "./LoginModal.vue";
+
 export default {
   data() {
     return {
