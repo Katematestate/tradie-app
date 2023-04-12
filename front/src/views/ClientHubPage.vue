@@ -6,9 +6,9 @@ import { ref, computed } from "vue";
 
 import ReviewCard from "../components/ReviewCard.vue";
 import BackToLink from "../components/BackToLink.vue";
-import ClientReview from '../views/dialogs/ClientReviewDialog.vue';
+import ClientReview from "../views/dialogs/ClientReviewDialog.vue";
 
-import { useDialog } from 'primevue/usedialog';
+import { useDialog } from "primevue/usedialog";
 const dialog = useDialog();
 
 // Reviews probably need a job id to link them to the job they are reviewing
@@ -38,18 +38,20 @@ const inProgressJobs = computed(() => {
 });
 
 function editReview(id) {
-  dialog.open(ClientReview, {props: {modal: true, header:'Leave a review'}});
+  dialog.open(ClientReview, {
+    props: { modal: true, header: "Leave a review" },
+  });
 }
 </script>
 
 <template>
-  <BackToLink to="/tradielist" label="Back to Tradie List" class="back-link" />
   <header class="flex justify-content-center">
     <h1>
       <Icon style="vertical-align: text-bottom" icon="ri:chat-quote-fill" />
       Client Hub
     </h1>
   </header>
+
   <div class="page-content flex flex-column align-items-stretch">
     <section class="pending-quote">
       <h5>Pending</h5>
@@ -77,7 +79,13 @@ function editReview(id) {
             <span class="job-type">{{ job.type }}</span>
           </div>
           <Button size="small" label="Complete" />
-          <Button @click="editReview() " outlined severity="secondary" size="small" label="Review" />
+          <Button
+            @click="editReview()"
+            outlined
+            severity="secondary"
+            size="small"
+            label="Review"
+          />
         </div>
       </div>
     </section>
@@ -107,7 +115,7 @@ h5 {
 }
 
 .page-content {
-  margin: 0 auto;
+  margin: 0 auto var(--spacing-large) auto;
   max-width: 800px;
 }
 

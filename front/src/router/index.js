@@ -46,13 +46,13 @@ const routes = [
     path: "/client/hub",
     name: "ClientHub",
     component: ClientHubPage,
-    beforeEnter: userAuth,
+    // beforeEnter: userAuth,
   },
   {
     path: "/tradie/list",
     name: "TradieList",
     component: TradieList,
-    beforeEnter: userOrNoneAuth,
+    // beforeEnter: userOrNoneAuth,
   },
 
   {
@@ -71,7 +71,7 @@ const routes = [
     path: "/tradie/jobrequests",
     name: "TradieJobRequests",
     component: TradieJobRequests,
-    beforeEnter: businessAuth,
+    // beforeEnter: businessAuth,
   },
 
   // add more routes here
