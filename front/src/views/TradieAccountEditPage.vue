@@ -12,6 +12,7 @@ import Button from "../components/Button.vue";
           <div class="flex flex-column">
             <span class="h4 text-center">Company Logo</span>
             <img class="info-section-logo" :src="businessData.companyLogo" />
+            <Button class="button-small" label="Update Logo" />
           </div>
         </div>
         <div class="info-section">
@@ -64,11 +65,9 @@ import Button from "../components/Button.vue";
               class="info-section-company"
               :src="businessData.companyImage"
             />
+            <Button class="button-small" label="Update Image" />
           </div>
         </div>
-        <Button class="button-small" label="Update Logo" />
-        <span></span>
-        <Button class="button-small" label="Update Image" />
       </div>
     </section>
     <h2 class="text-center">Change Password</h2>
@@ -316,6 +315,9 @@ h2 {
 
 img {
   border-radius: var(--border-radius-standard);
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
 }
 
 .button-small {
@@ -337,9 +339,17 @@ section + section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-standard);
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 .change-password {
   grid-template-columns: 1fr 1fr auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 .add-past-work {
   background-color: var(--color-shade);
@@ -348,15 +358,36 @@ section + section {
   input {
     background-color: var(--color-page);
   }
+
+  @media (max-width: 768px) {
+    .upload-section {
+      display: flex;
+      flex-flow: nowrap column;
+      gap: var(--spacing-large);
+
+      > button {
+        margin: 0 auto;
+        width: 250px;
+      }
+
+      > div {
+        flex-direction: column;
+
+        .input-group {
+          width: 100%;
+        }
+
+        button {
+          margin-top: 0 !important;
+        }
+      }
+    }
+  }
 }
 .info-section {
   display: flex;
   flex-flow: nowrap column;
   gap: var(--spacing-standard);
-}
-
-img {
-  max-width: 450px;
 }
 
 #save-password-button {
