@@ -5,7 +5,6 @@ import { createRouter, createWebHistory } from "vue-router";
 // components related to those links needs to be defined below both for import and routes[] array
 import LandingPage from "../views/LandingPage.vue";
 import ClientSignup from "../views/ClientSignup.vue";
-import Login from "../views/Login.vue";
 import TradieList from "../views/TradieListPage.vue";
 import TradieAccountEdit from "../views/TradieAccountEdit.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
@@ -28,11 +27,6 @@ const routes = [
     path: "/client/signup",
     name: "ClientSignup",
     component: ClientSignup,
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: Login,
   },
 
   {

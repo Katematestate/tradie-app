@@ -2,7 +2,6 @@
 import { Icon } from "@iconify/vue";
 import Badge from "primevue/badge";
 import Menu from "primevue/menu";
-import modalMixin from "../mixins/modalMixin.vue";
 import { ref } from "vue";
 const settingsMenu = ref();
 function toggleSettingsMenu(event) {
@@ -66,7 +65,6 @@ function toggleSettingsMenu(event) {
 
 <script>
 export default {
-  mixins: [modalMixin],
   data() {
     return {
       userAlerts: [],
@@ -76,8 +74,12 @@ export default {
       jwt: "",
     };
   },
-
+  emits: ["toggle_modal"],
   methods: {
+    toggleModal() {
+      this.$emit("toggle_modal");
+    },
+
     async fetchUserOrBusinessAlerts() {
       try {
         if (

@@ -1,7 +1,6 @@
 <script setup>
 import InputText from "primevue/inputtext";
 import Button_Main from "./Button.vue";
-import modalMixin from "../mixins/modalMixin.vue";
 </script>
 
 <template>
@@ -37,7 +36,8 @@ import modalMixin from "../mixins/modalMixin.vue";
         <a href="" class="secondary">Tradie Sign up</a>
       </div>
       <div class="spacing-standard flex spacing-large-bottom">
-        <Button_Main label="Log In" />
+        <Button_Main v-if="!isLoading" label="Log In" @click="loginUser" />
+        <p v-else>Loading...</p>
       </div>
     </div>
   </div>
@@ -45,7 +45,68 @@ import modalMixin from "../mixins/modalMixin.vue";
 
 <script>
 export default {
-  mixins: [modalMixin],
+  data() {
+    return {
+      isLoading: false,
+      error: "",
+      email: "",
+      password: "",
+    };
+  },
+  emits: ["toggle_modal"],
+  methods: {
+    toggleModal() {
+      this.$emit("toggle_modal");
+    },
+    async loginUser() {
+      this.error = "";
+      if (!this.email || !this.password) {
+        this.error = "Please enter all required fields";
+        console.error("Please enter all required fields");
+        return;
+      }
+
+      let response;
+      this.isLoading = true;
+      try {
+        response = await fetch(`${import.meta.env.VITE_API_URL}auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password,
+          }),
+        });
+      } catch (error) {
+        this.error = error;
+        console.error(error);
+        return;
+      } finally {
+        this.isLoading = false;
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.token && data.id) {
+        sessionStorage.setItem("jwt", data.token);
+        sessionStorage.setItem("userId", data.id);
+        sessionStorage.setItem("userType", data.userType);
+
+        const event = new Event("sessionStorageUpdated");
+        window.dispatchEvent(event);
+
+        if (data.userType === "user") this.$router.push({ name: "TradieList" });
+        else if (data.userType === "tradie")
+          this.$router.push({ name: "TradieAccountPage" });
+
+        this.toggleModal();
+      }
+    },
+  },
 };
 </script>
 
