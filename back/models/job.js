@@ -51,7 +51,8 @@ const JobSchema = new mongoose.Schema({
     enum: ["pre quoted", "pending", "in progress", "completed", "declined"],
   },
   clientReview: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Review",
   },
   jobQuote: {
     type: Object,

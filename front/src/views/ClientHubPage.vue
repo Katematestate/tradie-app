@@ -6,9 +6,9 @@ import { ref, computed } from "vue";
 
 import ReviewCard from "../components/ReviewCard.vue";
 import BackToLink from "../components/BackToLink.vue";
-import ClientReview from '../views/dialogs/ClientReviewDialog.vue';
+import ClientReview from "../views/dialogs/ClientReviewDialog.vue";
 
-import { useDialog } from 'primevue/usedialog';
+import { useDialog } from "primevue/usedialog";
 const dialog = useDialog();
 
 // Reviews probably need a job id to link them to the job they are reviewing
@@ -23,27 +23,15 @@ const reviews = ref([
   { id: "3", body: "abc3", companyName: "title", rating: 3.5 },
 ]);
 
-const jobs = ref([
-  { id: "1", companyName: "title", type: "plumber", status: "pending" },
-  { id: "2", companyName: "title", type: "plumber", status: "in-progress" },
-  { id: "3", companyName: "title", type: "plumber", status: "pending" }, //Status would be pending | in-progress | complete
-]);
-
-const pendingJobs = computed(() => {
-  return jobs.value.filter((job) => job.status === "pending");
-});
-
-const inProgressJobs = computed(() => {
-  return jobs.value.filter((job) => job.status === "in-progress");
-});
-
 function editReview(id) {
-  dialog.open(ClientReview, {props: {modal: true, header:'Leave a review'}});
+  dialog.open(ClientReview, {
+    props: { modal: true, header: "Leave a review" },
+  });
 }
 </script>
 
 <template>
-  <BackToLink to="/tradielist" label="Back to Tradie List" class="back-link" />
+  <BackToLink to="/tradie/list" label="Back to Tradie List" class="back-link" />
   <header class="flex justify-content-center">
     <h1>
       <Icon style="vertical-align: text-bottom" icon="ri:chat-quote-fill" />
@@ -58,8 +46,10 @@ function editReview(id) {
           <div
             class="job-info panel flex justify-content-between align-items-center"
           >
-            <strong class="company-name">{{ job.companyName }}</strong>
-            <span class="job-type">{{ job.type }}</span>
+            <strong class="company-name"
+              >add business name here so need to fetch business</strong
+            >
+            <span class="job-type">{{ job.jobTitle }}</span>
           </div>
           <Button size="small" label="Accept" />
           <Button outlined severity="secondary" size="small" label="Decline" />
@@ -77,7 +67,13 @@ function editReview(id) {
             <span class="job-type">{{ job.type }}</span>
           </div>
           <Button size="small" label="Complete" />
-          <Button @click="editReview() " outlined severity="secondary" size="small" label="Review" />
+          <Button
+            @click="editReview()"
+            outlined
+            severity="secondary"
+            size="small"
+            label="Review"
+          />
         </div>
       </div>
     </section>
@@ -94,7 +90,54 @@ function editReview(id) {
       </Carousel>
     </section>
   </div>
+  {{ jobs }}
 </template>
+
+<script>
+// data and methods vue
+export default {
+  data() {
+    return {
+      reviews: [],
+      jobs: [],
+      pendingJobs: [],
+      inProgressJobs: [],
+      userId: sessionStorage.getItem("userId"),
+      jwt: sessionStorage.getItem("jwt"),
+    };
+  },
+  methods: {
+    async getAllMyJobs() {
+      // get userid from session storage
+      if (this.userId) {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}jobs/user?userId=${this.userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${this.jwt}`,
+              },
+            }
+          );
+          const jobs = await response.json();
+          return jobs;
+        } catch (error) {
+          console.log(error);
+          return [];
+        }
+      }
+      return [];
+    },
+  },
+  async created() {
+    this.jobs = await this.getAllMyJobs();
+    this.pendingJobs = this.jobs.filter((job) => job.status === "pending");
+    this.inProgressJobs = this.jobs.filter(
+      (job) => job.status === "in progress"
+    );
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .reviews-carousel {

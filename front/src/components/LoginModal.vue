@@ -28,9 +28,13 @@ import Button from "./Button.vue";
     <router-link to="/???">Forgot Your Password?</router-link>
 
     <div class="flex">
-      <router-link to="/client/signup">Client sign up</router-link>
+      <router-link @click="closeModal" to="/client/signup"
+        >Client sign up</router-link
+      >
       <span>&nbsp;or&nbsp;</span>
-      <router-link to="/tradie/signup"> Tradie sign up </router-link>
+      <router-link @click="closeModal" to="/tradie/signup">
+        Tradie sign up
+      </router-link>
     </div>
 
     <Button
@@ -54,6 +58,9 @@ export default {
   },
   inject: ["dialogRef"],
   methods: {
+    closeModal() {
+      this.dialogRef.close();
+    },
     async loginUser() {
       this.error = "";
       if (!this.email || !this.password) {
@@ -99,7 +106,7 @@ export default {
         else if (data.userType === "tradie")
           this.$router.push({ name: "TradieAccountPage" });
 
-        this.dialogRef.close();
+        this.closeModal();
       }
     },
   },

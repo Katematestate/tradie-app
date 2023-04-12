@@ -85,6 +85,7 @@ export default {
     },
     async sendJobRequest() {
       // Send job request to business
+      const jwt = sessionStorage.getItem("jwt");
       if (
         this.name &&
         this.location &&
@@ -100,6 +101,7 @@ export default {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
             },
             body: JSON.stringify({
               userId: this.user._id,

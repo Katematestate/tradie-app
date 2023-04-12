@@ -1,5 +1,6 @@
 <script setup>
 import Textarea from "primevue/textarea";
+import Button from "primevue/button";
 </script>
 <template>
   <div class="business-profile">
@@ -97,7 +98,7 @@ import Textarea from "primevue/textarea";
       <div class="upload-before">
         <h4>Before Photo</h4>
         <img :src="beforeImage" />
-        <Textarea v-model="afterImage" placeholder="before image link" />
+        <Textarea v-model="beforeImage" placeholder="before image link" />
       </div>
 
       <div class="upload-after">
@@ -113,7 +114,7 @@ import Textarea from "primevue/textarea";
         v-model="testimonial"
         label="Max 1000 words"
       />
-      <h5>import button</h5>
+      <Button label="add past work" @click="addPastWork" />
     </div>
   </div>
 </template>
@@ -199,26 +200,32 @@ export default {
       let testimonial = this.testimonial;
       let jwt = sessionStorage.getItem("jwt");
       if (!jwt) return console.log("No JWT found");
-
       if (beforeImage && afterImage && testimonial) {
-        const body = {
-          beforeImage,
-          afterImage,
+        const newPastwork = {
+          beforePhoto: beforeImage,
+          afterPhoto: afterImage,
           testimonial,
         };
 
-        const response = await fetch(`/api/business/${businessId}/pastwork`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`,
-          },
-          body: JSON.stringify(body),
-        });
+        let updatedBusiness = this.businessData;
+        updatedBusiness.pastWorks.push(newPastwork);
+        delete updatedBusiness.password;
+
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses/${businessId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify(this.businessData),
+          }
+        );
 
         const data = await response.json();
-        this.businessData = data;
 
+        // Clear the form fields
         this.beforeImage = "";
         this.afterImage = "";
         this.testimonial = "";

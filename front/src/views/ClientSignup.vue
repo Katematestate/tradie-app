@@ -70,7 +70,7 @@ import BackToLink from "../components/BackToLink.vue";
         </div>
         <div class="flex gap-2">
           <Checkbox class="" v-model="email_consent" :binary="true" />
-          <label>Do You Concent To Receiving Emails From Find A Tradie</label>
+          <p>Do You Concent To Receiving Emails From Find A Tradie</p>
         </div>
       </div>
 
