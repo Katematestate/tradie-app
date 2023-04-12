@@ -31,7 +31,7 @@
         <Icon icon="ri:chat-quote-fill" />
       </div>
       <div
-        v-if="true || this.userType === 'tradie' || this.userType === 'user'"
+        v-if="this.userType === 'tradie' || this.userType === 'user'"
         class="settings icon"
         aria-haspopup="true"
         aria-controls="settings-menu"
