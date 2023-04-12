@@ -33,9 +33,78 @@ import Button from "./Button.vue";
       <router-link to="/tradie/signup"> Tradie sign up </router-link>
     </div>
 
-    <Button class="align-self-center" label="Log In" />
+    <Button
+      class="align-self-center"
+      v-if="!isLoading"
+      label="Log In"
+      @click="loginUser()"
+    />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      isLoading: false,
+      error: "",
+      email: "",
+      password: "",
+    };
+  },
+  inject: ["dialogRef"],
+  methods: {
+    async loginUser() {
+      this.error = "";
+      if (!this.email || !this.password) {
+        this.error = "Please enter all required fields";
+        console.error("Please enter all required fields");
+        return;
+      }
+
+      let response;
+      this.isLoading = true;
+      try {
+        response = await fetch(`${import.meta.env.VITE_API_URL}auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password,
+          }),
+        });
+      } catch (error) {
+        this.error = error;
+        console.error(error);
+        return;
+      } finally {
+        this.isLoading = false;
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.token && data.id) {
+        sessionStorage.setItem("jwt", data.token);
+        sessionStorage.setItem("userId", data.id);
+        sessionStorage.setItem("userType", data.userType);
+
+        const event = new Event("sessionStorageUpdated");
+        window.dispatchEvent(event);
+
+        if (data.userType === "user") this.$router.push({ name: "TradieList" });
+        else if (data.userType === "tradie")
+          this.$router.push({ name: "TradieAccountPage" });
+
+        this.dialogRef.close();
+      }
+    },
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .modal-container {
