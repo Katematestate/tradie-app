@@ -1,6 +1,6 @@
-import "./assets/main.scss";
 import { createApp } from "vue";
 import App from "./App.vue";
+import "./assets/main.scss";
 import router from "./router";
 
 import PrimeVue from "primevue/config";
@@ -12,6 +12,7 @@ const app = createApp(App);
 app.config.globalProperties.$root = app;
 app.use(PrimeVue);
 app.use(router);
-app.directive("badge", BadgeDirective);
-app.mount("#app");
 app.use(DialogService);
+app.directive("badge", BadgeDirective);
+
+app.mount("#app"); // Must always be last
