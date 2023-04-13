@@ -66,7 +66,9 @@ const primaryActionText = computed(() => {
       </div>
     </div>
 
-    <div class="job-title flex flex-column align-items-end gap-3">
+    <div
+      class="job-title flex flex-column align-items-end gap-3"
+    >
       <span class="h4">{{ jobType }}</span>
 
       <div class="button-group flex flex-column gap-3">

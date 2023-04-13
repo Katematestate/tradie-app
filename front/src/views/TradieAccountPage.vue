@@ -6,7 +6,7 @@ import TestCompanyLogo from "../assets/images/tradie-landing.png";
 </script>
 
 <template>
-  <div class="info-section">
+  <div class="info-section flex flex-column">
     <h1 class="text-center">Business Profile</h1>
     <div class="flex gap-4 justify-content-center">
       <div class="info-image-flex">
@@ -19,7 +19,7 @@ import TestCompanyLogo from "../assets/images/tradie-landing.png";
       </div>
 
       <div class="info-text flex flex-column gap-1">
-        <img height="80" :src="businessData.companyLogo" />
+        <img height="150" width="300" :src="businessData.companyLogo" />
         <strong class="user-name h4">{{ businessData.businessName }}</strong>
         <strong>Phone: {{ businessData.businessPhoneNumber }}</strong>
         <strong>Location: {{ businessData.businessLocation }}</strong>
@@ -193,10 +193,17 @@ export default {
   border-radius: var(--border-radius-standard);
 }
 .info-section {
+  margin: 0 auto;
+  max-width: 1440px;
   padding: var(--spacing-large);
 }
 .info-text {
   font-family: var(--font-secondary);
+}
+
+.review-section {
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .review-card {
