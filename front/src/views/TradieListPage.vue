@@ -1,6 +1,6 @@
 <script setup>
 import TradieCard from "../components/TradieCard.vue";
-
+import LoginModal from "../components/LoginModal.vue";
 import Button from "../components/Button.vue";
 import ClientQuoteRequestDialog from "./dialogs/ClientQuoteRequestDialog.vue";
 import TradieInfoDialog from "./dialogs/TradieInfoDialog.vue";
@@ -115,6 +115,16 @@ export default {
     },
   },
   methods: {
+    loadLoginModal() {
+      this.dialog.open(LoginModal, {
+        props: {
+          header: "LOG IN",
+          modal: true,
+          closeOnEscape: true,
+          dismissableMask: true,
+        },
+      });
+    },
     async getAllBusinesses() {
       try {
         const response = await fetch(
@@ -135,6 +145,7 @@ export default {
     },
 
     quote(id) {
+      this.getSessionStorageData();
       if (this.userId && this.userType && this.jwt && this.user) {
         const business = this.businesses_list.find((item) => item._id === id);
 
@@ -147,7 +158,7 @@ export default {
         });
       } else {
         console.log("not logged in. login first");
-        window.alert("please login prompt");
+        this.loadLoginModal();
       }
     },
 

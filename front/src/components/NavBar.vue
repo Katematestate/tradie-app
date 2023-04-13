@@ -11,7 +11,7 @@
         v-if="!this.userType || this.userType === 'not-logged-in'"
         class="log-in icon"
       >
-        <Icon icon="mdi:account" @click="loadLoginModal()" />
+        <Icon icon="mdi:account" @click="loadLoginModal" />
       </div>
 
       <div v-if="this.userType === 'tradie'" class="job-tray icon relative">
@@ -20,7 +20,9 @@
           severity="danger"
           class="absolute right-0 top-0"
         />
-        <Icon icon="ion:file-tray-full-sharp" />
+        <router-link class="no-text-decoration" to="/tradie/jobrequests">
+          <Icon icon="ion:file-tray-full-sharp" />
+        </router-link>
       </div>
       <div v-if="this.userType === 'user'" class="quote-tray icon relative">
         <Badge
@@ -28,7 +30,9 @@
           severity="danger"
           class="absolute right-0 top-0"
         />
-        <Icon icon="ri:chat-quote-fill" />
+        <router-link class="no-text-decoration" to="/client/hub">
+          <Icon icon="ri:chat-quote-fill" />
+        </router-link>
       </div>
       <div
         v-if="this.userType === 'tradie' || this.userType === 'user'"
@@ -182,6 +186,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.no-text-decoration {
+  text-decoration: none;
+  color: inherit;
+}
 .nav-bar {
   background-color: var(--color-brand);
   color: var(--color-brand-text);

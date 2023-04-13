@@ -5,11 +5,6 @@ import TextArea from "primevue/textarea";
 import { ref } from "vue";
 import Button from "../../components/Button.vue";
 import ImageUpload from "../../components/ImageUpload.vue";
-
-const companyName = computed(() => {
-  // Fetch company data for companyID
-  return "Electro Lights LTD";
-});
 </script>
 
 <template>
@@ -85,6 +80,7 @@ export default {
     },
     async sendJobRequest() {
       // Send job request to business
+      const jwt = sessionStorage.getItem("jwt");
       if (
         this.name &&
         this.location &&
@@ -100,6 +96,7 @@ export default {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
             },
             body: JSON.stringify({
               userId: this.user._id,
@@ -113,6 +110,7 @@ export default {
               jobDescription: this.jobDescription,
               jobImage: this.imageURL,
               jobLocation: this.location,
+              businessName: this.business.businessName,
             }),
           });
 

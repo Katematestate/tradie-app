@@ -13,6 +13,7 @@ const createJob = async (req, res) => {
       status: "pre quoted",
       clientReview: null,
       jobQuote: { QuoteDescription: "", Quoted: false },
+      businessName: req.body.businessName,
       // date created is automatically created by mongoose using default value in model
     });
     const savedJob = await newJob.save();

@@ -29,6 +29,10 @@ const JobSchema = new mongoose.Schema({
     },
     required: true,
   },
+  businessName: {
+    type: String,
+    required: true,
+  },
   jobTitle: {
     type: String,
     required: true,
@@ -48,10 +52,11 @@ const JobSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["pre quoted", "pending", "in progress", "completed", "declined"],
+    enum: ["pre quoted", "pending", "in progress", "completed", "cancelled"],
   },
   clientReview: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "Review",
   },
   jobQuote: {
     type: Object,

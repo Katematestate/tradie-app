@@ -1,13 +1,7 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import JobCard from "./JobCard.vue";
-
-function foo() {
-  window.alert("ding from cancelled");
-}
-function bar() {
-  window.alert("dong from cancelled");
-}
+defineProps({ jobs: Array, required: true });
 </script>
 
 <template>
@@ -19,20 +13,53 @@ function bar() {
       <h3>Cancelled Jobs</h3>
     </div>
   </div>
-  <section class="content">
+  <section v-for="job in jobs" class="content">
     <JobCard
-      client-name="Linda B"
-      client-location="Christchurch"
-      client-email="linda&john@gmail.com"
-      client-phone="027273274"
-      job-description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste numquam distinctio possimus in voluptates, placeat impedit voluptate veniam cumque accusantium?"
-      job-type="Kitchen Renovation"
-      job-state="cancelled"
-      @primary-action="foo()"
-      @secondary-action="bar()"
+      :clientName="job.client.name"
+      :client-location="job.location"
+      :clientEmail="job.client.email"
+      :clientPhone="job.client.phoneNumber"
+      :jobDescription="job.jobDescription"
+      :jobType="job.jobTitle"
+      :jobState="job.status"
+      @primary-action="deleteJob(job._id)"
     />
   </section>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      userId: sessionStorage.getItem("userId"),
+    };
+  },
+  methods: {
+    async deleteJob(id) {
+      const businessId = this.userId;
+      let jwt = sessionStorage.getItem("jwt");
+      if (!jwt) return console.log("No JWT found");
+      if (!businessId) return console.log("No businessId found");
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}jobs/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        // update the job status in the jobs array
+        this.$emit("update-jobs");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .heading-wrapper {

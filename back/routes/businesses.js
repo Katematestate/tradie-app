@@ -6,6 +6,7 @@ const {
   listBusinesses,
   createBusiness,
   getBusiness,
+  publicGetBusiness,
   me,
   deleteBusiness,
   updateBusiness,
@@ -22,6 +23,10 @@ router.get("/me", jwtMiddleware, me);
 
 // GET (single) Business by ID
 router.get("/:id", jwtMiddleware, getBusiness);
+
+// GET (single) Business by ID without authentication
+// and dont return password id or email
+router.get("/public/:id", publicGetBusiness);
 
 // DELETE a Business by ID
 router.delete("/:id", jwtMiddleware, deleteBusiness);

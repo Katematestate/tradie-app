@@ -64,6 +64,8 @@ import AboutGrid from "../components/AboutGrid.vue";
     <div class="rated-grid">
       <div class="rated-line flex">
         <div class="rated-info line-after">
+          <!-- start -->
+
           <img src="../assets/images/tradie-1.png" />
 
           <h4>Bob's Fencer</h4>
@@ -106,6 +108,8 @@ import AboutGrid from "../components/AboutGrid.vue";
       </div>
     </div>
 
+    <!-- end -->
+
     <div class="view-button flex justify-content-end">
       <router-link to="/tradie/list">
         <Button label="View Tradies" />
@@ -114,7 +118,57 @@ import AboutGrid from "../components/AboutGrid.vue";
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  data() {
+    return {
+      topRatedBusinesses: [],
+    };
+  },
+  async created() {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}reviews`);
+      const allReviews = await response.json();
+      console.log(allReviews);
+      if (!allReviews.length) {
+        console.log("No reviews found");
+        return;
+      }
+
+      const businesses = {};
+      allReviews.forEach((review) => {
+        if (!businesses[review.businessUser]) {
+          businesses[review.businessUser] = {
+            id: review.businessUser,
+            totalRatings: 0,
+            averageRating: 0,
+            reviews: [],
+          };
+        }
+
+        businesses[review.businessUser].totalRatings += review.rating;
+        businesses[review.businessUser].reviews.push(review);
+      });
+
+      Object.keys(businesses).forEach((businessUser) => {
+        businesses[businessUser].averageRating =
+          businesses[businessUser].totalRatings /
+          businesses[businessUser].reviews.length;
+      });
+
+      const topThreeBusinesses = Object.values(businesses)
+        .sort((a, b) => b.averageRating - a.averageRating)
+        .slice(0, 3);
+
+      this.topRatedBusinesses = topThreeBusinesses;
+
+      console.log(this.topRatedBusinesses);
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+};
+</script>
 
 <style scoped lang="scss">
 h1 {

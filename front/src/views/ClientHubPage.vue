@@ -11,7 +11,7 @@ import ClientReview from "../views/dialogs/ClientReviewDialog.vue";
 import { useDialog } from "primevue/usedialog";
 const dialog = useDialog();
 
-// Reviews probably need a job id to link them to the job they are reviewing
+// Reviews probably need a job id to link them to the job they are reviewing  TODO REVIEW SECTION
 const reviews = ref([
   { id: "1", body: "abc", companyName: "title", rating: 4.8 },
   {
@@ -22,20 +22,6 @@ const reviews = ref([
   },
   { id: "3", body: "abc3", companyName: "title", rating: 3.5 },
 ]);
-
-const jobs = ref([
-  { id: "1", companyName: "title", type: "plumber", status: "pending" },
-  { id: "2", companyName: "title", type: "plumber", status: "in-progress" },
-  { id: "3", companyName: "title", type: "plumber", status: "pending" }, //Status would be pending | in-progress | complete
-]);
-
-const pendingJobs = computed(() => {
-  return jobs.value.filter((job) => job.status === "pending");
-});
-
-const inProgressJobs = computed(() => {
-  return jobs.value.filter((job) => job.status === "in-progress");
-});
 
 function editReview(id) {
   dialog.open(ClientReview, {
@@ -60,11 +46,17 @@ function editReview(id) {
           <div
             class="job-info panel flex justify-content-between align-items-center"
           >
-            <strong class="company-name">{{ job.companyName }}</strong>
-            <span class="job-type">{{ job.type }}</span>
+            <strong class="company-name">{{ job.businessName }}</strong>
+            <span class="job-type">{{ job.jobTitle }}</span>
           </div>
-          <Button size="small" label="Accept" />
-          <Button outlined severity="secondary" size="small" label="Decline" />
+          <Button @click="moveToInProgress(job)" size="small" label="Accept" />
+          <Button
+            @click="moveToCancelled(job)"
+            outlined
+            severity="secondary"
+            size="small"
+            label="Decline"
+          />
         </div>
       </div>
     </section>
@@ -75,10 +67,10 @@ function editReview(id) {
           <div
             class="job-info panel flex justify-content-between align-items-center"
           >
-            <strong class="company-name">{{ job.companyName }}</strong>
-            <span class="job-type">{{ job.type }}</span>
+            <strong class="company-name">{{ job.businessName }}</strong>
+            <span class="job-type">{{ job.jobTitle }}</span>
           </div>
-          <Button size="small" label="Complete" />
+          <Button @click="moveToCompleted(job)" size="small" label="Complete" />
           <Button
             @click="editReview()"
             outlined
@@ -103,6 +95,139 @@ function editReview(id) {
     </section>
   </div>
 </template>
+
+<script>
+// data and methods vue
+export default {
+  data() {
+    return {
+      reviews: [],
+      jobs: [],
+      pendingJobs: [],
+      inProgressJobs: [],
+      userId: sessionStorage.getItem("userId"),
+      jwt: sessionStorage.getItem("jwt"),
+    };
+  },
+  methods: {
+    async moveToInProgress(job) {
+      const userId = this.userId;
+      let jwt = sessionStorage.getItem("jwt");
+      if (!jwt) return console.log("No JWT found");
+      if (!userId) return console.log("No userId found");
+      let updatedJob = { job, status: "in progress" };
+      delete updatedJob.password;
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}jobs/${job._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify(updatedJob),
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        await this.getAllMyJobs();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async moveToCompleted(job) {
+      const userId = this.userId;
+      let jwt = sessionStorage.getItem("jwt");
+      if (!jwt) return console.log("No JWT found");
+      if (!userId) return console.log("No userId found");
+      let updatedJob = { job, status: "completed" };
+      delete updatedJob.password;
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}jobs/${job._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify(updatedJob),
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        // update the job status in the jobs array
+        await this.getAllMyJobs();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async moveToCancelled(job) {
+      const userId = this.userId;
+      let jwt = sessionStorage.getItem("jwt");
+      if (!jwt) return console.log("No JWT found");
+      if (!userId) return console.log("No userId found");
+      let updatedJob = { job, status: "cancelled" };
+      delete updatedJob.password;
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}jobs/${job._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify(updatedJob),
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        // update the job status in the jobs array
+        await this.getAllMyJobs();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async getAllMyJobs() {
+      // get userid from session storage
+      if (this.userId) {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}jobs/user?userId=${this.userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${this.jwt}`,
+              },
+            }
+          );
+          const jobs = await response.json();
+          this.jobs = jobs;
+          this.pendingJobs = this.jobs.filter(
+            (job) => job.status === "pending"
+          );
+          this.inProgressJobs = this.jobs.filter(
+            (job) => job.status === "in progress"
+          );
+        } catch (error) {
+          console.log(error);
+          return [];
+        }
+      }
+      return [];
+    },
+  },
+  async created() {
+    await this.getAllMyJobs();
+    console.log(this.inProgressJobs);
+    console.log(this.pendingJobs);
+  },
+};
+</script>
 
 <style scoped lang="scss">
 .reviews-carousel {

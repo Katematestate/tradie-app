@@ -164,6 +164,7 @@ export default {
           "https://cdn.intelligencebank.com/au/share/NOrD/1VN0z/4Xkw0/preset=pB6BA/T125AI117_chai_brewed_loose_leaf",
         companyLogo:
           "https://cdn.intelligencebank.com/au/share/NOrD/1VN0z/4Xkw0/preset=pB6BA/T125AI117_chai_brewed_loose_leaf",
+        pastWorks: [],
       },
       businessName: "",
       businessDescription: "",
@@ -245,34 +246,43 @@ export default {
     },
     async addPastWork() {
       const businessId = this.userId;
-      let beforeImage = this.beforeImage;
-      let afterImage = this.afterImage;
-      let testimonial = this.testimonial;
+
+      // TODO we have a list of past works now instead of just one
+      // this is in the pastWorks data var
+
+      // let beforeImage = this.beforeImage;
+      // let afterImage = this.afterImage;
+      // let testimonial = this.testimonial;
+
       let jwt = sessionStorage.getItem("jwt");
       if (!jwt) return console.log("No JWT found");
 
-      if (beforeImage && afterImage && testimonial) {
-        const body = {
-          beforeImage,
-          afterImage,
-          testimonial,
-        };
+      if (this.pastWorks.length > 0) {
+        const businessDataCopy = { ...this.businessData };
+        businessDataCopy.pastWorks = [
+          ...businessDataCopy.pastWorks,
+          ...this.pastWorks,
+        ]; // join two arrays
 
-        const response = await fetch(`/api/business/${businessId}/pastwork`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwt}`,
-          },
-          body: JSON.stringify(body),
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}businesses/${businessId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify(businessDataCopy),
+          }
+        );
+        //   delete updatedBusiness.password; // password should never be stored on an object, this is a security risk. It can be seen by anyone in the app memory and network traffic. FYI
+        this.pastWorks = []; // clear past works fields
 
-        const data = await response.json();
-        this.businessData = data;
-
-        this.beforeImage = "";
-        this.afterImage = "";
-        this.testimonial = "";
+        if (response.status === 200) {
+          // All good, pop a toast? Notify the user something happened
+        } else {
+          // Something dead, error handle? Toast maybe?
+        }
       }
     },
   },
