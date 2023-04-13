@@ -38,7 +38,7 @@ function truncateCompanyBlurb(businessDescription) {
       <Chip :label="keyword" v-for="keyword in skills" />
     </div>
     <div class="card-footer">
-      <Button size="small" raised @click="$emit('quote')">Quote</Button>
+      <Button size="small" raised @click="$emit('quote')">Get Quote</Button>
       <Button
         severity="secondary"
         size="small"

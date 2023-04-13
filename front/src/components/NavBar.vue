@@ -22,7 +22,7 @@ function toggleSettingsMenu(event) {
         v-if="!this.userType || this.userType === 'not-logged-in'"
         class="log-in icon"
       >
-        <Icon icon="mdi:account" @click="loadLoginModal()" />
+        <Icon icon="mdi:account" @click="loadLoginModal" />
       </div>
 
       <div v-if="this.userType === 'tradie'" class="job-tray icon relative">

@@ -27,11 +27,11 @@ const canDecline = computed(() => {
 
 const primaryActionText = computed(() => {
   switch (props.jobState) {
-    case "pending":
+    case "pre quoted":
       return "Send Quote";
-    case "quote-sent":
+    case "pending":
       return "Accept";
-    case "in-progress":
+    case "in progress":
       return "Complete";
     case "cancelled":
       return "Remove";
