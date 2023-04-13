@@ -259,7 +259,10 @@ export default {
 
       if (this.pastWorks.length > 0) {
         const businessDataCopy = { ...this.businessData };
-        businessDataCopy.pastWorks.concat(this.pastWorks); // join two arrays
+        businessDataCopy.pastWorks = [
+          ...businessDataCopy.pastWorks,
+          ...this.pastWorks,
+        ]; // join two arrays
 
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}businesses/${businessId}`,
