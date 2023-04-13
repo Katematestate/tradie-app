@@ -29,7 +29,7 @@ const details = {
         <img :src="business.companyImage" alt="" />
       </div>
       <span class="h5">
-        Average Rated {{ details.rating }}
+        Average Rated {{ averageRating }}
         <i class="pi pi-star-fill text-brand"></i>
       </span>
       <p>{{ business.businessDescription }}</p>
@@ -64,11 +64,25 @@ export default {
   data: () => ({
     business: {},
     reviews: [],
+    averageRating: 0,
   }),
+  methods: {
+    calculateAverageRating() {
+      if (this.reviews.length === 0) {
+        return 0;
+      }
+      const totalRating = this.reviews.reduce(
+        (sum, review) => sum + review.rating,
+        0
+      );
+      return totalRating / this.reviews.length;
+    },
+  },
   inject: ["dialogRef"],
   mounted() {
     this.business = this.dialogRef.data.business;
     this.reviews = this.dialogRef.data.reviews;
+    this.averageRating = this.calculateAverageRating();
   },
 };
 </script>

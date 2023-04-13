@@ -12,9 +12,6 @@ const {
   listJobsByUserOrBusiness,
 } = require("../controllers/job");
 
-// GET (all) Jobs route
-router.get("/", listJobs);
-
 // POST new Job
 router.post("/", jwtMiddleware, createJob);
 
@@ -29,6 +26,9 @@ router.get("/user/", jwtMiddleware, listJobsByUserOrBusiness);
 
 // GET all Jobs containing Business's ID
 router.get("/business/", jwtMiddleware, listJobsByUserOrBusiness);
+
+// GET (all) Jobs route
+router.get("/", listJobs);
 
 // GET (single) Job by ID
 router.get("/:id", getJob);

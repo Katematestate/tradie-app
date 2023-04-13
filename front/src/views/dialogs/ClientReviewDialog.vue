@@ -3,11 +3,7 @@ import Textarea from "primevue/textarea";
 import Rating from "primevue/rating";
 import Button from "primevue/button";
 import { ref } from "vue";
-
-const communicationRating = ref(0);
-const efficiencyRating = ref(0);
-const skillsRating = ref(0);
-const valueRating = ref(0);
+import { def } from "@vue/shared";
 </script>
 
 <template>
@@ -39,9 +35,79 @@ const valueRating = ref(0);
 
   <div class="button-footer">
     <Button outlined severity="secondary" size="small" label="Update" />
-    <Button size="small" label="Post" />
+    <Button @click="createReview" size="small" label="Post" />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      businessName: "",
+      businessId: "",
+      clientName: "",
+      communicationRating: 0,
+      efficiencyRating: 0,
+      skillsRating: 0,
+      valueRating: 0,
+      value: "",
+    };
+  },
+  methods: {
+    async createReview() {
+      if (
+        this.communicationRating &&
+        this.efficiencyRating &&
+        this.skillsRating &&
+        this.valueRating
+      ) {
+        console.log("All ratings are filled out");
+      } else {
+        return console.log("Please fill out all ratings");
+      }
+      const userId = sessionStorage.getItem("userId");
+      const jwt = sessionStorage.getItem("jwt");
+      if (!jwt) return console.log("No JWT found");
+      if (!userId) return console.log("No userId found");
+
+      const averageRating =
+        (this.communicationRating +
+          this.efficiencyRating +
+          this.skillsRating +
+          this.valueRating) /
+        4;
+
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}reviews`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify({
+            reviewer: userId,
+            rating: averageRating,
+            businessName: this.businessName,
+            businessUser: this.businessId,
+            comment: this.value,
+            clientName: this.clientName,
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  inject: ["dialogRef"],
+  mounted() {
+    this.businessName = this.dialogRef.data.businessName;
+    this.businessId = this.dialogRef.data.businessId;
+    this.clientName = this.dialogRef.data.clientName;
+  },
+};
+</script>
 
 <style scoped>
 .header {
