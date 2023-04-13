@@ -1,6 +1,7 @@
 <script setup>
 import { Icon } from "@iconify/vue";
 import Button from "../components/Button.vue";
+import AboutGrid from "../components/AboutGrid.vue";
 </script>
 
 <template>
@@ -30,42 +31,29 @@ import Button from "../components/Button.vue";
 
   <div class="how-it-works flex flex-column">
     <h1>How find a tradie works</h1>
-    <div class="works-grid">
-      <div class="rated-line flex">
-        <div class="works-info line-after">
-          <h4>1. Tell us what you need</h4>
-          <div class="icons">
-            <Icon icon="mdi:account-help" />
-          </div>
-          <p>
-            Click the suggestions given for what tradie you need for the job or
-            go straight to view all of the tradies on the app.
-          </p>
-        </div>
-      </div>
-
-      <div class="rated-line flex">
-        <div class="works-info line">
-          <h4>2.View tradies</h4>
-          <div class="icons">
-            <Icon icon="fa6-solid:person-digging" />
-          </div>
-          <p>
-            View the list of qualified tradies who suite the job you need done.
-          </p>
-        </div>
-      </div>
-
-      <div class="rated-line flex">
-        <div class="works-info line">
-          <h4>3. Send a job request</h4>
-          <div class="icons">
-            <Icon icon="mdi:paper-edit" />
-          </div>
-          <p>Send information to the tradie about the job you need done.</p>
-        </div>
-      </div>
-    </div>
+    <AboutGrid
+      style="margin: var(--spacing-large)"
+      :items="[
+        {
+          heading: 'Tell us what you need',
+          icon: 'mdi:account-help',
+          instruction:
+            'Click the suggestions given for what tradie you need for the job or go straight to view all of the tradies on the app.',
+        },
+        {
+          heading: 'View tradies',
+          icon: 'fa6-solid:person-digging',
+          instruction:
+            'View the list of qualified tradies who suite the job you need done.',
+        },
+        {
+          heading: 'Send a job request',
+          icon: 'mdi:paper-edit',
+          instruction:
+            'Send information to the tradie about the job you need done.',
+        },
+      ]"
+    />
   </div>
 
   <div class="top-rated-section">

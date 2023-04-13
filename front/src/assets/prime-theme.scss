@@ -1,8 +1,14 @@
 .p-inputtext {
   font-family: var(--font-secondary);
+  background: var(--color-shade);
 }
 .p-inputtext::placeholder {
+  color: var(--color-text-shade);
   font-size: 0.75em;
+}
+
+.p-inputtext:enabled:hover {
+  border-color: var(--color-brand);
 }
 
 .p-dropdown-panel {
@@ -95,15 +101,6 @@
 
 .p-link:focus {
   box-shadow: 0 0 0 0.2rem var(--color-brand-hover);
-}
-
-.p-inputtext {
-  background: var(--color-shade);
-  color: var(--color-text-shade);
-}
-
-.p-inputtext:enabled:hover {
-  border-color: var(--color-brand);
 }
 
 .p-rating .p-rating-item.p-rating-item-active .p-rating-icon {

@@ -1,14 +1,3 @@
-<script setup>
-import { Icon } from "@iconify/vue";
-import Badge from "primevue/badge";
-import Menu from "primevue/menu";
-import { ref } from "vue";
-const settingsMenu = ref();
-function toggleSettingsMenu(event) {
-  settingsMenu.value.toggle(event);
-}
-</script>
-
 <template>
   <div class="flex justify-content-between nav-bar">
     <div class="logo flex gap-2">
@@ -57,6 +46,13 @@ function toggleSettingsMenu(event) {
           <template #end>
             <button
               class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround"
+              @click="editProfile()"
+            >
+              <i class="pi pi-pencil" />
+              <span class="ml-2">Edit Profile</span>
+            </button>
+            <button
+              class="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround"
               @click="logout()"
             >
               <i class="pi pi-sign-out" />
@@ -69,9 +65,28 @@ function toggleSettingsMenu(event) {
   </div>
 </template>
 
+<script setup>
+import LoginModal from "./LoginModal.vue";
+import Badge from "primevue/badge";
+import Menu from "primevue/menu";
+import { Icon } from "@iconify/vue";
+import { ref } from "vue";
+import router from "../router";
+
+const settingsMenu = ref();
+
+function toggleSettingsMenu(event) {
+  settingsMenu.value.toggle(event);
+}
+function editProfile(event) {
+  router.push({ name: "TradieAccountEdit" });
+  settingsMenu.value.toggle(event);
+}
+</script>
+
 <script>
 import { useDialog } from "primevue/usedialog";
-import LoginModal from "./LoginModal.vue";
+
 export default {
   data() {
     return {

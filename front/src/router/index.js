@@ -5,9 +5,9 @@ import { createRouter, createWebHistory } from "vue-router";
 // components related to those links needs to be defined below both for import and routes[] array
 import Footer from "../components/Footer.vue";
 import ClientHubPage from "../views/ClientHubPage.vue";
-import ClientSignup from "../views/ClientSignup.vue";
+import ClientSignup from "../views/ClientSignupPage.vue";
 import LandingPage from "../views/LandingPage.vue";
-import TradieAccountEdit from "../views/TradieAccountEdit.vue";
+import TradieAccountEdit from "../views/TradieAccountEditPage.vue";
 import TradieAccountPage from "../views/TradieAccountPage.vue";
 import TradieJobRequests from "../views/TradieJobRequestsPage.vue";
 import TradieList from "../views/TradieListPage.vue";

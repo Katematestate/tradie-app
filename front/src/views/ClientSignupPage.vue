@@ -7,16 +7,12 @@ import BackToLink from "../components/BackToLink.vue";
 
 <template>
   <section class="client-signup flex flex-column">
-    <div class="links-div flex-end">
-      <BackToLink to="/" label="Go to Home" />
-    </div>
-
     <div class="heading-container flex flex-column align-items-center">
       <h1>Sign Up</h1>
 
       <div class="text-box-container flex flex-column">
-        <div class="spacing-small">
-          <h5>First Name</h5>
+        <div class="input-group spacing-small">
+          <label>First Name</label>
           <InputText
             v-model="Fname"
             class="input-class-box"
@@ -24,8 +20,8 @@ import BackToLink from "../components/BackToLink.vue";
           />
         </div>
 
-        <div class="spacing-small">
-          <h5>Last Name</h5>
+        <div class="input-group spacing-small">
+          <label>Last Name</label>
           <InputText
             v-model="Lname"
             class="input-class-box"
@@ -33,8 +29,8 @@ import BackToLink from "../components/BackToLink.vue";
           />
         </div>
 
-        <div class="spacing-small">
-          <h5>Email</h5>
+        <div class="input-group spacing-small">
+          <label>Email</label>
           <InputText
             v-model="email"
             class="input-class-box"
@@ -42,8 +38,8 @@ import BackToLink from "../components/BackToLink.vue";
           />
         </div>
 
-        <div class="spacing-small">
-          <h5>Password</h5>
+        <div class="input-group spacing-small">
+          <label>Password</label>
           <InputText
             v-model="password"
             type="password"
@@ -52,8 +48,8 @@ import BackToLink from "../components/BackToLink.vue";
           />
         </div>
 
-        <div class="spacing-small">
-          <h5>Confirm Password</h5>
+        <div class="input-group spacing-small">
+          <label>Confirm Password</label>
           <InputText
             v-model="confirmPassword"
             type="password"
@@ -64,13 +60,25 @@ import BackToLink from "../components/BackToLink.vue";
       </div>
 
       <div class="checkbox-container flex flex-column align-items-start gap-2">
-        <div class="flex gap-2">
-          <Checkbox class="" v-model="tos_consent" :binary="true" />
-          <p>Do You Consent To The Terms Of Service</p>
+        <div class="input-group checkbox">
+          <Checkbox
+            input-id="input-consent-terms"
+            v-model="tos_consent"
+            :binary="true"
+          />
+          <label for="input-consent-terms">
+            Do you accept the Find A Tradie Terms of Service?
+          </label>
         </div>
-        <div class="flex gap-2">
-          <Checkbox class="" v-model="email_consent" :binary="true" />
-          <p>Do You Concent To Receiving Emails From Find A Tradie</p>
+        <div class="input-group checkbox">
+          <Checkbox
+            input-id="input-consent-emails"
+            v-model="email_consent"
+            :binary="true"
+          />
+          <label for="input-consent-emails">
+            Do you agree to receive emails from Find A Tradie?
+          </label>
         </div>
       </div>
 
@@ -160,18 +168,7 @@ p {
   padding: var(--spacing-standard);
 }
 
-.input-class-box {
-  border-radius: 5px;
-  border: none;
-  background-color: var(--color-shade);
-  color: var(--color-shade-text);
-  width: 100%;
-}
-
 .create-user {
   margin-bottom: var(--spacing-large);
-}
-.spacing-large {
-  margin: var(--spacing-large);
 }
 </style>

@@ -31,13 +31,13 @@ function editReview(id) {
 </script>
 
 <template>
-  <BackToLink to="/tradie/list" label="Back to Tradie List" class="back-link" />
   <header class="flex justify-content-center">
     <h1>
       <Icon style="vertical-align: text-bottom" icon="ri:chat-quote-fill" />
       Client Hub
     </h1>
   </header>
+
   <div class="page-content flex flex-column align-items-stretch">
     <section class="pending-quote">
       <h5>Pending</h5>
@@ -240,7 +240,7 @@ h5 {
 }
 
 .page-content {
-  margin: 0 auto;
+  margin: 0 auto var(--spacing-large) auto;
   max-width: 800px;
 }
 
