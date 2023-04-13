@@ -7,6 +7,8 @@ const createReview = async (req, res) => {
       businessUser: req.body.businessUser,
       rating: req.body.rating,
       comment: req.body.comment,
+      businessName: req.body.businessName,
+      clientName: req.body.clientName,
       // createdAt is automatically created by mongoose using default value in model
     });
 

@@ -12,20 +12,25 @@ import { useDialog } from "primevue/usedialog";
 const dialog = useDialog();
 
 // Reviews probably need a job id to link them to the job they are reviewing  TODO REVIEW SECTION
-const reviews = ref([
-  { id: "1", body: "abc", companyName: "title", rating: 4.8 },
-  {
-    id: "2",
-    body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt tempore dicta fuga veniam consequatur sequi consectetur hic animi porro at?",
-    companyName: "title",
-    rating: 2,
-  },
-  { id: "3", body: "abc3", companyName: "title", rating: 3.5 },
-]);
+// const reviews = ref([
+//   { id: "1", body: "abc", companyName: "title", rating: 4.8 },
+//   {
+//     id: "2",
+//     body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt tempore dicta fuga veniam consequatur sequi consectetur hic animi porro at?",
+//     companyName: "title",
+//     rating: 2,
+//   },
+//   { id: "3", body: "abc3", companyName: "title", rating: 3.5 },
+// ]);
 
-function editReview(id) {
+function editReview(job) {
   dialog.open(ClientReview, {
     props: { modal: true, header: "Leave a review" },
+    data: {
+      businessName: job.businessName,
+      businessId: job.business,
+      clientName: job.client.name,
+    },
   });
 }
 </script>
@@ -72,7 +77,7 @@ function editReview(id) {
           </div>
           <Button @click="moveToCompleted(job)" size="small" label="Complete" />
           <Button
-            @click="editReview()"
+            @click="editReview(job)"
             outlined
             severity="secondary"
             size="small"
@@ -88,7 +93,13 @@ function editReview(id) {
           <ReviewCard
             class="clickable"
             v-bind="slotProps.data"
-            @click="editReview(slotProps.data.id)"
+            @click="
+              editReview({
+                businessName: slotProps.data.businessName,
+                businessId: slotProps.data.businessId,
+                client: { name: slotProps.data.clientName },
+              })
+            "
           />
         </template>
       </Carousel>
@@ -215,13 +226,38 @@ export default {
           );
         } catch (error) {
           console.log(error);
-          return [];
         }
       }
       return [];
     },
+    async getAllMyReviews() {
+      // get userid from session storage
+      if (this.userId) {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}reviews/user/${this.userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${this.jwt}`,
+              },
+            }
+          );
+          const reviews = await response.json();
+          this.reviews = reviews;
+          console.log(this.reviews);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
   },
   async created() {
+    await this.getAllMyReviews();
+    if (!this.reviews.length) {
+      this.reviews = [
+        { id: "1", jobTitle: "abc", businessName: "title", rating: 4.8 },
+      ];
+    }
     await this.getAllMyJobs();
     console.log(this.inProgressJobs);
     console.log(this.pendingJobs);

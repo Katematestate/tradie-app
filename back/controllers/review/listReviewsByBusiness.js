@@ -2,7 +2,7 @@ const Review = require("../../models/Review");
 
 const listReviewsByBusiness = async (req, res) => {
   try {
-    const businessId = req.params.businessId;
+    const businessId = req.params.id;
     const reviews = await Review.find({ businessUser: businessId });
 
     if (reviews.length === 0) {

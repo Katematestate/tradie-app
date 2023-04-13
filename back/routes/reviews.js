@@ -12,11 +12,8 @@ const {
   listReviewsByBusiness,
 } = require("../controllers/review");
 
-// GET All Reviews
-router.get("/", listReviews);
-
 // POST new Review
-router.post("/", createReview);
+router.post("/", jwtMiddleware, createReview);
 
 // GET (single) Review by ID
 router.get("/:id", getReview);
@@ -25,12 +22,15 @@ router.get("/:id", getReview);
 router.put("/:id", jwtMiddleware, updateReview);
 
 // DELETE a Review by ID
-router.delete("/:id", deleteReview);
+router.delete("/:id", jwtMiddleware, deleteReview);
 
 // GET Reviews by User ID
 router.get("/user/:id", getReviewsByUser);
 
 // GET Reviews of Business by Business ID
-router.get("/business/:businessId", listReviewsByBusiness);
+router.get("/business/:id", listReviewsByBusiness);
+
+// GET All Reviews
+router.get("/", listReviews);
 
 module.exports = router;

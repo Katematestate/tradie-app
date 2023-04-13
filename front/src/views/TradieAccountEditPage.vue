@@ -12,7 +12,12 @@ import Button from "../components/Button.vue";
           <div class="flex flex-column">
             <span class="h4 text-center">Company Logo</span>
             <img class="info-section-logo" :src="businessData.companyLogo" />
-            <Button class="button-small" label="Update Logo" />
+            <InputText v-model="logoURL" placeholder="logo URL" />
+            <Button
+              @click="updateLogoURL"
+              class="button-small"
+              label="Update Logo"
+            />
           </div>
         </div>
         <div class="info-section">
@@ -65,7 +70,15 @@ import Button from "../components/Button.vue";
               class="info-section-company"
               :src="businessData.companyImage"
             />
-            <Button class="button-small" label="Update Image" />
+            <InputText
+              v-model="companyImageURL"
+              placeholder="company image URL"
+            />
+            <Button
+              @click="updateImageURL"
+              class="button-small"
+              label="Update Image"
+            />
           </div>
         </div>
       </div>
@@ -95,6 +108,7 @@ import Button from "../components/Button.vue";
         class="button-small"
         id="save-password-button"
         label="Update Password"
+        @click="updatePassword"
       />
     </section>
 
@@ -118,21 +132,21 @@ import Button from "../components/Button.vue";
             <label :for="'input-before-photo' + index">Before Photo</label>
             <InputText
               :id="'input-before-photo' + index"
-              v-model="work.beforeImage"
+              v-model="work.beforePhoto"
               placeholder="before image link"
               type="url"
             />
-            <img class="align-self-center" :src="work.beforeImage" />
+            <img class="align-self-center" :src="work.beforePhoto" />
           </div>
           <div class="input-group upload-after flex-1">
             <label :for="'input-after-image' + index">After Photo</label>
             <InputText
               :id="'input-after-image' + index"
-              v-model="work.afterImage"
+              v-model="work.afterPhoto"
               placeholder="after image link"
               type="url"
             />
-            <img class="align-self-center" :src="work.afterImage" />
+            <img class="align-self-center" :src="work.afterPhoto" />
           </div>
           <Button
             style="margin-top: 17px"
@@ -148,6 +162,7 @@ import Button from "../components/Button.vue";
       id="save-profile-button"
       class="button-small"
       label="Save Profile"
+      @click="updateProfile"
     />
   </div>
 </template>
@@ -171,24 +186,87 @@ export default {
       businessWebsite: "",
       phone: "",
       location: "",
-      currentPassword: "",
       newPassword: "",
       newConfirmPassword: "",
       testimonial: "",
       beforeImage: "",
       afterImage: "",
+      logoURL: "",
+      companyImageURL: "",
       pastWorks: [],
       confirm: useConfirm(),
     };
   },
   methods: {
+    updateLogoURL() {
+      this.companyLogo = this.logoURL;
+      this.logoURL = "";
+    },
+    updateImageURL() {
+      this.companyImage = this.companyImageURL;
+      this.companyImageURL = "";
+    },
+    async updatePassword() {
+      if (!this.newPassword.length) {
+        return console.log("No password entered");
+      }
+      if (this.newPassword !== this.newConfirmPassword) {
+        return console.log("Passwords do not match");
+      }
+      if (!this.userId) {
+        return console.log("No userId found");
+      }
+      const jwt = sessionStorage.getItem("jwt");
+      if (!jwt) {
+        return console.log("No JWT found");
+      }
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}passwords/${
+            this.businessData.password
+          }`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwt}`,
+            },
+            body: JSON.stringify({ password: this.newPassword }),
+          }
+        );
+
+        const data = await response.json();
+
+        this.newPassword = "";
+        this.newConfirmPassword = "";
+        if (!data.message) window.alert("successfully changed password");
+        console.log(data);
+        // Handle successful password update
+      } catch (error) {
+        console.log(error);
+        // Handle error updating password
+      }
+    },
+    async updateProfile() {
+      this.businessData.businessName = this.businessName;
+      this.businessData.businessDescription = this.businessDescription;
+      this.businessWebsite = this.businessWebsite;
+      this.businessData.businessPhoneNumber = this.phone;
+      this.businessData.businessLocation = this.location;
+      this.businessData.companyImage = this.companyImage;
+      this.businessData.companyLogo = this.companyLogo;
+      this.businessData.pastWorks = this.pastWorks;
+
+      await this.updateBusiness();
+      this.$router.push({ name: "TradieAccountPage" });
+    },
     addNewPastWork() {
-      this.pastWorks.push({ beforeImage: "", afterImage: "" });
+      this.pastWorks.push({ beforePhoto: "", afterPhoto: "" });
     },
     removePastWork(event, index) {
       this.confirm.require({
         target: event.currentTarget,
-        message: "Are you sure you want to remove this example?",
+        message: "Are you sure you want to remove this?",
         rejectClass: "p-button-secondary p-button-outlined",
         accept: () => {
           this.pastWorks.splice(index, 1);
@@ -221,6 +299,8 @@ export default {
     async updateBusiness() {
       try {
         const jwt = sessionStorage.getItem("jwt");
+        let noPasswordBusinessData = this.businessData;
+        delete noPasswordBusinessData.password;
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}businesses/${this.userId}`,
           {
@@ -229,7 +309,7 @@ export default {
               "Content-Type": "application/json",
               Authorization: `Bearer ${jwt}`,
             },
-            body: JSON.stringify(this.businessData),
+            body: JSON.stringify(noPasswordBusinessData),
           }
         );
 
@@ -246,13 +326,6 @@ export default {
     },
     async addPastWork() {
       const businessId = this.userId;
-
-      // TODO we have a list of past works now instead of just one
-      // this is in the pastWorks data var
-
-      // let beforeImage = this.beforeImage;
-      // let afterImage = this.afterImage;
-      // let testimonial = this.testimonial;
 
       let jwt = sessionStorage.getItem("jwt");
       if (!jwt) return console.log("No JWT found");
@@ -310,6 +383,9 @@ export default {
     this.businessWebsite = this.businessData.businessWebsite;
     this.phone = this.businessData.businessPhoneNumber;
     this.location = this.businessData.businessLocation;
+    this.companyImage = this.businessData.companyImage;
+    this.companyLogo = this.businessData.companyLogo;
+    this.pastWorks = this.businessData.pastWorks;
   },
 };
 </script>
