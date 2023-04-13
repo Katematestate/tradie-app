@@ -29,7 +29,7 @@ const details = {
         <img :src="business.companyImage" alt="" />
       </div>
       <span class="h5">
-        Average Rated {{ averageRating }}
+        Average Rated {{ averageRating.toFixed(1) }}
         <i class="pi pi-star-fill text-brand"></i>
       </span>
       <p>{{ business.businessDescription }}</p>
